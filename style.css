@@ -1,0 +1,399 @@
+        /* navbar css */
+        .nav-icon {
+            margin-right: 5px; 
+            font-size: 1.1em; 
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+            overflow: hidden;
+            background-color: #cce8e8;
+            border-radius: 10px;
+            font-family: "Lucida Console", "Courier New", monospace;
+        }
+        
+        li {
+            float: right;
+        }
+        
+        li a {
+            display: block;
+            color: rgb(54, 112, 45);
+            text-align: center;
+            padding: 14px 16px;
+            text-decoration: none;
+        }
+        
+        
+        .logo {
+            height: 40px;
+            margin-top: 6px;
+            margin-left: 10px;
+            border-radius: 10px;
+        }
+        
+        .line {
+            border: 2px solid rgb(208, 247, 189);
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        
+        .search-bar {
+        display: flex;
+        align-items: center;
+       }
+
+      .search-bar input[type="text"] {
+          margin-top: 8px;
+          padding: 10px;
+          width: 200px;
+          border: 1px solid #ccc;
+          border-radius: 5px 0 0 5px;
+          font-size: 12px;
+      }
+
+      .search-bar button {
+        margin-top: 8px;
+          padding: 10px 15px;
+          background-color: #6ee952;
+          color: white;
+          border: none;
+          border-radius: 0 5px 5px 0;
+          cursor: pointer;
+          transition: background-color 0.3s;
+      }
+
+      .search-bar button:hover {
+          background-color: #f3c679;
+      }
+
+        /* GRID css */
+        .item1 {
+            grid-area: header; 
+            background: linear-gradient(to right, #6dd5ed, #21b093); 
+            height: 100px; 
+            border-radius: 10px; 
+            font-family: "Lucida Console", "Courier New", monospace; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
+            padding: 10px; 
+            text-align: center; 
+            color: white; 
+        }
+
+          .item2, .item3, .item4 {
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+          .item2:hover, .item3:hover, .item4:hover {
+            background-color: #bbf7f7;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+         }
+        
+        .item2 { 
+            grid-area: menu; 
+            background-color: lightblue;
+            height: 140px;
+            margin-top: 25px;
+            border-radius: 10px;
+            color: rgb(36, 104, 58); 
+            font-family: "Lucida Console", "Courier New", monospace;
+        }
+        
+        .item2 img {
+            display: block; 
+            width: 100px; 
+            height: auto; 
+            border-radius: 50px;
+            margin: 0 auto 10px; 
+        }
+        
+        .item3 { 
+            grid-area: main; 
+            background-color: lightblue;
+            height: 140px;
+            margin-top: 25px;
+            margin-left: 10px;
+            border-radius: 10px;
+            color: rgb(36, 104, 58);  
+            font-family: "Lucida Console", "Courier New", monospace;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+        }
+        
+        .item3 img {
+            width: 100px; 
+            height: auto; 
+            border-radius: 10px;
+            margin-left: 10px;
+        }
+        
+        .item3 .text {
+            font-size: small;
+            flex: 1;
+        }
+        
+        .item4 { 
+            grid-area: right; 
+            background-color: lightblue;
+            height: 140px;
+            margin-top: 25px;
+            margin-left: 10px;
+            border-radius: 10px;
+            color: rgb(36, 104, 58); 
+            font-family: "Lucida Console", "Courier New", monospace;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .item4 .text2 {
+            font-size: small;
+        }
+        
+        .heading {
+            font-family: "Lucida Console", "Courier New", monospace;
+            color: rgb(54, 112, 45);
+        }
+        
+        .grid-container {
+            display: grid;
+            grid-template-areas:
+                'header header header header header header'
+                'menu main main main right right'
+                'menu footer footer footer footer footer';
+            gap: 10px;
+            padding: 10px;
+        }
+        
+        .grid-container > div {
+            text-align: center;
+            padding: 20px 0;
+            font-size: 30px;
+        }
+        
+        /* Footer CSS */
+        footer {
+            display: grid;
+            grid-template-columns: auto 1fr;
+            align-items: center;
+            background-color: #cce8e8;
+            padding: 20px;
+            border-radius: 10px;
+            font-family: "Lucida Console", "Courier New", monospace;
+            color: #3f786c;
+            margin-left: 10px;
+            margin-right: 10px;
+            margin-bottom: 20px;
+        }
+        
+        .footer-logo {
+            display: flex;
+            align-items: center;
+        }
+        
+        .footer-logo img {
+            height: 50px;
+            margin-right: 10px;
+            border-radius: 10px;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+        
+        .footer-grid div {
+            background-color: lightblue;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: small;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            flex-direction: column;
+         }
+
+          .footer-grid div i {
+              color: rgb(8, 127, 247);
+              font-size: 2em; 
+              margin-bottom: 10px; 
+          }
+
+          li a:hover {
+          background-color: #a3d9d9; 
+          color: white; 
+          border-radius: 15px;
+      }
+
+        .nav-icon:hover {
+          color: white; 
+      }
+
+        /* Media Queries */
+        @media (max-width: 600px) {
+            .nav-bar ul {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px;
+                background-color: #cce8e8;
+                border-radius: 10px;
+                margin: 0;
+            }
+
+            .nav-bar img.logo {
+                height: 30px;
+                margin: 0 10px;
+            }
+
+            .nav-bar li {
+                margin: 0 5px;
+            }
+
+            .nav-bar li a {
+                padding: 10px;
+            }
+
+            .nav-bar .nav-icon {
+                font-size: 1.2em;
+                margin-right: 3px;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+                margin-top: 20px;
+            }
+            footer {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .footer-logo {
+                order: -1; /* Move the logo above the footer grid content */
+                margin-bottom: 20px; 
+            }
+            .footer-grid div {
+            background-color: lightblue;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: small;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            flex-direction: column;
+         }
+
+          .footer-grid div i {
+              color: rgb(8, 127, 247);
+              font-size: 2em; 
+              margin-bottom: 10px; 
+          }
+
+           .item1 {
+                  flex-direction: column;
+              }
+
+              .search-bar input[type="text"] {
+                  width: 100%;
+              }
+          
+            .grid-container {
+                grid-template-areas:
+                    'header'
+                    'menu'
+                    'main'
+                    'right'
+                    'footer';
+            }
+            .item1, .item2, .item3, .item4 {
+                margin: 5px;
+            }
+            .item3 {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .item3 img {
+                margin-bottom: 10px;
+                margin-right: 0;
+            }
+            .item4 {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr;
+                text-align: center;
+                margin-top: 20px;
+            }
+            footer {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+            .footer-logo {
+                order: -1; /* Move the logo above the footer grid content */
+                margin-bottom: 20px; 
+            }
+            .footer-grid div {
+            background-color: lightblue;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: small;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            flex-direction: column;
+         }
+
+          .footer-grid div i {
+              color: rgb(8, 127, 247);
+              font-size: 2em; 
+              margin-bottom: 10px; 
+          }
+        }
+        @media (min-width: 601px) {
+            .item1 {
+                flex-direction: column; 
+                align-items: center; 
+                text-align: center; 
+            }
+
+            .item1 .search-bar {
+                margin-top: 10px; 
+            }
+
+            .search-bar {
+                margin-top: 8px;
+                text-align: center; 
+            }
+
+            .search-bar input[type="text"] {
+                width: 200px; 
+            }
+
+            .search-bar button {
+                margin-top: 8px;
+            }
+
+            li a:hover {
+          background-color: #a3d9d9; 
+          color: white; 
+          border-radius: 15px;
+      }
+
+        .nav-icon:hover {
+          color: white; 
+      }
+
+        }
