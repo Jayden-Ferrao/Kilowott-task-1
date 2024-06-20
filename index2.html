@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
-    <title>Web Page Layout</title>
+    <title>Web Page Layout using Bootstrap</title>
     <style>
         .line {
             border: 1px solid #dcdcdc;
@@ -34,6 +34,12 @@
         .card {
             border-radius: 15px;
         }
+        .middle-card {
+            transition: transform 0.5s ease-out;
+        }
+        .middle-card:hover {
+            transform: scale(0.9);
+        }
         .nav-icon, .footer-icon {
             margin-right: 5px;
         }
@@ -44,14 +50,15 @@
             padding: 20px;
         }
         .flex-container img {
-            max-width: 50%;
+            max-width: 100%;
             height: auto;
             border-radius: 15px;
         }
-        .flex-container h5 {
-            margin: 0;
-            padding-left: 20px;
-            flex: 1;
+        .middle-card img {
+            width: 100%; /* Adjust width as needed */
+            max-width: 200px; /* Ensure it doesn't get too large */
+            margin: 0 auto; /* Center the image */
+            display: block; /* Make sure it behaves as a block element */
         }
     </style>
 </head>
@@ -96,25 +103,25 @@
 
     <!-- Middle section using Bootstrap grid -->
     <div class="container mt-5 mb-5">
-        <div class="row">
-            <div class="col-lg-4 mb-4">
-                <div class="card h-100">
+        <div class="d-flex justify-content-center row">
+            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-4">
+                <div class="card h-100 middle-card">
                     <img src="image1.png" class="card-img-top" alt="Menu Image">
                     <div class="card-body text-center">
-                        <h5 class="card-title"> Menu</h5>
+                        <h5 class="card-title">Menu</h5>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 mb-4">
-                <div class="card h-100">
+            <div class="col-xl-6 col-lg-8 col-md-12 col-sm-12 mb-4">
+                <div class="card h-100 middle-card">
                     <div class="card-body flex-container">
                         <img src="image1.png" alt="Menu Image">
                         <h5 class="card-title">This is some text next to the image.</h5>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-4 mb-4">
-                <div class="card h-100">
+            <div class="col-xl-3 col-lg-4 col-md-6 col-sm-12 mb-4">
+                <div class="card h-100 middle-card">
                     <img src="image1.png" class="card-img-top" alt="Menu Image">
                     <div class="card-body text-center">
                         <h5 class="card-title">Additional Content</h5>
