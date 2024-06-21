@@ -12,6 +12,11 @@
             background-color: #e2fbca;
         }
 
+        .scrollable-container {
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
         .file-item {
             display: flex;
             align-items: center;
@@ -36,7 +41,7 @@
 <body class="flex justify-center items-center h-screen">
 
     <div class="container mx-auto p-8 max-w-lg">
-        <div class="bg-white p-8 rounded-2xl shadow-lg">
+        <div class="bg-white p-8 rounded-2xl shadow-lg scrollable-container">
             <!-- Sign Up Form -->
             <form id="signUpForm" class="space-y-4 hidden">
                 <h2 class="text-2xl font-semibold text-center mb-4">Sign Up</h2>
@@ -99,7 +104,7 @@
                 </div>
 
                 <div id="fileUploadContainer">
-                    <label for="files" class="block text-sm font-medium text-gray-700">Upload Files</label>
+                    <label for="files" class="block text-sm font-medium text-gray-700">Upload Files/Folders</label>
                     <input type="file" id="files" name="files" multiple
                         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
                 </div>
@@ -232,7 +237,7 @@
             let isValid = true;
 
             if (!name || !email || !password || !confirmPassword || !dob || !gender || !terms || files.length === 0) {
-                alert('Please fill in all fields and upload the requird file.');
+                alert('Please fill in all fields and upload at least one file/folder.');
                 return;
             }
 
