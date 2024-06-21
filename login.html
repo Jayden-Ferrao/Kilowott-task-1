@@ -17,42 +17,66 @@
 
     <div class="container mx-auto p-8 max-w-lg">
         <div class="bg-white p-8 rounded-2xl shadow-lg">
-            <!-- Sign Up Form -->
-            <form id="signUpForm" class="space-y-4 hidden">
-                <h2 class="text-2xl font-semibold text-center mb-4">Sign Up</h2>
+<!-- Sign Up Form -->
+<form id="signUpForm" class="space-y-4 hidden">
+    <h2 class="text-2xl font-semibold text-center mb-4">Sign Up</h2>
 
-                <div>
-                    <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-                    <input type="text" id="name" placeholder="John Doe" name="name" required
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
-                </div>
+    <div>
+        <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+        <input type="text" id="name" placeholder="John Doe" name="name" required
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+    </div>
 
-                <div>
-                    <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
-                    <input type="email" id="email" placeholder="abc@gmail.com" name="email" required
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
-                    <p id="emailError" class="text-red-500 text-sm hidden">Please enter a valid email address.</p>
-                </div>
+    <div>
+        <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+        <input type="email" id="email" placeholder="abc@gmail.com" name="email" required
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+        <p id="emailError" class="text-red-500 text-sm hidden">Please enter a valid email address.</p>
+    </div>
 
-                <div>
-                    <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
-                    <input type="password" id="password" name="password" required
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
-                    <p id="passwordError" class="text-red-500 text-sm hidden">Set a strong password. It must be at least 8 characters long and contain a mix of letters, numbers, and special characters.</p>
-                </div>
+    <div>
+        <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+        <input type="password" id="password" name="password" required
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+        <p id="passwordError" class="text-red-500 text-sm hidden">Set a strong password. It must be at least 8 characters long and contain a mix of letters, numbers, and special characters.</p>
+    </div>
 
-                <div>
-                    <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirm Password</label>
-                    <input type="password" id="confirmPassword" name="confirmPassword" required
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
-                    <p id="confirmPasswordError" class="text-red-500 text-sm hidden">Passwords do not match.</p>
-                </div>
+    <div>
+        <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" required
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+        <p id="confirmPasswordError" class="text-red-500 text-sm hidden">Passwords do not match.</p>
+    </div>
 
-                <div>
-                    <button type="submit"
-                        class="w-full bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">SignUp</button>
-                </div>
-            </form>
+    <div>
+        <label for="dob" class="block text-sm font-medium text-gray-700">Date of Birth</label>
+        <input type="date" id="dob" name="dob" required
+            class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+    </div>
+
+    <div>
+        <span class="block text-sm font-medium text-gray-700">Gender</span>
+        <div class="mt-1">
+            <input type="radio" id="male" name="gender" value="male" required>
+            <label for="male" class="ml-2">Male</label>
+            <input type="radio" id="female" name="gender" value="female" required>
+            <label for="female" class="ml-2">Female</label>
+            <input type="radio" id="other" name="gender" value="other" required>
+            <label for="other" class="ml-2">Other</label>
+        </div>
+    </div>
+
+    <div>
+        <input type="checkbox" id="terms" name="terms" required>
+        <label for="terms" class="ml-1 block text-sm font-medium text-gray-700">I agree to the terms and conditions</label>
+    </div>
+
+    <div>
+        <button type="submit"
+            class="w-full bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">SignUp</button>
+    </div>
+</form>
+
 
             <!-- Login Form -->
             <form id="loginForm" class="space-y-4">
@@ -130,6 +154,9 @@
             const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value.trim();
             const confirmPassword = document.getElementById('confirmPassword').value.trim();
+            const dob = document.getElementById('dob').value.trim();
+            const gender = document.querySelector('input[name="gender"]:checked');
+            const terms = document.getElementById('terms').checked;
 
             let isValid = true;
 
@@ -163,7 +190,10 @@
                 // Perform sign up logic here (e.g., send data to server)
                 console.log('Name:', name);
                 console.log('Email:', email);
+                console.log('Date of Birth:', dob);
+                console.log('Gender:', gender.value);
                 console.log('Password:', password);
+                console.log('Agreed to Terms:', terms);
 
                 // Optionally, you can redirect the user after successful sign up
                 // window.location.href = '/dashboard.html';
