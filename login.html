@@ -11,6 +11,25 @@
         body {
             background-color: #e2fbca;
         }
+
+        .file-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 5px 10px;
+            background-color: #f0f0f0;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+
+        .file-item .file-name {
+            flex-grow: 1;
+            margin-left: 10px;
+        }
+
+        .file-item .remove-file {
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -78,6 +97,14 @@
                     <label for="terms"
                         class="ml-2 block text-sm font-medium text-gray-700">I agree to the terms and conditions</label>
                 </div>
+
+                <div id="fileUploadContainer">
+                    <label for="files" class="block text-sm font-medium text-gray-700">Upload Files/Folders</label>
+                    <input type="file" id="files" name="files" multiple
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                </div>
+
+                <div id="fileList" class="space-y-2"></div>
 
                 <div>
                     <button type="submit"
@@ -149,8 +176,7 @@
         });
 
         // Toggle Password Visibility
-        const togglePasswordIcons = document.querySelectorAll('.toggle-password-icon');
-        togglePasswordIcons.forEach(icon => {
+        document.querySelectorAll('.toggle-password-icon').forEach(icon => {
             icon.addEventListener('click', function () {
                 const passwordInput = this.previousElementSibling;
                 if (passwordInput.type === 'password') {
@@ -201,11 +227,12 @@
             const dob = document.getElementById('dob').value.trim();
             const gender = document.querySelector('input[name="gender"]:checked');
             const terms = document.getElementById('terms').checked;
+            const files = document.getElementById('files').files;
 
             let isValid = true;
 
-            if (!name || !email || !password || !confirmPassword || !dob || !gender || !terms) {
-                alert('Please fill in all fields.');
+            if (!name || !email || !password || !confirmPassword || !dob || !gender || !terms || files.length === 0) {
+                alert('Please fill in all fields and upload at least one file/folder.');
                 return;
             }
 
@@ -243,6 +270,7 @@
                 console.log('Gender:', gender.value);
                 console.log('Password:', password);
                 console.log('Agreed to Terms:', terms);
+                console.log('Files/Folders:', files);
 
                 // Optionally, redirect the user after successful sign up
                 // window.location.href = '/dashboard.html';
@@ -285,6 +313,52 @@
                 // window.location.href = '/dashboard.html';
             }
         });
+
+        // File upload handling
+        const fileInput = document.getElementById('files');
+        const fileList = document.getElementById('fileList');
+
+        fileInput.addEventListener('change', handleFileSelect);
+
+        function handleFileSelect(event) {
+            const files = event.target.files;
+            const dataTransfer = new DataTransfer();
+
+            fileList.innerHTML = '';
+
+            Array.from(files).forEach((file, index) => {
+                dataTransfer.items.add(file);
+
+                const fileItem = document.createElement('div');
+                fileItem.classList.add('file-item', 'flex', 'justify-between');
+                fileItem.innerHTML = `
+                    <div class="file-name">${file.name}</div>
+                    <div class="remove-file text-red-500 cursor-pointer" data-index="${index}"><i class="bi bi-x"></i></div>
+                `;
+                fileList.appendChild(fileItem);
+            });
+
+            fileInput.files = dataTransfer.files;
+
+            document.querySelectorAll('.remove-file').forEach(button => {
+                button.addEventListener('click', handleRemoveFile);
+            });
+        }
+
+        function handleRemoveFile(event) {
+            const index = event.target.closest('.remove-file').getAttribute('data-index');
+            const dataTransfer = new DataTransfer();
+            const files = fileInput.files;
+
+            Array.from(files).forEach((file, i) => {
+                if (i != index) {
+                    dataTransfer.items.add(file);
+                }
+            });
+
+            fileInput.files = dataTransfer.files;
+            handleFileSelect({ target: fileInput });
+        }
     </script>
 </body>
 
