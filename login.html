@@ -237,7 +237,7 @@
             let isValid = true;
 
             if (!name || !email || !password || !confirmPassword || !dob || !gender || !terms || files.length === 0) {
-                alert('Please upload required file');
+                alert('Please fill in all fields and upload at least one file.');
                 return;
             }
 
@@ -275,10 +275,11 @@
                 console.log('Gender:', gender.value);
                 console.log('Password:', password);
                 console.log('Agreed to Terms:', terms);
-                console.log('Files/Folders:', files);
+                console.log('Files:', files);
 
-                // Optionally, redirect the user after successful sign up
-                // window.location.href = '/dashboard.html';
+                alert('Submitted successfully');
+                signUpForm.reset();
+                fileList.innerHTML = ''; // Clear the file list display
             }
         });
 
@@ -314,8 +315,8 @@
                 console.log('Email:', email);
                 console.log('Password:', password);
 
-                // Optionally, redirect the user after successful login
-                // window.location.href = '/dashboard.html';
+                alert('Logged in successfully');
+                loginForm.reset();
             }
         });
 
