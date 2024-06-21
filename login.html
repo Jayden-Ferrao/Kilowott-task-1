@@ -31,18 +31,21 @@
                     <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
                     <input type="email" id="email" placeholder="abc@gmail.com" name="email" required
                         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                    <p id="emailError" class="text-red-500 text-sm hidden">Please enter a valid email address.</p>
                 </div>
 
                 <div>
                     <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
                     <input type="password" id="password" name="password" required
                         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                    <p id="passwordError" class="text-red-500 text-sm hidden">Set a strong password. It must be at least 8 characters long and contain a mix of letters, numbers, and special characters.</p>
                 </div>
 
                 <div>
                     <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirm Password</label>
                     <input type="password" id="confirmPassword" name="confirmPassword" required
                         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                    <p id="confirmPasswordError" class="text-red-500 text-sm hidden">Passwords do not match.</p>
                 </div>
 
                 <div>
@@ -60,12 +63,14 @@
                     <label for="loginEmail" class="block text-sm font-medium text-gray-700">Email Address</label>
                     <input type="email" id="loginEmail" placeholder="abc@gmail.com" name="loginEmail" required
                         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                    <p id="loginEmailError" class="text-red-500 text-sm hidden">Please enter a valid email address.</p>
                 </div>
 
                 <div>
                     <label for="loginPassword" class="block text-sm font-medium text-gray-700">Password</label>
                     <input type="password" id="loginPassword" name="loginPassword" required
                         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                    <p id="loginPasswordError" class="text-red-500 text-sm hidden">Set a strong password. It must be at least 8 characters long and contain a mix of letters, numbers, and special characters.</p>
                 </div>
 
                 <div>
@@ -110,6 +115,16 @@
         });
 
         // JavaScript for form validation
+        function validateEmail(email) {
+            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return re.test(String(email).toLowerCase());
+        }
+
+        function validatePassword(password) {
+            const re = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
+            return re.test(password);
+        }
+
         signUpForm.addEventListener('submit', function (event) {
             event.preventDefault();
 
@@ -118,23 +133,43 @@
             const password = document.getElementById('password').value.trim();
             const confirmPassword = document.getElementById('confirmPassword').value.trim();
 
+            let isValid = true;
+
             if (!name || !email || !password || !confirmPassword) {
                 alert('Please fill in all fields.');
                 return;
             }
 
-            if (password !== confirmPassword) {
-                alert('Passwords do not match.');
-                return;
+            if (!validateEmail(email)) {
+                document.getElementById('emailError').classList.remove('hidden');
+                isValid = false;
+            } else {
+                document.getElementById('emailError').classList.add('hidden');
             }
 
-            // Perform sign up logic here (e.g., send data to server)
-            console.log('Name:', name);
-            console.log('Email:', email);
-            console.log('Password:', password);
+            if (!validatePassword(password)) {
+                document.getElementById('passwordError').classList.remove('hidden');
+                isValid = false;
+            } else {
+                document.getElementById('passwordError').classList.add('hidden');
+            }
 
-            // you can even redirect the user after successful sign up; dummy
-            // window.location.href = '/dashboard.html';
+            if (password !== confirmPassword) {
+                document.getElementById('confirmPasswordError').classList.remove('hidden');
+                isValid = false;
+            } else {
+                document.getElementById('confirmPasswordError').classList.add('hidden');
+            }
+
+            if (isValid) {
+                // Perform sign up logic here (e.g., send data to server)
+                console.log('Name:', name);
+                console.log('Email:', email);
+                console.log('Password:', password);
+
+                // Optionally, you can redirect the user after successful sign up
+                // window.location.href = '/dashboard.html';
+            }
         });
 
         loginForm.addEventListener('submit', function (event) {
@@ -143,17 +178,35 @@
             const email = document.getElementById('loginEmail').value.trim();
             const password = document.getElementById('loginPassword').value.trim();
 
+            let isValid = true;
+
             if (!email || !password) {
                 alert('Please fill in all fields.');
                 return;
             }
 
-            // Perform log in logic here (e.g., send data to server)
-            console.log('Email:', email);
-            console.log('Password:', password);
+            if (!validateEmail(email)) {
+                document.getElementById('loginEmailError').classList.remove('hidden');
+                isValid = false;
+            } else {
+                document.getElementById('loginEmailError').classList.add('hidden');
+            }
 
-            // you can even redirect the user after successful sign up; dummy
-            // window.location.href = '/dashboard.html';
+            if (!validatePassword(password)) {
+                document.getElementById('loginPasswordError').classList.remove('hidden');
+                isValid = false;
+            } else {
+                document.getElementById('loginPasswordError').classList.add('hidden');
+            }
+
+            if (isValid) {
+                // Perform log in logic here (e.g., send data to server)
+                console.log('Email:', email);
+                console.log('Password:', password);
+
+                // Optionally, you can redirect the user after successful login
+                // window.location.href = '/dashboard.html';
+            }
         });
     </script>
 </body>
