@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login and Sign Up Form</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        body {
+            background-color: #e2fbca;
+        }
+    </style>
+</head>
+
+<body class="flex justify-center items-center h-screen">
+
+    <div class="container mx-auto p-8 max-w-lg">
+        <div class="bg-white p-8 rounded-2xl shadow-lg">
+            <!-- Sign Up Form -->
+            <form id="signUpForm" class="space-y-4 hidden">
+                <h2 class="text-2xl font-semibold text-center mb-4">Sign Up</h2>
+
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
+                    <input type="text" id="name" placeholder="John Doe" name="name" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                </div>
+
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
+                    <input type="email" id="email" placeholder="abc@gmail.com" name="email" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                </div>
+
+                <div>
+                    <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
+                    <input type="password" id="password" name="password" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                </div>
+
+                <div>
+                    <label for="confirmPassword" class="block text-sm font-medium text-gray-700">Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                </div>
+
+                <div>
+                    <button type="submit"
+                        class="w-full bg-red-500 text-white py-2 px-4 rounded-md hover:bg-red-600 focus:outline-none focus:bg-red-600">Sign
+                        Up</button>
+                </div>
+            </form>
+
+            <!-- Login Form -->
+            <form id="loginForm" class="space-y-4">
+                <h2 class="text-2xl font-semibold text-center mb-4">Login</h2>
+
+                <div>
+                    <label for="loginEmail" class="block text-sm font-medium text-gray-700">Email Address</label>
+                    <input type="email" id="loginEmail" placeholder="abc@gmail.com" name="loginEmail" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                </div>
+
+                <div>
+                    <label for="loginPassword" class="block text-sm font-medium text-gray-700">Password</label>
+                    <input type="password" id="loginPassword" name="loginPassword" required
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                </div>
+
+                <div>
+                    <button type="submit"
+                        class="w-full bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600">Log
+                        In</button>
+                </div>
+            </form>
+
+            <!-- Toggle buttons -->
+            <div class="flex justify-center mt-4">
+                <button id="showSignUpFormBtn"
+                    class="rounded-full bg-blue-100 text-blue-500 hover:bg-blue-200 py-2 px-4 focus:outline-none">Sign Up
+                    Instead</button>
+                <button id="showLoginFormBtn"
+                    class="ml-2 rounded-full bg-blue-100 text-blue-500 hover:bg-blue-200 py-2 px-4 focus:outline-none">Log In
+                    Instead</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // JavaScript for form switching
+        const signUpForm = document.getElementById('signUpForm');
+        const loginForm = document.getElementById('loginForm');
+        const showSignUpFormBtn = document.getElementById('showSignUpFormBtn');
+        const showLoginFormBtn = document.getElementById('showLoginFormBtn');
+
+        // Initially hide sign up form
+        signUpForm.classList.add('hidden');
+
+        // Show sign up form and hide login form
+        showSignUpFormBtn.addEventListener('click', function () {
+            signUpForm.classList.remove('hidden');
+            loginForm.classList.add('hidden');
+        });
+
+        // Show login form and hide sign up form
+        showLoginFormBtn.addEventListener('click', function () {
+            loginForm.classList.remove('hidden');
+            signUpForm.classList.add('hidden');
+        });
+
+        // JavaScript for form validation
+        signUpForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const confirmPassword = document.getElementById('confirmPassword').value.trim();
+
+            if (!name || !email || !password || !confirmPassword) {
+                alert('Please fill in all fields.');
+                return;
+            }
+
+            if (password !== confirmPassword) {
+                alert('Passwords do not match.');
+                return;
+            }
+
+            // Perform sign up logic here (e.g., send data to server)
+            console.log('Name:', name);
+            console.log('Email:', email);
+            console.log('Password:', password);
+
+            // you can even redirect the user after successful sign up; dummy
+            // window.location.href = '/dashboard.html';
+        });
+
+        loginForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+
+            if (!email || !password) {
+                alert('Please fill in all fields.');
+                return;
+            }
+
+            // Perform log in logic here (e.g., send data to server)
+            console.log('Email:', email);
+            console.log('Password:', password);
+
+            // you can even redirect the user after successful sign up; dummy
+            // window.location.href = '/dashboard.html';
+        });
+    </script>
+</body>
+
+</html>
