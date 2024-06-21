@@ -99,7 +99,7 @@
                 </div>
 
                 <div id="fileUploadContainer">
-                    <label for="files" class="block text-sm font-medium text-gray-700">Upload Files/Folders</label>
+                    <label for="files" class="block text-sm font-medium text-gray-700">Upload Files</label>
                     <input type="file" id="files" name="files" multiple
                         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
                 </div>
@@ -232,7 +232,7 @@
             let isValid = true;
 
             if (!name || !email || !password || !confirmPassword || !dob || !gender || !terms || files.length === 0) {
-                alert('Please fill in all fields and upload at least one file/folder.');
+                alert('Please fill in all fields and upload the requird file.');
                 return;
             }
 
