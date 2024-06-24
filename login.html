@@ -211,7 +211,7 @@
             }
         });
 
-        // JavaScript for form validation
+        // JavaScript for sign up form validation
         function validateEmail(email) {
             const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             return re.test(String(email).toLowerCase());
@@ -283,48 +283,10 @@
             }
         });
 
-        loginForm.addEventListener('submit', function (event) {
-            event.preventDefault();
-
-            const email = document.getElementById('loginEmail').value.trim();
-            const password = document.getElementById('loginPassword').value.trim();
-
-            let isValid = true;
-
-            if (!email || !password) {
-                alert('Please fill in all fields.');
-                return;
-            }
-
-            if (!validateEmail(email)) {
-                document.getElementById('loginEmailError').classList.remove('hidden');
-                isValid = false;
-            } else {
-                document.getElementById('loginEmailError').classList.add('hidden');
-            }
-
-            if (!validatePassword(password)) {
-                document.getElementById('loginPasswordError').classList.remove('hidden');
-                isValid = false;
-            } else {
-                document.getElementById('loginPasswordError').classList.add('hidden');
-            }
-
-            if (isValid) {
-                // Perform log in logic here (e.g., send data to server)
-                console.log('Email:', email);
-                console.log('Password:', password);
-
-                alert('Logged in successfully');
-                loginForm.reset();
-            }
-        });
-
-        // File upload handling
-        const fileInput = document.getElementById('files');
-        const fileList = document.getElementById('fileList');
-
-        fileInput.addEventListener('change', handleFileSelect);
+            // File upload handling
+            const fileInput = document.getElementById('files');
+            const fileList = document.getElementById('fileList');
+            fileInput.addEventListener('change', handleFileSelect);
 
         function handleFileSelect(event) {
             const files = event.target.files;
@@ -365,6 +327,44 @@
             fileInput.files = dataTransfer.files;
             handleFileSelect({ target: fileInput });
         }
+
+        // JavaScript for login form validation
+        loginForm.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            const email = document.getElementById('loginEmail').value.trim();
+            const password = document.getElementById('loginPassword').value.trim();
+
+            let isValid = true;
+
+            if (!email || !password) {
+                alert('Please fill in all fields.');
+                return;
+            }
+
+            if (!validateEmail(email)) {
+                document.getElementById('loginEmailError').classList.remove('hidden');
+                isValid = false;
+            } else {
+                document.getElementById('loginEmailError').classList.add('hidden');
+            }
+
+            if (!validatePassword(password)) {
+                document.getElementById('loginPasswordError').classList.remove('hidden');
+                isValid = false;
+            } else {
+                document.getElementById('loginPasswordError').classList.add('hidden');
+            }
+
+            if (isValid) {
+                // Perform log in logic here (e.g., send data to server)
+                console.log('Email:', email);
+                console.log('Password:', password);
+
+                alert('Logged in successfully');
+                loginForm.reset();
+            }
+        });
     </script>
 </body>
 
