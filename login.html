@@ -211,7 +211,7 @@
             }
         });
 
-        // JavaScript for form validation(sign up)
+        // JavaScript for form validation
         function validateEmail(email) {
             const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
             return re.test(String(email).toLowerCase());
@@ -286,7 +286,6 @@
         loginForm.addEventListener('submit', function (event) {
             event.preventDefault();
 
-            // JavaScript for form validation(login)
             const email = document.getElementById('loginEmail').value.trim();
             const password = document.getElementById('loginPassword').value.trim();
 
@@ -368,4 +367,5 @@
         }
     </script>
 </body>
+
 </html>
