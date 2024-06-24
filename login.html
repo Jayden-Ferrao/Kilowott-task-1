@@ -144,226 +144,93 @@
                     <button type="submit"
                         class="w-full bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600">Login</button>
                 </div>
+
+                <!-- Social Login Buttons -->
+                <div class="flex flex-col space-y-2 mt-4">
+                    <button type="button"
+                        class="w-full bg-white text-gray-700 border border-gray-300 py-2 px-4 rounded-md hover:bg-gray-100 focus:outline-none focus:bg-gray-100 flex items-center justify-center">
+                        <img src="https://www.svgrepo.com/show/475656/google-color.svg"
+                            alt="Google logo" class="w-5 h-5 mr-2"> Sign in with Gmail
+                    </button>
+                    <button type="button"
+                        class="w-full bg-black text-white py-2 px-4 rounded-md hover:bg-gray-800 focus:outline-none focus:bg-gray-800 flex items-center justify-center">
+                        <i class="bi bi-apple mr-2"></i> Sign in with Apple ID
+                    </button>
+                    <button type="button"
+                        class="w-full bg-blue-500 text-white py-2 px-4 rounded-md hover:bg-blue-600 focus:outline-none focus:bg-blue-600 flex items-center justify-center">
+                        <i class="bi bi-microsoft mr-2"></i> Sign in with Microsoft
+                    </button>
+                </div>
             </form>
 
-            <!-- Toggle buttons -->
-            <div class="flex justify-center mt-4">
-                <button id="showSignUpFormBtn"
-                    class="rounded-full bg-blue-100 text-blue-500 hover:bg-blue-200 py-2 px-4 focus:outline-none">Sign Up
-                    Instead</button>
-                <button id="showLoginFormBtn"
-                    class="ml-2 rounded-full bg-blue-100 text-blue-500 hover:bg-blue-200 py-2 px-4 focus:outline-none">Log In
-                    Instead</button>
+            <!-- Toggle Button -->
+            <div class="text-center mt-4">
+                <button id="toggleFormBtn"
+                    class="text-blue-500 hover:underline focus:outline-none">Don't have an account? Sign Up</button>
             </div>
         </div>
     </div>
 
     <script>
-        // JavaScript for form switching
-        const signUpForm = document.getElementById('signUpForm');
-        const loginForm = document.getElementById('loginForm');
-        const showSignUpFormBtn = document.getElementById('showSignUpFormBtn');
-        const showLoginFormBtn = document.getElementById('showLoginFormBtn');
-
-        // Initially hide sign up form
-        signUpForm.classList.add('hidden');
-
-        // Show sign up form and hide login form
-        showSignUpFormBtn.addEventListener('click', function () {
-            signUpForm.classList.remove('hidden');
-            loginForm.classList.add('hidden');
+        document.getElementById('toggleFormBtn').addEventListener('click', function () {
+            const signUpForm = document.getElementById('signUpForm');
+            const loginForm = document.getElementById('loginForm');
+            if (signUpForm.classList.contains('hidden')) {
+                signUpForm.classList.remove('hidden');
+                loginForm.classList.add('hidden');
+                this.textContent = 'Already have an account? Login';
+            } else {
+                signUpForm.classList.add('hidden');
+                loginForm.classList.remove('hidden');
+                this.textContent = "Don't have an account? Sign Up";
+            }
         });
 
-        // Show login form and hide sign up form
-        showLoginFormBtn.addEventListener('click', function () {
-            loginForm.classList.remove('hidden');
-            signUpForm.classList.add('hidden');
-        });
-
-        // Toggle Password Visibility
         document.querySelectorAll('.toggle-password-icon').forEach(icon => {
             icon.addEventListener('click', function () {
-                const passwordInput = this.previousElementSibling;
-                if (passwordInput.type === 'password') {
-                    passwordInput.type = 'text';
+                const input = this.previousElementSibling;
+                if (input.type === 'password') {
+                    input.type = 'text';
                     this.classList.remove('bi-eye-slash-fill');
                     this.classList.add('bi-eye-fill');
                 } else {
-                    passwordInput.type = 'password';
+                    input.type = 'password';
                     this.classList.remove('bi-eye-fill');
                     this.classList.add('bi-eye-slash-fill');
                 }
             });
         });
 
-        // Toggle Confirm Password Visibility
-        const toggleConfirmPasswordIcon = document.querySelector('.toggle-confirm-password-icon');
-        toggleConfirmPasswordIcon.addEventListener('click', function () {
-            const confirmPasswordInput = document.getElementById('confirmPassword');
-            if (confirmPasswordInput.type === 'password') {
-                confirmPasswordInput.type = 'text';
-                this.classList.remove('bi-eye-slash-fill');
-                this.classList.add('bi-eye-fill');
-            } else {
-                confirmPasswordInput.type = 'password';
-                this.classList.remove('bi-eye-fill');
-                this.classList.add('bi-eye-slash-fill');
-            }
-        });
-
-        // JavaScript for sign up form validation
-        function validateEmail(email) {
-            const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-            return re.test(String(email).toLowerCase());
-        }
-
-        function validatePassword(password) {
-            const re = /^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*#?&])[A-Za-z\d@$!%*#?&]{8,}$/;
-            return re.test(password);
-        }
-
-        signUpForm.addEventListener('submit', function (event) {
-            event.preventDefault();
-
-            const name = document.getElementById('name').value.trim();
-            const email = document.getElementById('email').value.trim();
-            const password = document.getElementById('password').value.trim();
-            const confirmPassword = document.getElementById('confirmPassword').value.trim();
-            const dob = document.getElementById('dob').value.trim();
-            const gender = document.querySelector('input[name="gender"]:checked');
-            const terms = document.getElementById('terms').checked;
-            const files = document.getElementById('files').files;
-
-            let isValid = true;
-
-            if (!name || !email || !password || !confirmPassword || !dob || !gender || !terms || files.length === 0) {
-                alert('Please fill in all fields and upload at least one file.');
-                return;
-            }
-
-            if (!validateEmail(email)) {
-                document.getElementById('emailError').classList.remove('hidden');
-                isValid = false;
-            } else {
-                document.getElementById('emailError').classList.add('hidden');
-            }
-
-            if (!validatePassword(password)) {
-                document.getElementById('passwordError').classList.remove('hidden');
-                isValid = false;
-            } else {
-                document.getElementById('passwordError').classList.add('hidden');
-            }
-
-            if (password !== confirmPassword) {
-                document.getElementById('confirmPasswordError').classList.remove('hidden');
-                isValid = false;
-            } else {
-                document.getElementById('confirmPasswordError').classList.add('hidden');
-            }
-
-            if (!terms) {
-                alert('Please agree to the terms and conditions.');
-                isValid = false;
-            }
-
-            if (isValid) {
-                // Perform sign up logic here (e.g., send data to server)
-                console.log('Name:', name);
-                console.log('Email:', email);
-                console.log('Date of Birth:', dob);
-                console.log('Gender:', gender.value);
-                console.log('Password:', password);
-                console.log('Agreed to Terms:', terms);
-                console.log('Files:', files);
-
-                alert('Submitted successfully');
-                signUpForm.reset();
-                fileList.innerHTML = ''; // Clear the file list display
-            }
-        });
-
-            // File upload handling
-            const fileInput = document.getElementById('files');
-            const fileList = document.getElementById('fileList');
-            fileInput.addEventListener('change', handleFileSelect);
-
-        function handleFileSelect(event) {
-            const files = event.target.files;
-            const dataTransfer = new DataTransfer();
-
-            fileList.innerHTML = '';
-
-            Array.from(files).forEach((file, index) => {
-                dataTransfer.items.add(file);
-
-                const fileItem = document.createElement('div');
-                fileItem.classList.add('file-item', 'flex', 'justify-between');
-                fileItem.innerHTML = `
-                    <div class="file-name">${file.name}</div>
-                    <div class="remove-file text-red-500 cursor-pointer" data-index="${index}"><i class="bi bi-x"></i></div>
-                `;
-                fileList.appendChild(fileItem);
-            });
-
-            fileInput.files = dataTransfer.files;
-
-            document.querySelectorAll('.remove-file').forEach(button => {
-                button.addEventListener('click', handleRemoveFile);
-            });
-        }
-
-        function handleRemoveFile(event) {
-            const index = event.target.closest('.remove-file').getAttribute('data-index');
-            const dataTransfer = new DataTransfer();
-            const files = fileInput.files;
-
-            Array.from(files).forEach((file, i) => {
-                if (i != index) {
-                    dataTransfer.items.add(file);
+        document.querySelectorAll('.toggle-confirm-password-icon').forEach(icon => {
+            icon.addEventListener('click', function () {
+                const input = this.previousElementSibling;
+                if (input.type === 'password') {
+                    input.type = 'text';
+                    this.classList.remove('bi-eye-slash-fill');
+                    this.classList.add('bi-eye-fill');
+                } else {
+                    input.type = 'password';
+                    this.classList.remove('bi-eye-fill');
+                    this.classList.add('bi-eye-slash-fill');
                 }
             });
+        });
 
-            fileInput.files = dataTransfer.files;
-            handleFileSelect({ target: fileInput });
-        }
+        const fileInput = document.getElementById('files');
+        const fileList = document.getElementById('fileList');
 
-        // JavaScript for login form validation
-        loginForm.addEventListener('submit', function (event) {
-            event.preventDefault();
+        fileInput.addEventListener('change', function () {
+            fileList.innerHTML = '';
+            Array.from(this.files).forEach(file => {
+                const fileItem = document.createElement('div');
+                fileItem.className = 'file-item';
+                fileItem.innerHTML = `<span class="file-name">${file.name}</span><i class="bi bi-x-circle-fill text-red-500 remove-file"></i>`;
+                fileList.appendChild(fileItem);
 
-            const email = document.getElementById('loginEmail').value.trim();
-            const password = document.getElementById('loginPassword').value.trim();
-
-            let isValid = true;
-
-            if (!email || !password) {
-                alert('Please fill in all fields.');
-                return;
-            }
-
-            if (!validateEmail(email)) {
-                document.getElementById('loginEmailError').classList.remove('hidden');
-                isValid = false;
-            } else {
-                document.getElementById('loginEmailError').classList.add('hidden');
-            }
-
-            if (!validatePassword(password)) {
-                document.getElementById('loginPasswordError').classList.remove('hidden');
-                isValid = false;
-            } else {
-                document.getElementById('loginPasswordError').classList.add('hidden');
-            }
-
-            if (isValid) {
-                // Perform log in logic here (e.g., send data to server)
-                console.log('Email:', email);
-                console.log('Password:', password);
-
-                alert('Logged in successfully');
-                loginForm.reset();
-            }
+                fileItem.querySelector('.remove-file').addEventListener('click', function () {
+                    fileItem.remove();
+                });
+            });
         });
     </script>
 </body>
