@@ -39,7 +39,7 @@
     <div class="container mx-auto p-8 max-w-lg">
         <div class="bg-white p-8 rounded-2xl shadow-lg scrollable-container">
             <!-- Sign Up Form -->
-            <form id="signUpForm" onsubmit="alert('Form submitted!')" class="space-y-4 hidden">
+            <form id="signUpForm" class="space-y-4 hidden" onsubmit="return validateSignUpForm()">
                 <h2 class="text-2xl font-semibold text-center mb-4">Sign Up</h2>
 
                 <div>
@@ -83,6 +83,13 @@
                         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
                 </div>
 
+                <div id="fileUploadContainer">
+                    <label for="files" class="block text-sm font-medium text-gray-700">Upload Files</label>
+                    <input type="file" id="files" name="files" multiple
+                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                </div>
+
+                <div id="fileList" class="space-y-2"></div>
                 <div>
                     <span class="block text-sm font-medium text-gray-700">Gender</span>
                     <div class="mt-1">
@@ -96,16 +103,8 @@
                 <div class="flex items-center">
                     <input type="checkbox" id="terms" name="terms" required>
                     <label for="terms"
-                        class="ml-2 block text-sm font-medium text-gray-700">I agree to the terms and conditions</label>
+                        class="ml-2 block text-sm font-medium text-gray-700">I agree to the terms and conditions.</label>
                 </div>
-
-                <div id="fileUploadContainer">
-                    <label for="files" class="block text-sm font-medium text-gray-700">Upload Files</label>
-                    <input type="file" id="files" name="files" multiple
-                        class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
-                </div>
-
-                <div id="fileList" class="space-y-2"></div>
 
                 <div>
                     <button type="submit"
@@ -115,7 +114,7 @@
             </form>
 
             <!-- Login Form -->
-            <form id="loginForm" onsubmit="alert('Logged in Succesfully!')" class="space-y-4">
+            <form id="loginForm" class="space-y-4" onsubmit="return validateLoginForm()">
                 <h2 class="text-2xl font-semibold text-center mb-4">Login</h2>
 
                 <div>
@@ -137,7 +136,7 @@
                 </div>
 
                 <div>
-                    <button type="submit"
+                    <button type="submit" 
                         class="w-full bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 focus:outline-none focus:bg-green-600">Login</button>
                 </div>
 
@@ -228,6 +227,85 @@
                 });
             });
         });
+
+        function validateEmail(email) {
+            const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return regex.test(email);
+        }
+
+        function validatePassword(password) {
+            const regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+            return regex.test(password);
+        }
+
+        function validateSignUpForm() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+
+            const emailError = document.getElementById('emailError');
+            const passwordError = document.getElementById('passwordError');
+            const confirmPasswordError = document.getElementById('confirmPasswordError');
+
+            let valid = true;
+
+            if (!validateEmail(email)) {
+                emailError.classList.remove('hidden');
+                valid = false;
+            } else {
+                emailError.classList.add('hidden');
+            }
+
+            if (!validatePassword(password)) {
+                passwordError.classList.remove('hidden');
+                valid = false;
+            } else {
+                passwordError.classList.add('hidden');
+            }
+
+            if (password !== confirmPassword) {
+                confirmPasswordError.classList.remove('hidden');
+                valid = false;
+            } else {
+                confirmPasswordError.classList.add('hidden');
+            }
+
+            if (valid) {
+                alert('Form submitted!');
+            }
+
+            return valid;
+        }
+
+        function validateLoginForm() {
+            const email = document.getElementById('loginEmail').value;
+            const password = document.getElementById('loginPassword').value;
+
+            const emailError = document.getElementById('loginEmailError');
+            const passwordError = document.getElementById('loginPasswordError');
+
+            let valid = true;
+
+            if (!validateEmail(email)) {
+                emailError.classList.remove('hidden');
+                valid = false;
+            } else {
+                emailError.classList.add('hidden');
+            }
+
+            if (!validatePassword(password)) {
+                passwordError.classList.remove('hidden');
+                valid = false;
+            } else {
+                passwordError.classList.add('hidden');
+            }
+
+            if (valid) {
+                alert('Logged in successfully!');
+            }
+
+            return valid;
+        }
     </script>
 </body>
 
