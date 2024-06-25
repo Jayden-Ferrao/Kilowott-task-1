@@ -89,7 +89,7 @@
 
 .testimonial-slider {
   display: flex;
-  width: 200%;
+  width: 100%;
   animation: slideLeft 20s linear infinite;
 }
 @media (max-width: 992px) {

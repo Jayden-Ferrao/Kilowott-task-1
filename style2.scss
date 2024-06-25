@@ -156,7 +156,7 @@
 
 .testimonial-slider {
     display: flex;
-    width: 200%;
+    width: 100%;
     animation: slideLeft 20s linear infinite;
 
     @include media-query(992px);
