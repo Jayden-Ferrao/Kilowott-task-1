@@ -13,15 +13,10 @@ function handleScroll() {
     const contactSection = document.getElementById('contact');
     if (isInViewport(contactSection)) {
         contactSection.classList.add('slide-up');
-        // Remove the event listener once animation is applied
         window.removeEventListener('scroll', handleScroll);
     }
 }
-// Add scroll event listener to trigger animation
 window.addEventListener('scroll', handleScroll);
-
-
-
 
  // Check if sign in is active
 $(document).ready(function() {
@@ -30,9 +25,6 @@ $(document).ready(function() {
         $('#signin-link').addClass('active');
     }
 });
-
-
-
 
 // JavaScript to handle active class for navbar items
 $(document).ready(function() {
