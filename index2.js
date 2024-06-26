@@ -17,4 +17,12 @@ function handleScroll() {
 }
 window.addEventListener('scroll', handleScroll);
 
-// slideshow in about section
+// EventListener for learn more btn
+document.addEventListener('DOMContentLoaded', function() {
+    var learnMoreBtn = document.getElementById('learnMoreBtn');
+    learnMoreBtn.addEventListener('click', function(event) {
+        event.preventDefault();
+        alert('Thank you for your interest! More information will be available soon.');
+    });
+});
+
