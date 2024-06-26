@@ -1,3 +1,4 @@
+// Functio to handle scroll event slideup
 function handleScroll() {
     const aboutSection = document.getElementById('about');
     const contactSection = document.getElementById('contact');
@@ -14,5 +15,6 @@ function handleScroll() {
         window.removeEventListener('scroll', handleScroll);
     }
 }
-
 window.addEventListener('scroll', handleScroll);
+
+// 
