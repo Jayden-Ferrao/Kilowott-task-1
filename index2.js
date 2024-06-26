@@ -17,4 +17,4 @@ function handleScroll() {
 }
 window.addEventListener('scroll', handleScroll);
 
-// 
+// slideshow in about section
