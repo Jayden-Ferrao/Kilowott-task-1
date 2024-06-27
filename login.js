@@ -1,3 +1,4 @@
+//toogle for signup and login
 document.getElementById('toggleFormBtn').addEventListener('click', function () {
     const signUpForm = document.getElementById('signUpForm');
     const loginForm = document.getElementById('loginForm');
@@ -12,6 +13,7 @@ document.getElementById('toggleFormBtn').addEventListener('click', function () {
     }
 });
 
+//toogle for eye-icon
 document.querySelectorAll('.toggle-password-icon').forEach(icon => {
     icon.addEventListener('click', function () {
         const input = this.previousElementSibling;
@@ -42,6 +44,7 @@ document.querySelectorAll('.toggle-confirm-password-icon').forEach(icon => {
     });
 });
 
+// for uploading files
 const fileInput = document.getElementById('files');
 const fileList = document.getElementById('fileList');
 let filesData = [];
@@ -72,6 +75,7 @@ function createFileItem(file) {
     return fileItem;
 }
 
+// Validation for form
 function validateEmail(email) {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
