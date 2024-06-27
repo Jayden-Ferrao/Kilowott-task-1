@@ -26,7 +26,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-// Add event listener for form submission
+// Add event listener for Contactform submission
 document.getElementById('contactForm').addEventListener('submit', function(event) {
     event.preventDefault();
     alert('Message sent successfully!');
