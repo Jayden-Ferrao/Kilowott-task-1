@@ -1,5 +1,4 @@
 // Use the live watching session for sass 
-// Mixins code
 @mixin card-transition {
     transition: transform 0.5s ease-out;
 }
@@ -55,7 +54,39 @@
     }
 }
 
-// Actual CSS/Sass code
+// Mixin for margin-bottom for pricing
+@mixin margin-bottom($margin) {
+    margin-bottom: $margin;
+}
+
+@mixin border-custom($color, $width) {
+    border: $width solid $color;
+}
+
+.container.mt-3 {
+    margin-top: 3rem;
+}
+
+.card {
+    @include margin-bottom(2rem); // Gap below each pricing box
+
+    &.border-custom {
+        @include border-custom(#007bff, 2px); 
+    }
+}
+// Media Queries
+@mixin responsive-margin($breakpoint, $margin) {
+    @media (max-width: $breakpoint) {
+        .col-lg-4 {
+            @include margin-bottom($margin); // Adjust gap for different screen sizes
+        }
+    }
+}
+
+@include responsive-margin(992px, 1.5rem); 
+@include responsive-margin(768px, 1rem);   
+
+
 .line {
     border: 1px solid #dcdcdc;
 }
@@ -197,9 +228,4 @@
         overflow: hidden;
         margin-bottom: 50px;
     }
-}
-
-/* Custom border color for standard plan section */
-.border-custom {
-    border: 2px solid #b817b0; 
 }

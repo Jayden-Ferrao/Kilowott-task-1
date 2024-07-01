@@ -1,3 +1,24 @@
+.container.mt-3 {
+  margin-top: 3rem;
+}
+
+.card {
+  margin-bottom: 2rem;
+}
+.card.border-custom {
+  border: 2px solid #007bff;
+}
+
+@media (max-width: 992px) {
+  .col-lg-4 {
+    margin-bottom: 1.5rem;
+  }
+}
+@media (max-width: 768px) {
+  .col-lg-4 {
+    margin-bottom: 1rem;
+  }
+}
 .line {
   border: 1px solid #dcdcdc;
 }
@@ -188,8 +209,4 @@
     overflow: hidden;
     margin-bottom: 50px;
   }
-}
-/* Custom border color for standard plan section */
-.border-custom {
-  border: 2px solid #b817b0;
 }/*# sourceMappingURL=style2.css.map */
