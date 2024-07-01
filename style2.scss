@@ -1,4 +1,3 @@
-// Use the live watching session for sass 
 @mixin card-transition {
     transition: transform 0.5s ease-out;
 }
@@ -32,11 +31,6 @@
         width: 50px;
         height: 50px;
         margin-right: 15px;
-    }
-
-    @media (max-width: 992px) {
-        flex: 0 0 100%;
-        margin-right: 0;
     }
 }
 
@@ -74,18 +68,6 @@
         @include border-custom(#007bff, 2px); 
     }
 }
-// Media Queries
-@mixin responsive-margin($breakpoint, $margin) {
-    @media (max-width: $breakpoint) {
-        .col-lg-4 {
-            @include margin-bottom($margin); // Adjust gap for different screen sizes
-        }
-    }
-}
-
-@include responsive-margin(992px, 1.5rem); 
-@include responsive-margin(768px, 1rem);   
-
 
 .line {
     border: 1px solid #dcdcdc;
@@ -189,8 +171,6 @@
     display: flex;
     width: 100%;
     animation: slideLeft 20s linear infinite;
-
-    @include media-query(992px);
 }
 
 .testimonial-card {
@@ -205,6 +185,18 @@
         transform: translateX(-100%);
     }
 }
+
+// Media Queries
+@mixin responsive-margin($breakpoint, $margin) {
+    @media (max-width: $breakpoint) {
+        .col-lg-4 {
+            @include margin-bottom($margin); // Adjust gap for different screen sizes
+        }
+    }
+}
+
+@include responsive-margin(992px, 1.5rem); 
+@include responsive-margin(768px, 1rem);
 
 @media (max-width: 992px) {
     .testimonial-card {
