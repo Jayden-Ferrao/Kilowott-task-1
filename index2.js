@@ -9,6 +9,7 @@ $(document).ready(function() {
 // EventListener for Contact form btn
 $('#contactForm').on('submit', function(event) {
     event.preventDefault();
-    alert('Message sent successfully!');
+    let name = $('#name').val();
+    alert(`Message sent successfully by ${name}!`);
     $('#contactForm')[0].reset();
 });
