@@ -177,6 +177,25 @@
     @include testimonial-card-responsive;
 }
 
+.faq-section .card {
+    background-color: #f8f9fa; 
+    border: 1px solid #dee2e6; 
+    border-radius: 10px; 
+    margin-bottom: 20px;
+}
+
+.faq-section .card-header {
+    background-color: #ffffff; 
+    border-bottom: 1px solid #dee2e6; 
+    border-top-left-radius: 10px; 
+    border-top-right-radius: 10px; 
+}
+
+.faq-section .card-body {
+    border-bottom-left-radius: 10px; 
+    border-bottom-right-radius: 10px; 
+}
+
 @keyframes slideLeft {
     0% {
         transform: translateX(0);
