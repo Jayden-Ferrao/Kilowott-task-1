@@ -13,3 +13,6 @@ $('#contactForm').on('submit', function(event) {
     alert(`Message sent successfully by ${name}!`);
     $('#contactForm')[0].reset();
 });
+
+// JQuery: fadein, fadeout, slide, stop, callback, chaining, get-set-remove-add, ancestors-traversing-siblings
+// JS: hoisting, strict, methods, get-set, call-apply-bind, async-await, DOM-BOM
