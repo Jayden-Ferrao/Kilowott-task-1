@@ -1,4 +1,4 @@
-// EventListener for learn more btn
+// EventListener for 'learn more' btn
 $(document).ready(function() {
     $('#learnMoreBtn').on('click', function(event) {
         event.preventDefault();
@@ -6,7 +6,7 @@ $(document).ready(function() {
     });
 });
 
-// EventListener for Contact form btn
+// EventListener for 'Contact form send message' btn
 $('#contactForm').on('submit', function(event) {
     event.preventDefault();
     let name = $('#name').val();
