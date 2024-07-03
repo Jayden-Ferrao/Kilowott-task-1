@@ -137,11 +137,6 @@
     margin-bottom: 1.5rem;
   }
 }
-@media (max-width: 768px) {
-  .col-lg-4 {
-    margin-bottom: 1rem;
-  }
-}
 @media (max-width: 992px) {
   .testimonial-card {
     flex: 0 0 calc(33.3333333333% - 20px);

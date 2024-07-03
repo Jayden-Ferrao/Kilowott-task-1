@@ -196,7 +196,6 @@
 }
 
 @include responsive-margin(992px, 1.5rem); 
-@include responsive-margin(768px, 1rem);
 
 @media (max-width: 992px) {
     .testimonial-card {
