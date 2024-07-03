@@ -75,7 +75,7 @@ function createFileItem(file) {
     return fileItem;
 }
 
-// Validation for form
+// Validation for sign up form
 function validateEmail(email) {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
