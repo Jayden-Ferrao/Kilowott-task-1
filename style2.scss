@@ -1,3 +1,34 @@
+// Variables
+$primary-color: #007bff;
+$secondary-color: #05b8a0;
+$accent-color: rgb(79, 229, 102);
+$background-color: #fff;
+$border-color: #dcdcdc;
+$hover-background-color: rgba(5, 246, 234, 0.2);
+$card-background-color: #d4f5d5;
+$text-color: #333;
+
+$font-size-base: 14px;
+$font-size-small: 12px;
+$font-size-large: 18px;
+
+$margin-small: 1rem;
+$margin-medium: 1.5rem;
+$margin-large: 3rem;
+$padding-small: 10px;
+$padding-medium: 20px;
+$padding-large: 50px;
+
+$border-radius: 15px;
+$border-radius-full: 50%;
+
+// Breakpoints
+$breakpoint-sm: 576px;
+$breakpoint-md: 768px;
+$breakpoint-lg: 992px;
+$breakpoint-xl: 1200px;
+
+// Mixins
 @mixin card-transition {
     transition: transform 0.5s ease-out;
 }
@@ -14,12 +45,12 @@
 }
 
 @mixin testimonial-card-responsive {
-    flex: 0 0 calc(100% / 3 - 20px); // Adjusted width for three cards with spacing
+    flex: 0 0 calc(100% / 3 - 20px);
     box-sizing: border-box;
-    padding: 10px;
-    background-color: #d4f5d5;
-    border-radius: 15px;
-    margin-right: 50px; // Added spacing between cards
+    padding: $padding-small;
+    background-color: $card-background-color;
+    border-radius: $border-radius;
+    margin-right: 50px;
     margin-bottom: 50px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     display: flex;
@@ -27,17 +58,33 @@
     overflow: hidden;
 
     img {
-        border-radius: 50%;
+        border-radius: $border-radius-full;
         width: 50px;
         height: 50px;
         margin-right: 15px;
     }
 }
 
-@mixin media-query($breakpoint) {
-    @media (max-width: #{$breakpoint}) {
+@mixin margin-bottom($margin) {
+    margin-bottom: $margin;
+}
+
+@mixin border-custom($color, $width) {
+    border: $width solid $color;
+}
+
+@mixin responsive-margin($breakpoint, $margin) {
+    @media (max-width: $breakpoint) {
+        .col-lg-4 {
+            @include margin-bottom($margin);
+        }
+    }
+}
+
+@mixin responsive-testimonial($breakpoint, $percentage) {
+    @media (max-width: $breakpoint) {
         .testimonial-slider {
-            width: 300%;
+            width: #{$percentage};
             animation: slideLeft 10s linear infinite;
         }
 
@@ -48,62 +95,24 @@
     }
 }
 
-// Mixin for margin-bottom for pricing
-@mixin margin-bottom($margin) {
-    margin-bottom: $margin;
-}
-
-@mixin border-custom($color, $width) {
-    border: $width solid $color;
+// Base Styles
+body {
+    font-size: $font-size-base;
+    color: $text-color;
 }
 
 .container.mt-3 {
-    margin-top: 3rem;
+    margin-top: $margin-large;
 }
 
 .card {
-    @include margin-bottom(2rem); // Gap below each pricing box
+    @include margin-bottom(2rem);
+    border: 1px solid $secondary-color;
+    border-radius: $border-radius;
 
     &.border-custom {
-        @include border-custom(#007bff, 2px); 
+        @include border-custom($primary-color, 2px);
     }
-}
-
-.line {
-    border: 1px solid #dcdcdc;
-}
-
-.heading {
-    text-align: center;
-    margin-top: 20px;
-    margin-bottom: 20px;
-}
-
-.banner {
-    background: linear-gradient(90deg, rgb(79, 229, 102) 0%, rgb(5, 246, 234) 100%);
-    color: white;
-    text-align: center;
-    padding: 50px 0;
-    margin-left: 20px;
-    margin-right: 20px;
-    border-radius: 15px;
-}
-
-.search-bar {
-    margin-top: 20px;
-    width: 300px;
-    margin: 0 auto;
-    border-radius: 20px;
-    overflow: hidden;
-
-    .input-group-text {
-        cursor: pointer;
-    }
-}
-
-.card {
-    border: 1px solid #05b8a0;
-    border-radius: 15px;
 
     &.middle-card {
         @include card-transition;
@@ -121,7 +130,38 @@
     }
 }
 
-.nav-icon, .footer-icon {
+.line {
+    border: 1px solid $border-color;
+}
+
+.heading {
+    text-align: center;
+    margin: $margin-small 0;
+}
+
+.banner {
+    background: linear-gradient(90deg, $accent-color 0%, rgb(5, 246, 234) 100%);
+    color: $background-color;
+    text-align: center;
+    padding: $padding-large 0;
+    margin: 0 20px;
+    border-radius: $border-radius;
+}
+
+.search-bar {
+    margin-top: $margin-small;
+    width: 300px;
+    margin: 0 auto;
+    border-radius: 20px;
+    overflow: hidden;
+
+    .input-group-text {
+        cursor: pointer;
+    }
+}
+
+.nav-icon,
+.footer-icon {
     margin-right: 5px;
 }
 
@@ -129,12 +169,12 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 20px;
+    padding: $padding-medium;
 
     img {
         max-width: 100%;
         height: auto;
-        border-radius: 15px;
+        border-radius: $border-radius;
     }
 }
 
@@ -156,15 +196,16 @@
 .nav-link {
     &:hover,
     &.active {
-        background-color: rgba(5, 246, 234, 0.2);
+        background-color: $hover-background-color;
         color: #028775;
     }
 }
 
+// Components
 .testimonial-container {
     position: relative;
     overflow: hidden;
-    margin-top: 20px;
+    margin-top: $margin-small;
 }
 
 .testimonial-slider {
@@ -186,18 +227,11 @@
     }
 }
 
-// Media Queries
-@mixin responsive-margin($breakpoint, $margin) {
-    @media (max-width: $breakpoint) {
-        .col-lg-4 {
-            @include margin-bottom($margin); // Adjust gap for different screen sizes
-        }
-    }
-}
+@include responsive-margin($breakpoint-lg, $margin-medium);
 
-@include responsive-margin(992px, 1.5rem); 
+@include responsive-testimonial($breakpoint-lg, 300);
 
-@media (max-width: 992px) {
+@media (max-width: $breakpoint-lg) {
     .testimonial-card {
         @include testimonial-card-responsive;
     }
@@ -209,14 +243,62 @@
 
     .testimonial-card {
         box-sizing: border-box;
-        padding: 10px;
-        background-color: #d4f5d5;
-        border-radius: 15px;
+        padding: $padding-small;
+        background-color: $card-background-color;
+        border-radius: $border-radius;
         margin-right: 50px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
         display: flex;
         align-items: center;
         overflow: hidden;
         margin-bottom: 50px;
+    }
+}
+
+// Mega Menu
+.mega-menu {
+    position: absolute;
+    background-color: $background-color;
+    width: 100%;
+    left: 0;
+    display: none;
+    z-index: 1000;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: $padding-medium;
+}
+
+.nav-item:hover .mega-menu {
+    display: block;
+}
+
+// Submenu
+.dropdown-submenu {
+    position: relative;
+
+    .dropdown-menu {
+        top: 0;
+        left: 100%;
+        margin-top: -1px;
+        display: none;
+        position: absolute;
+        z-index: 1000;
+
+        li {
+            padding: 10px 0;
+
+            a {
+                color: $text-color;
+                text-decoration: none;
+                font-size: $font-size-small;
+
+                &:hover {
+                    color: $primary-color;
+                }
+            }
+        }
+    }
+
+    &:hover .dropdown-menu {
+        display: block;
     }
 }

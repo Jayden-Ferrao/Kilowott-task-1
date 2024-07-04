@@ -14,19 +14,52 @@ $('#contactForm').on('submit', function(event) {
     $('#contactForm')[0].reset();
 });
 
-// Load More functionality
+// Load More btn
 $(document).ready(function() {
     var initialItems = 3;
     var loadMoreItems = 3;
     
     // Hide items that exceed the initial count
-    $('#services-list .service-item:gt(' + (initialItems - 1) + ')').hide();
+    $('#services-list .service-item').slice(initialItems).hide();
 
     $('#loadMoreBtn').click(function() {
         $('#services-list .service-item:hidden').slice(0, loadMoreItems).slideDown();
-        // If no more hidden items, hide the load more button
+        // Check if there are any hidden items left & Hides the button if no more items to show
         if ($('#services-list .service-item:hidden').length === 0) {
-            $('#loadMoreBtn').fadeOut('slow');
+            $('#loadMoreBtn').fadeOut('slow'); 
+        }
+    });
+});
+
+// Toggle dropdown menu on hover for home
+$(document).ready(function() {
+    // Toggle dropdown menu on hover for main nav item
+    $('.nav-item.dropdown').hover(function() {
+        $(this).find('.dropdown-menu').first().stop(true, true).slideDown(250);
+    }, function() {
+        $(this).find('.dropdown-menu').first().stop(true, true).slideUp(100);
+    });
+
+    // Toggle dropdown menu on hover for dropdown-submenu
+    $('.dropdown-submenu').hover(function() {
+        $(this).find('.dropdown-menu').first().stop(true, true).slideDown(250);
+    }, function() {
+        $(this).find('.dropdown-menu').first().stop(true, true).slideUp(100);
+    });
+
+    // Prevent submenu from showing on page load
+    $('.dropdown-submenu .dropdown-menu').hide();
+
+    // Allow navigation when clicking "Home"
+    $('.nav-item.dropdown > a').on('click', function(e) {
+        var $this = $(this);
+        if ($this.next('.dropdown-menu').is(':visible')) {
+            // Let the default action occur
+            window.location.href = $this.attr('href');
+        } else {
+            // Show the dropdown menu
+            e.preventDefault();
+            $this.next('.dropdown-menu').slideDown(250);
         }
     });
 });
