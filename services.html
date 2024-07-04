@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
     <!-- Custom CSS -->
     <link rel="stylesheet" href="style2.css">
-    <!-- jQuery -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Script JS/Jquery -->
+    <script src="index2.js"></script>
 </head>
 <body>
     <!-- Navbar --> 
@@ -53,7 +53,6 @@
     </div>
     <div class="container mt-5" id="services">
         <div class="row" id="services-list">
-            <!-- Sample service cards -->
             <div class="col-lg-4 mb-4 service-item">
                 <div class="card h-100">
                     <div class="card-body">
@@ -121,26 +120,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-    <!-- Custom JavaScript for Load More functionality -->
-    <script>
-        $(document).ready(function() {
-            // Number of items to show initially and on each load more click
-            var initialItems = 3;
-            var loadMoreItems = 3;
-            
-            // Hide items that exceed the initial count
-            $('#services-list .service-item:gt(' + (initialItems - 1) + ')').hide();
-            
-            // Load more button functionality
-            $('#loadMoreBtn').click(function() {
-                $('#services-list .service-item:hidden').slice(0, loadMoreItems).slideDown();
-                // If no more hidden items, hide the load more button
-                if ($('#services-list .service-item:hidden').length === 0) {
-                    $('#loadMoreBtn').fadeOut('slow');
-                }
-            });
-        });
-    </script>
+    
 </body>
 </html>
