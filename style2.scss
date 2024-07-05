@@ -22,6 +22,10 @@ $padding-large: 50px;
 $border-radius: 15px;
 $border-radius-full: 50%;
 
+$btn-primary-bg: #007bff;
+$btn-primary-border: #007bff;
+$btn-primary-text: #fff;
+
 // Breakpoints
 $breakpoint-sm: 576px;
 $breakpoint-md: 768px;
@@ -60,7 +64,6 @@ $breakpoint-xl: 1200px;
     }
 }
 
-// Base Styles
 // Base Styles
 body {
     font-size: $font-size-base;
@@ -126,6 +129,17 @@ body {
     }
 }
 
+.btn-primary {
+    background-color: $btn-primary-bg;
+    border-color: $btn-primary-border;
+    color: $btn-primary-text;
+
+    &:hover {
+        background-color: darken($btn-primary-bg, 10%);
+        border-color: darken($btn-primary-border, 10%);
+    }
+}
+
 .nav-icon,
 .footer-icon {
     margin-right: 5px;
@@ -169,7 +183,21 @@ body {
 
 // Media Queries
 @include responsive-margin($breakpoint-lg, $margin-medium);
+@media (max-width: 992px) {
+    .navbar-nav .dropdown-menu {
+        position: static !important; /* Override Bootstrap's absolute positioning */
+        float: none; 
+        width: auto; 
+        margin-top: 0.5rem; 
+        box-shadow: none; 
+    }
 
+    .dropdown-submenu .dropdown-menu {
+        left: 100%; 
+        top: 0; 
+        margin-top: -1px; /* Adjust the margin to prevent overlapping */
+    }
+}
 // Mega Menu
 .mega-menu {
     position: absolute;
@@ -178,7 +206,6 @@ body {
     left: 0;
     display: none;
     z-index: 1000;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     padding: $padding-medium;
 }
 
