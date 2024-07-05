@@ -19,7 +19,6 @@ $(document).ready(function() {
     var initialItems = 3;
     var loadMoreItems = 3;
     
-    // Hide items that exceed the initial count
     $('#services-list .service-item').slice(initialItems).hide();
 
     $('#loadMoreBtn').click(function() {
