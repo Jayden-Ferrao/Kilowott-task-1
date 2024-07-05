@@ -207,30 +207,3 @@ body {
         display: block;
     }
 }
-
-// Responsive styles
-@media (max-width: $breakpoint-md) {
-    .nav-item.dropdown .dropdown-menu {
-        display: none;
-    }
-
-    .dropdown-submenu .dropdown-menu {
-        display: none;
-    }
-
-    .nav-item.dropdown .dropdown-menu.show {
-        display: block;
-    }
-
-    .dropdown-submenu .dropdown-menu.show {
-        display: block;
-        position: relative;
-        left: 0;
-    }
-
-    .nav-item.dropdown .dropdown-menu {
-        display: block;
-        position: relative;
-        left: 0;
-    }
-}
