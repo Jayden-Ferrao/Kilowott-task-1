@@ -231,4 +231,14 @@ body {
 }
 .dropdown-submenu:hover .dropdown-menu {
   display: block;
-}/*# sourceMappingURL=style2.css.map */
+}
+@media (max-width: 768px) {
+  .nav-item.dropdown .dropdown-menu {
+      display: none;
+  }
+
+  .dropdown-submenu .dropdown-menu {
+      display: none;
+  }
+}
+/*# sourceMappingURL=style2.css.map */

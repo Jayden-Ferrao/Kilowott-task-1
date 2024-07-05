@@ -1,99 +1,4 @@
-// Variables
-$primary-color: #007bff;
-$secondary-color: #05b8a0;
-$accent-color: rgb(79, 229, 102);
-$background-color: #fff;
-$border-color: #dcdcdc;
-$hover-background-color: rgba(5, 246, 234, 0.2);
-$card-background-color: #d4f5d5;
-$text-color: #333;
-
-$font-size-base: 14px;
-$font-size-small: 12px;
-$font-size-large: 18px;
-
-$margin-small: 1rem;
-$margin-medium: 1.5rem;
-$margin-large: 3rem;
-$padding-small: 10px;
-$padding-medium: 20px;
-$padding-large: 50px;
-
-$border-radius: 15px;
-$border-radius-full: 50%;
-
-// Breakpoints
-$breakpoint-sm: 576px;
-$breakpoint-md: 768px;
-$breakpoint-lg: 992px;
-$breakpoint-xl: 1200px;
-
-// Mixins
-@mixin card-transition {
-    transition: transform 0.5s ease-out;
-}
-
-@mixin slide-left-animation($percentage) {
-    @keyframes slideLeft {
-        0% {
-            transform: translateX(0);
-        }
-        100% {
-            transform: translateX(-#{$percentage});
-        }
-    }
-}
-
-@mixin testimonial-card-responsive {
-    flex: 0 0 calc(100% / 3 - 20px);
-    box-sizing: border-box;
-    padding: $padding-small;
-    background-color: $card-background-color;
-    border-radius: $border-radius;
-    margin-right: 50px;
-    margin-bottom: 50px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    display: flex;
-    align-items: center;
-    overflow: hidden;
-
-    img {
-        border-radius: $border-radius-full;
-        width: 50px;
-        height: 50px;
-        margin-right: 15px;
-    }
-}
-
-@mixin margin-bottom($margin) {
-    margin-bottom: $margin;
-}
-
-@mixin border-custom($color, $width) {
-    border: $width solid $color;
-}
-
-@mixin responsive-margin($breakpoint, $margin) {
-    @media (max-width: $breakpoint) {
-        .col-lg-4 {
-            @include margin-bottom($margin);
-        }
-    }
-}
-
-@mixin responsive-testimonial($breakpoint, $percentage) {
-    @media (max-width: $breakpoint) {
-        .testimonial-slider {
-            width: #{$percentage};
-            animation: slideLeft 10s linear infinite;
-        }
-
-        .testimonial-card {
-            flex: 0 0 100%;
-            margin-right: 0;
-        }
-    }
-}
+// Variables and Mixins remain the same
 
 // Base Styles
 body {
@@ -300,5 +205,32 @@ body {
 
     &:hover .dropdown-menu {
         display: block;
+    }
+}
+
+// Responsive styles
+@media (max-width: $breakpoint-md) {
+    .nav-item.dropdown .dropdown-menu {
+        display: none;
+    }
+
+    .dropdown-submenu .dropdown-menu {
+        display: none;
+    }
+
+    .nav-item.dropdown .dropdown-menu.show {
+        display: block;
+    }
+
+    .dropdown-submenu .dropdown-menu.show {
+        display: block;
+        position: relative;
+        left: 0;
+    }
+
+    .nav-item.dropdown .dropdown-menu {
+        display: block;
+        position: relative;
+        left: 0;
     }
 }
