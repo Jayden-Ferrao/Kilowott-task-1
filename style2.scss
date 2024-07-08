@@ -181,6 +181,33 @@ body {
     }
 }
 
+/* Spinner CSS */
+.spinner-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(255, 255, 255, 0.8);
+    z-index: 9999;
+    opacity: 1;
+    transition: opacity 0.5s ease;
+}
+        
+.spinner-border {
+    width: 3rem;
+    height: 3rem;
+}
+
+/* Thank You Section */
+#thank-you {
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
 // Media Queries
 @include responsive-margin($breakpoint-lg, $margin-medium);
 @media (max-width: 992px) {

@@ -103,6 +103,33 @@ body {
   color: #028775;
 }
 
+/* Spinner CSS */
+.spinner-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(255, 255, 255, 0.8);
+  z-index: 9999;
+  opacity: 1;
+  transition: opacity 0.5s ease;
+}
+
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+}
+
+/* Thank You Section */
+#thank-you {
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
 @media (max-width: 992px) {
   .col-lg-4 {
     margin-bottom: 1.5rem;
@@ -160,29 +187,4 @@ body {
 }
 .dropdown-submenu:hover .dropdown-menu {
   display: block;
-}
-
-.scrollable-container {
-  max-height: 80vh;
-  overflow-y: auto;
-}
-
-.file-item {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 5px 10px;
-  background-color: #f0f0f0;
-  margin-bottom: 5px;
-  border-radius: 5px;
-}
-
-.file-item .file-name {
-  flex-grow: 1;
-  margin-left: 10px;
-}
-
-.file-item .remove-file {
-  cursor: pointer;
-}
-/*# sourceMappingURL=style2.css.map */
+}/*# sourceMappingURL=style2.css.map */

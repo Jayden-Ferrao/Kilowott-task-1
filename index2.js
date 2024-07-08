@@ -62,5 +62,19 @@ $(document).ready(function() {
         }
     });
 });
+
+// Hide spinner and show thank you section
+$(document).ready(function() {
+    // Delay for 2 seconds before hiding the spinner and showing the thank you section
+    setTimeout(function() {
+        $('.spinner-container').css('opacity', '0');
+        $('#thank-you').css('opacity', '1');
+        
+        // Remove spinner after transition to avoid it blocking the content
+        setTimeout(function() {
+            $('.spinner-container').remove();
+        }, 500); // match this with the CSS transition duration
+    }, 2000); // 2000 milliseconds = 2 seconds
+});
 // JQuery: fadein, fadeout, slide, stop, callback, chaining, get-set-remove-add, ancestors-traversing-siblings
 // JS: hoisting, strict, methods, get-set, call-apply-bind, async-await, DOM-BOM, slideup-slidedown
