@@ -30,9 +30,9 @@ $(document).ready(function() {
     });
 });
 
-// Toggle dropdown menu on hover for home
+// Toggle dropdown menu on hover for Menu
 $(document).ready(function() {
-    // Toggle dropdown menu on hover for main nav item
+    // Toggle dropdown menu on hover for menu
     $('.nav-item.dropdown').hover(function() {
         $(this).find('.dropdown-menu').first().stop(true, true).slideDown(250);
     }, function() {
@@ -49,16 +49,11 @@ $(document).ready(function() {
     // Prevent submenu from showing on page load
     $('.dropdown-submenu .dropdown-menu').hide();
 
-    // Allow navigation when clicking "Home"
-    $('.nav-item.dropdown > a').on('click', function(e) {
-        var $this = $(this);
-        if ($this.next('.dropdown-menu').is(':visible')) {
-            // Let the default action occur
-            window.location.href = $this.attr('href');
-        } else {
-            // Show the dropdown menu
+    //Toggle dropdown menu on smaller screen
+    $('.nav-item.dropdown > a').click(function(e) {
+        if ($(window).width() < 992) {
             e.preventDefault();
-            $this.next('.dropdown-menu').slideDown(250);
+            $(this).next('.dropdown-menu').stop(true, true).slideToggle(250);
         }
     });
 });
