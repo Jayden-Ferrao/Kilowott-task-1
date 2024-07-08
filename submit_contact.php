@@ -18,16 +18,17 @@ $name = $_POST['name'];
 $email = $_POST['email'];
 $message = $_POST['message'];
 
-// Insert data into database
-$sql = "INSERT INTO contacts (name, email, message) VALUES ('$name', '$email', '$message')";
+// Prepare and bind SQL statement
+$stmt = $conn->prepare("INSERT INTO contacts (name, email, message) VALUES (?, ?, ?)");
+$stmt->bind_param("sss", $name, $email, $message);
 
-if ($conn->query($sql) === TRUE) {
+if ($stmt->execute()) {
     // Redirect to thank you page
     header("Location: thankyou.html");
     exit();
 } else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
+    echo "Error: " . $sql . "<br>" . $stmt->error;
 }
 
-$conn->close(); 
+$stmt->close(); 
 ?>
