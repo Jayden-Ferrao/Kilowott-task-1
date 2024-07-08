@@ -7,12 +7,12 @@ $(document).ready(function() {
 });
 
 // EventListener for 'Contact form send message' btn
-$('#contactForm').on('submit', function(event) {
-    event.preventDefault();
-    let name = $('#name').val();
-    alert(`Message sent successfully by ${name}!`);
-    $('#contactForm')[0].reset();
-});
+// $('#contactForm').on('submit', function(event) {
+//     event.preventDefault();
+//     let name = $('#name').val();
+//     alert(`Message sent successfully by ${name}!`);
+//     $('#contactForm')[0].reset();
+// });
 
 // Load More btn
 $(document).ready(function() {
