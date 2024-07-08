@@ -69,5 +69,5 @@ $(document).ready(function() {
         }, 500);
     }, 2000);
 });
-// JQuery: fadein, fadeout, slide, stop, callback, chaining, get-set-remove-add, ancestors-traversing-siblings
-// JS: hoisting, strict, methods, get-set, call-apply-bind, async-await, DOM-BOM, slideup-slidedown
+// JQuery: fadein-fadeout, slide, stop, callback, chaining, get-set-remove-add, ancestors-traversing-siblings
+// JS: hoisting, strict, methods, get-set, call-apply-bind, async-await, DOM-BOM, slideup-slidedown-slidetoggle
