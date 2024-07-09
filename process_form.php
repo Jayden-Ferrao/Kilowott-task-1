@@ -74,24 +74,20 @@ if (empty($errors)) {
         die("Connection failed: " . $conn->connect_error);
     }
 
-    // Escape user inputs for security
-    $name = mysqli_real_escape_string($conn, $_POST['name']);
-    $email = mysqli_real_escape_string($conn, $_POST['email']);
-    $password = mysqli_real_escape_string($conn, $_POST['password']);
-    $dob = mysqli_real_escape_string($conn, $_POST['dob']);
-    $gender = mysqli_real_escape_string($conn, $_POST['gender']);
+    // Prepare and bind
+    $stmt = $conn->prepare("INSERT INTO users (name, email, password, dob, gender) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssss", $name, $email, $password, $dob, $gender);
 
-    // Example SQL insert statement, adjust as per your database schema
-    $sql = "INSERT INTO users (name, email, password, dob, gender) VALUES ('$name', '$email', '$password', '$dob', '$gender')";
-
-    if ($conn->query($sql) === TRUE) {
+    // Execute the statement
+    if ($stmt->execute()) {
         // Redirect to dashboard.html after successful insertion
         header("Location: dashboard.html");
         exit();
     } else {
-        echo "Error: " . $sql . "<br>" . $conn->error;
+        echo "Error: " . $stmt->error;
     }
 
+    $stmt->close();
     $conn->close();
 }
 
