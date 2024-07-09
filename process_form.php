@@ -79,7 +79,7 @@ if (empty($errors)) {
     // Execute the statement
     if ($stmt->execute()) {
         // Redirect to dashboard.html after successful insertion
-        header("Location: dashboard.html");
+        header("Location: login.html");
         exit();
     } else {
         echo "Error: " . $stmt->error;
