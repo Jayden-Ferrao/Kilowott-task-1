@@ -79,7 +79,7 @@ $(document).ready(function() {
       var card = $(this).closest('.card');
       var title = card.find('.card-title').text();
       var text = card.find('.card-text').text();
-      var imageUrl = $(this).data('image'); // Retrieve the data-image attribute value
+      var imageUrl = $(this).data('image'); 
       
       // Set the modal content
       $('#serviceModalLabel').text(title);
