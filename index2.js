@@ -69,5 +69,26 @@ $(document).ready(function() {
         }, 500);
     }, 2000);
 });
+
+// View details services popup
+$(document).ready(function() {
+    $('.service-item .btn-primary').on('click', function(e) {
+      e.preventDefault();
+      
+      // Get the service information
+      var card = $(this).closest('.card');
+      var title = card.find('.card-title').text();
+      var text = card.find('.card-text').text();
+      var imageUrl = $(this).data('image'); // Retrieve the data-image attribute value
+      
+      // Set the modal content
+      $('#serviceModalLabel').text(title);
+      $('#serviceImage').attr('src', imageUrl);
+      $('#serviceInfo').text(text);
+      
+      // Show the modal
+      $('#serviceModal').modal('show');
+    });
+  });
 // JQuery: fadein-fadeout, slide, stop, callback, chaining, get-set-remove-add, ancestors-traversing-siblings
 // JS: hoisting, strict, methods, get-set, call-apply-bind, async-await, DOM-BOM, slideup-slidedown-slidetoggle
