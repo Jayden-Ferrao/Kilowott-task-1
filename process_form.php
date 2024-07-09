@@ -6,7 +6,6 @@ if (empty($_POST['name'])) {
     $errors['name'] = "Name is required";
 } else {
     $name = test_input($_POST['name']);
-    // Check if name only contains letters and whitespace
     if (!preg_match("/^[a-zA-Z ]*$/", $name)) {
         $errors['name'] = "Only letters and white space allowed";
     }
@@ -17,7 +16,6 @@ if (empty($_POST['email'])) {
     $errors['email'] = "Email is required";
 } else {
     $email = test_input($_POST['email']);
-    // Check if email address is well-formed
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errors['email'] = "Invalid email format";
     }

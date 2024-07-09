@@ -45,122 +45,123 @@ document.querySelectorAll('.toggle-confirm-password-icon').forEach(icon => {
 });
 
 // for uploading files
-const fileInput = document.getElementById('files');
-const fileList = document.getElementById('fileList');
-let filesData = [];
+// const fileInput = document.getElementById('files');
+// const fileList = document.getElementById('fileList');
+// let filesData = [];
 
-fileInput.addEventListener('change', function () {
-    fileList.innerHTML = '';
-    filesData = Array.from(this.files);
-    filesData.forEach(file => {
-        const fileItem = createFileItem(file);
-        fileList.appendChild(fileItem);
-    });
-});
+// fileInput.addEventListener('change', function () {
+//     fileList.innerHTML = '';
+//     filesData = Array.from(this.files);
+//     filesData.forEach(file => {
+//         const fileItem = createFileItem(file);
+//         fileList.appendChild(fileItem);
+//     });
+// });
 
-function createFileItem(file) {
-    const fileItem = document.createElement('div');
-    fileItem.className = 'file-item';
-    fileItem.innerHTML = `
-        <span class="file-name">${file.name}</span>
-        <i class="bi bi-x-circle-fill text-red-500 remove-file cursor-pointer"></i>
-    `;
-    fileItem.querySelector('.remove-file').addEventListener('click', function () {
-        filesData = filesData.filter(f => f.name !== file.name);
-        fileItem.remove();
-        if (filesData.length === 0) {
-            document.getElementById('files').value = '';
-        }
-    });
-    return fileItem;
+// function createFileItem(file) {
+//     const fileItem = document.createElement('div');
+//     fileItem.className = 'file-item';
+//     fileItem.innerHTML = `
+//         <span class="file-name">${file.name}</span>
+//         <i class="bi bi-x-circle-fill text-red-500 remove-file cursor-pointer"></i>
+//     `;
+//     fileItem.querySelector('.remove-file').addEventListener('click', function () {
+//         filesData = filesData.filter(f => f.name !== file.name);
+//         fileItem.remove();
+//         if (filesData.length === 0) {
+//             document.getElementById('files').value = '';
+//         }
+//     });
+//     return fileItem;
+// }
+
+// Validation for sign up form
+function validateEmail(email) {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
 }
 
-// // Validation for sign up form
-// function validateEmail(email) {
-//     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-//     return regex.test(email);
-// }
+function validatePassword(password) {
+    const regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return regex.test(password);
+}
 
-// function validatePassword(password) {
-//     const regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-//     return regex.test(password);
-// }
+function validateSignUpForm() {
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+    const confirmPassword = document.getElementById('confirmPassword').value;
 
-// function validateSignUpForm() {
-//     const email = document.getElementById('email').value;
-//     const password = document.getElementById('password').value;
-//     const confirmPassword = document.getElementById('confirmPassword').value;
+    const emailError = document.getElementById('emailError');
+    const passwordError = document.getElementById('passwordError');
+    const confirmPasswordError = document.getElementById('confirmPasswordError');
+    const fileError = document.getElementById('fileError');
 
-//     const emailError = document.getElementById('emailError');
-//     const passwordError = document.getElementById('passwordError');
-//     const confirmPasswordError = document.getElementById('confirmPasswordError');
-//     const fileError = document.getElementById('fileError');
+    let valid = true;
 
-//     let valid = true;
+    if (!validateEmail(email)) {
+        emailError.classList.remove('hidden');
+        valid = false;
+    } else {
+        emailError.classList.add('hidden');
+    }
 
-//     if (!validateEmail(email)) {
-//         emailError.classList.remove('hidden');
-//         valid = false;
-//     } else {
-//         emailError.classList.add('hidden');
-//     }
+    if (!validatePassword(password)) {
+        passwordError.classList.remove('hidden');
+        valid = false;
+    } else {
+        passwordError.classList.add('hidden');
+    }
 
-//     if (!validatePassword(password)) {
-//         passwordError.classList.remove('hidden');
-//         valid = false;
-//     } else {
-//         passwordError.classList.add('hidden');
-//     }
+    if (password !== confirmPassword) {
+        confirmPasswordError.classList.remove('hidden');
+        valid = false;
+    } else {
+        confirmPasswordError.classList.add('hidden');
+    }
 
-//     if (password !== confirmPassword) {
-//         confirmPasswordError.classList.remove('hidden');
-//         valid = false;
-//     } else {
-//         confirmPasswordError.classList.add('hidden');
-//     }
+    if (filesData.length === 0) {
+        fileError.classList.remove('hidden');
+        valid = false;
+    } else {
+        fileError.classList.add('hidden');
+    }
 
-//     if (filesData.length === 0) {
-//         fileError.classList.remove('hidden');
-//         valid = false;
-//     } else {
-//         fileError.classList.add('hidden');
-//     }
+    if (valid) {
+        alert('Form submitted!');
+        // Here you can submit the form data using fetch or any other method
+    }
 
-//     if (valid) {
-//         alert('Form submitted!');
-//         // Here you can submit the form data using fetch or any other method
-//     }
+    return valid;
+}
 
-//     return valid;
-// }
+function validateLoginForm() {
+    const email = document.getElementById('loginEmail').value;
+    const password = document.getElementById('loginPassword').value;
 
-// function validateLoginForm() {
-//     const email = document.getElementById('loginEmail').value;
-//     const password = document.getElementById('loginPassword').value;
+    const emailError = document.getElementById('loginEmailError');
+    const passwordError = document.getElementById('loginPasswordError');
 
-//     const emailError = document.getElementById('loginEmailError');
-//     const passwordError = document.getElementById('loginPasswordError');
+    let valid = true;
 
-//     let valid = true;
+    if (!validateEmail(email)) {
+        emailError.classList.remove('hidden');
+        valid = false;
+    } else {
+        emailError.classList.add('hidden');
+    }
 
-//     if (!validateEmail(email)) {
-//         emailError.classList.remove('hidden');
-//         valid = false;
-//     } else {
-//         emailError.classList.add('hidden');
-//     }
+    if (!validatePassword(password)) {
+        passwordError.classList.remove('hidden');
+        valid = false;
+    } else {
+        passwordError.classList.add('hidden');
+    }
 
-//     if (!validatePassword(password)) {
-//         passwordError.classList.remove('hidden');
-//         valid = false;
-//     } else {
-//         passwordError.classList.add('hidden');
-//     }
+    if (valid) {
+        alert('Logged in successfully!');
+        // Here you can redirect the user or perform further actions
+    }
 
-//     if (valid) {
-//         alert('Logged in successfully!');
-//         // Here you can redirect the user or perform further actions
-//     }
-
-//     return valid;
-// }
+    return valid;
+}
+// work on 18+ validation, session for form validation(popup for user login name)
