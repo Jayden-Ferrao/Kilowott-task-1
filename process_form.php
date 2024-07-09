@@ -61,11 +61,10 @@ if (empty($_POST['gender'])) {
 
 // If there are no validation errors, proceed with database insertion
 if (empty($errors)) {
-    // Define your database connection credentials
-    $servername = "localhost"; // Replace with your server name
-    $username = "username"; // Replace with your database username
-    $password = "password"; // Replace with your database password
-    $dbname = "your_database"; // Replace with your database name
+    $servername = "localhost"; 
+    $username = "root"; 
+    $password = ""; 
+    $dbname = "dashboard_form"; 
 
     // Create connection
     $conn = new mysqli($servername, $username, $password, $dbname);
