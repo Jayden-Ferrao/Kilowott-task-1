@@ -57,6 +57,13 @@ if (empty($_POST['gender'])) {
     $gender = test_input($_POST['gender']);
 }
 
+// Validate 18+
+if (empty($_POST['age'])) {
+    $errors['age'] = "Age confirmation is required";
+} else {
+    $age = test_input($_POST['age']);
+}
+
 // If there are no validation errors, proceed with database insertion
 if (empty($errors)) {
     $servername = "localhost"; 
@@ -72,13 +79,16 @@ if (empty($errors)) {
         die("Connection failed: " . $conn->connect_error);
     }
 
+    // Encrypt the password
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+
     // Prepare and bind
     $stmt = $conn->prepare("INSERT INTO users (name, email, password, dob, gender) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssss", $name, $email, $password, $dob, $gender);
+    $stmt->bind_param("sssss", $name, $email, $hashed_password, $dob, $gender);
 
     // Execute the statement
     if ($stmt->execute()) {
-        // Redirect to dashboard.html after successful insertion
+        // Redirect to login.html after successful insertion
         header("Location: login.html");
         exit();
     } else {
@@ -87,6 +97,11 @@ if (empty($errors)) {
 
     $stmt->close();
     $conn->close();
+} else {
+    // Output errors for debugging
+    foreach ($errors as $error) {
+        echo $error . "<br>";
+    }
 }
 
 // Function to sanitize and validate input data
