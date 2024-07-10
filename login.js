@@ -1,7 +1,8 @@
-//toogle for signup and login
+// Toggle for signup and login
 document.getElementById('toggleFormBtn').addEventListener('click', function () {
     const signUpForm = document.getElementById('signUpForm');
     const loginForm = document.getElementById('loginForm');
+    
     if (signUpForm.classList.contains('hidden')) {
         signUpForm.classList.remove('hidden');
         loginForm.classList.add('hidden');
@@ -86,7 +87,7 @@ function validatePassword(password) {
     return regex.test(password);
 }
 
-// Validation for sign up form
+// Validate Sign Up Form
 function validateSignUpForm() {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
@@ -143,7 +144,6 @@ function validateSignUpForm() {
     return valid;
 }
 
-
 // Validate Login Form
 function validateLoginForm() {
     const email = document.getElementById('loginEmail').value;
@@ -192,6 +192,7 @@ function validateLoginForm() {
     return valid;
 }
 
+// Event listeners for form submissions
 document.getElementById('signUpForm').addEventListener('submit', function (e) {
     e.preventDefault();
     validateSignUpForm();

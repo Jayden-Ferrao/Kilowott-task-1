@@ -86,8 +86,8 @@ $password = $_POST['password'];
 $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
 // Prepare and bind
-$stmt = $conn->prepare("INSERT INTO users (email, password) VALUES (?, ?)");
-$stmt->bind_param("ss", $email, $hashed_password);
+$stmt = $conn->prepare("INSERT INTO users (name, email, password, dob, gender, age_confirmation) VALUES (?, ?, ?, ?, ?, ?)");
+$stmt->bind_param("ssssss", $name, $email, $hashed_password, $dob, $gender, $age_confirmation);
 
 // Execute the statement
 if ($stmt->execute()) {
