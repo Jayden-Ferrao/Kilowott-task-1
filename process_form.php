@@ -61,7 +61,7 @@ if (empty($_POST['gender'])) {
 if (empty($_POST['age'])) {
     $errors['age'] = "Age confirmation is required";
 } else {
-    $age = test_input($_POST['age']);
+    $age_confirmation = test_input($_POST['age']);
 }
 
 // If there are no validation errors, proceed with database insertion
@@ -83,8 +83,8 @@ if (empty($errors)) {
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     // Prepare and bind
-    $stmt = $conn->prepare("INSERT INTO users (name, email, password, dob, gender) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssss", $name, $email, $hashed_password, $dob, $gender);
+    $stmt = $conn->prepare("INSERT INTO users (name, email, password, dob, gender, age_confirmation) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssss", $name, $email, $hashed_password, $dob, $gender, $age_confirmation);
 
     // Execute the statement
     if ($stmt->execute()) {
