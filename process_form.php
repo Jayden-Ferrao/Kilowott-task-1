@@ -67,42 +67,34 @@ if (empty($_POST['age'])) {
 
 // If there are no validation errors, proceed with database insertion
 if (empty($errors)) {
-    $servername = "localhost"; 
-    $username = "root"; 
-    $password = ""; 
-    $dbname = "dashboard_form"; 
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "dashboard_form";
 
-// Create connection
-$conn = new mysqli($servername, $username, $password, $dbname);
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $dbname);
 
-// Check connection
-if ($conn->connect_error) {
-    echo json_encode(['success' => false, 'message' => 'Connection failed: ' . $conn->connect_error]);
-    exit();
-}
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
 
-$email = $_POST['email'];
-$password = $_POST['password'];
-$hashed_password = password_hash($password, PASSWORD_DEFAULT);
+    // Prepare and bind
+    $stmt = $conn->prepare("INSERT INTO users (name, email, password, dob, gender, age_confirmation) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssss", $name, $email, $hashed_password, $dob, $gender, $age_confirmation);
 
-// Prepare and bind
-$stmt = $conn->prepare("INSERT INTO users (name, email, password, dob, gender, age_confirmation) VALUES (?, ?, ?, ?, ?, ?)");
-$stmt->bind_param("ssssss", $name, $email, $hashed_password, $dob, $gender, $age_confirmation);
-
-// Execute the statement
-if ($stmt->execute()) {
-    echo json_encode(['success' => true, 'message' => 'User registered successfully']);
-} else {
-    echo json_encode(['success' => false, 'message' => 'Error: ' . $stmt->error]);
-}
+    // Execute the statement
+    if ($stmt->execute()) {
+        // Redirect to login.html after successful insertion
+        header("Location: login.html");
+        exit();
+    } else {
+        echo "Error: " . $stmt->error;
+    }
 
     $stmt->close();
     $conn->close();
-} else {
-    // Output errors for debugging
-    foreach ($errors as $error) {
-        echo $error . "<br>";
-    }
 }
 
 // Function to sanitize and validate input data
@@ -112,4 +104,3 @@ function test_input($data) {
     $data = htmlspecialchars($data);
     return $data;
 }
-?>
