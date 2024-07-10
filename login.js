@@ -77,17 +77,6 @@ document.querySelectorAll('.toggle-confirm-password-icon').forEach(icon => {
 // }
 
 // Validation for email & password
-function validateEmail(email) {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-}
-
-function validatePassword(password) {
-    const regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    return regex.test(password);
-}
-
-// Validate Sign Up Form
 function validateSignUpForm() {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
@@ -96,6 +85,7 @@ function validateSignUpForm() {
     const emailError = document.getElementById('emailError');
     const passwordError = document.getElementById('passwordError');
     const confirmPasswordError = document.getElementById('confirmPasswordError');
+    // const fileError = document.getElementById('fileError');
 
     let valid = true;
 
@@ -120,30 +110,20 @@ function validateSignUpForm() {
         confirmPasswordError.classList.add('hidden');
     }
 
-    if (valid) {
-        const formData = new FormData();
-        formData.append('email', email);
-        formData.append('password', password);
+    // if (filesData.length === 0) {
+    //     fileError.classList.remove('hidden');
+    //     valid = false;
+    // } else {
+    //     fileError.classList.add('hidden');
+    // }
 
-        fetch('process_form.php', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('User registered successfully');
-                document.getElementById('toggleFormBtn').click(); // Switch to login form
-            } else {
-                alert(data.message);
-            }
-        })
-        .catch(error => console.error('Error:', error));
+    if (valid) {
+        alert('Form submitted succesfully!');
+        // Here you can submit the form data using fetch or any other method
     }
 
     return valid;
 }
-
 // Validate Login Form
 function validateLoginForm() {
     const email = document.getElementById('loginEmail').value;
