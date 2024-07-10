@@ -77,6 +77,17 @@ document.querySelectorAll('.toggle-confirm-password-icon').forEach(icon => {
 // }
 
 // Validation for email & password
+function validateEmail(email) {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+}
+
+function validatePassword(password) {
+    const regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return regex.test(password);
+}
+
+// Validate Sign Up Form
 function validateSignUpForm() {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
@@ -124,6 +135,8 @@ function validateSignUpForm() {
 
     return valid;
 }
+
+
 // Validate Login Form
 function validateLoginForm() {
     const email = document.getElementById('loginEmail').value;
