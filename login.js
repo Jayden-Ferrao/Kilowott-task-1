@@ -195,10 +195,8 @@ function validateLoginForm() {
 
 // Event listeners for form submissions
 document.getElementById('signUpForm').addEventListener('submit', function (e) {
-    e.preventDefault(); 
-    if (validateSignUpForm()) {
-        this.submit(); 
-    }
+    e.preventDefault();
+    validateSignUpForm();
 });
 
 document.getElementById('loginForm').addEventListener('submit', function (e) {

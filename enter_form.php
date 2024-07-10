@@ -28,6 +28,10 @@ if (empty($loginErrors)) {
     $password = "";
     $dbname = "dashboard_form";
 
+    // Get form data
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+
     // Create connection
     $conn = new mysqli($servername, $username, $password, $dbname);
 

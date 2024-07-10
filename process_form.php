@@ -72,6 +72,14 @@ if (empty($errors)) {
     $password = "";
     $dbname = "dashboard_form";
 
+    // Get form data
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $dob = $_POST['dob'];
+    $gender = $_POST['gender'];
+    $age_confirmation = $_POST['age_confirmation'];
+
     // Create connection
     $conn = new mysqli($servername, $username, $password, $dbname);
 
