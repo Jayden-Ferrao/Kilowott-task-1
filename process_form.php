@@ -59,10 +59,10 @@ if (empty($_POST['gender'])) {
 }
 
 // Validate 18+
-if (empty($_POST['age'])) {
-    $errors['age'] = "Age confirmation is required";
+if (empty($_POST['ageCheck'])) {
+    $errors['ageCheck'] = "Age confirmation is required";
 } else {
-    $age_confirmation = test_input($_POST['age']);
+    $age_confirmation = test_input($_POST['ageCheck']);
 }
 
 // If there are no validation errors, proceed with database insertion
@@ -72,13 +72,8 @@ if (empty($errors)) {
     $password = "";
     $dbname = "dashboard_form";
 
-    // Get form data
-    $name = $_POST['name'];
-    $email = $_POST['email'];
-    $password = $_POST['password'];
-    $dob = $_POST['dob'];
-    $gender = $_POST['gender'];
-    $age_confirmation = $_POST['age_confirmation'];
+    // Hash the password
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     // Create connection
     $conn = new mysqli($servername, $username, $password, $dbname);
@@ -99,9 +94,10 @@ if (empty($errors)) {
         echo json_encode(['success' => false, 'message' => 'Error: ' . $stmt->error]);
     }
 
-
     $stmt->close();
     $conn->close();
+} else {
+    echo json_encode(['success' => false, 'errors' => $errors]);
 }
 
 // Function to sanitize and validate input data
@@ -111,3 +107,4 @@ function test_input($data) {
     $data = htmlspecialchars($data);
     return $data;
 }
+?>
