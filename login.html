@@ -80,6 +80,16 @@
                     </div>
                 </div>
 
+                <div>
+                    <span class="block text-sm font-medium text-gray-700">Are you 18+?</span>
+                    <div class="mt-1">
+                        <input type="radio" id="yes" name="gender" value="yes" required>
+                        <label for="yes" class="ml-2">Yes</label>
+                        <input type="radio" id="no" name="gender" value="no" required>
+                        <label for="no" class="ml-2">No</label>
+                    </div>
+                </div>
+
                 <div class="flex items-center">
                     <input type="checkbox" id="terms" name="terms" required>
                     <label for="terms"
@@ -94,7 +104,7 @@
             </form>
 
             <!-- Login Form -->
-            <form id="loginForm" class="space-y-4" action="process_form.php" method="post" onsubmit="return validateLoginForm()">
+            <form id="loginForm" class="space-y-4" action="enter_form.php" method="post" onsubmit="return validateLoginForm()">
                 <h2 class="text-2xl font-semibold text-center mb-4">Login</h2>
 
                 <div>

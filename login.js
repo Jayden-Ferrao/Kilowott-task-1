@@ -94,7 +94,7 @@ function validateSignUpForm() {
     const emailError = document.getElementById('emailError');
     const passwordError = document.getElementById('passwordError');
     const confirmPasswordError = document.getElementById('confirmPasswordError');
-    const fileError = document.getElementById('fileError');
+    // const fileError = document.getElementById('fileError');
 
     let valid = true;
 
@@ -119,12 +119,12 @@ function validateSignUpForm() {
         confirmPasswordError.classList.add('hidden');
     }
 
-    if (filesData.length === 0) {
-        fileError.classList.remove('hidden');
-        valid = false;
-    } else {
-        fileError.classList.add('hidden');
-    }
+    // if (filesData.length === 0) {
+    //     fileError.classList.remove('hidden');
+    //     valid = false;
+    // } else {
+    //     fileError.classList.add('hidden');
+    // }
 
     if (valid) {
         alert('Form submitted!');
