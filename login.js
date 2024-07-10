@@ -96,7 +96,6 @@ function validateSignUpForm() {
     const emailError = document.getElementById('emailError');
     const passwordError = document.getElementById('passwordError');
     const confirmPasswordError = document.getElementById('confirmPasswordError');
-    // const fileError = document.getElementById('fileError');
 
     let valid = true;
 
@@ -121,16 +120,25 @@ function validateSignUpForm() {
         confirmPasswordError.classList.add('hidden');
     }
 
-    // if (filesData.length === 0) {
-    //     fileError.classList.remove('hidden');
-    //     valid = false;
-    // } else {
-    //     fileError.classList.add('hidden');
-    // }
-
     if (valid) {
-        alert('Form submitted succesfully!');
-        // Here you can submit the form data using fetch or any other method
+        const formData = new FormData();
+        formData.append('email', email);
+        formData.append('password', password);
+
+        fetch('process_form.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('User registered successfully');
+                document.getElementById('toggleFormBtn').click(); // Switch to login form
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => console.error('Error:', error));
     }
 
     return valid;
