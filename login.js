@@ -95,7 +95,6 @@ function validateSignUpForm() {
     const emailError = document.getElementById('emailError');
     const passwordError = document.getElementById('passwordError');
     const confirmPasswordError = document.getElementById('confirmPasswordError');
-    // const fileError = document.getElementById('fileError');
 
     let valid = true;
 
@@ -128,12 +127,29 @@ function validateSignUpForm() {
     // }
 
     if (valid) {
-        alert('Form submitted!');
-        // Here you can submit the form data using fetch or any other method
+        const formData = new FormData();
+        formData.append('email', email);
+        formData.append('password', password);
+
+        fetch('process_form.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('User registered successfully');
+                document.getElementById('toggleFormBtn').click(); // Switch to login form
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => console.error('Error:', error));
     }
 
     return valid;
 }
+
 
 // Validate Login Form
 function validateLoginForm() {
@@ -159,12 +175,36 @@ function validateLoginForm() {
         passwordError.classList.add('hidden');
     }
 
+    if (valid) {
+        const formData = new FormData();
+        formData.append('loginEmail', email);
+        formData.append('loginPassword', password);
+
+        fetch('enter_form.php', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Logged in successfully!');
+                window.location.href = 'dashboard.html';
+            } else {
+                alert(data.message);
+            }
+        })
+        .catch(error => console.error('Error:', error));
+    }
+
     return valid;
 }
 
-// Attach the validateLoginForm function to the form submission
+document.getElementById('signUpForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+    validateSignUpForm();
+});
+
 document.getElementById('loginForm').addEventListener('submit', function (e) {
-    if (!validateLoginForm()) {
-        e.preventDefault();
-    }
+    e.preventDefault();
+    validateLoginForm();
 });

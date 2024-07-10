@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: application/json');
 $errors = []; // Array to store validation errors
 
 // Validate Name
@@ -71,29 +72,29 @@ if (empty($errors)) {
     $password = ""; 
     $dbname = "dashboard_form"; 
 
-    // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
 
-    // Check connection
-    if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
-    }
+// Check connection
+if ($conn->connect_error) {
+    echo json_encode(['success' => false, 'message' => 'Connection failed: ' . $conn->connect_error]);
+    exit();
+}
 
-    // Encrypt the password
-    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+$email = $_POST['email'];
+$password = $_POST['password'];
+$hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    // Prepare and bind
-    $stmt = $conn->prepare("INSERT INTO users (name, email, password, dob, gender, age_confirmation) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssss", $name, $email, $hashed_password, $dob, $gender, $age_confirmation);
+// Prepare and bind
+$stmt = $conn->prepare("INSERT INTO users (email, password) VALUES (?, ?)");
+$stmt->bind_param("ss", $email, $hashed_password);
 
-    // Execute the statement
-    if ($stmt->execute()) {
-        // Redirect to login.html after successful insertion
-        header("Location: login.html");
-        exit();
-    } else {
-        echo "Error: " . $stmt->error;
-    }
+// Execute the statement
+if ($stmt->execute()) {
+    echo json_encode(['success' => true, 'message' => 'User registered successfully']);
+} else {
+    echo json_encode(['success' => false, 'message' => 'Error: ' . $stmt->error]);
+}
 
     $stmt->close();
     $conn->close();

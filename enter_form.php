@@ -1,4 +1,5 @@
 <?php
+header('Content-Type: application/json');
 session_start(); // Start the session
 
 $loginErrors = [];
@@ -18,9 +19,6 @@ if (empty($_POST['loginPassword'])) {
     $loginErrors['password'] = "Password is required";
 } else {
     $loginPassword = test_input($_POST['loginPassword']);
-    if (!preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/", $loginPassword)) {
-        $loginErrors['password'] = "Invalid password";
-    }
 }
 
 // If there are no validation errors, proceed with checking credentials
@@ -35,35 +33,35 @@ if (empty($loginErrors)) {
 
     // Check connection
     if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
+        echo json_encode(['success' => false, 'message' => 'Connection failed: ' . $conn->connect_error]);
+        exit();
     }
 
     // Prepare and bind
-    $stmt = $conn->prepare("SELECT * FROM users WHERE email = ? AND password = ?");
-    $stmt->bind_param("ss", $loginEmail, $loginPassword);
+    $stmt = $conn->prepare("SELECT password FROM users WHERE email = ?");
+    $stmt->bind_param("s", $loginEmail);
 
     // Execute the statement
     $stmt->execute();
-    $result = $stmt->get_result();
-
-    if ($result->num_rows > 0) {
-        // Set session variables
-        $_SESSION['user'] = $loginEmail;
-
-        // Redirect to dashboard
-        header("Location: dashboard.html");
-        exit();
+    $stmt->store_result();
+    if ($stmt->num_rows > 0) {
+        $stmt->bind_result($hashed_password);
+        $stmt->fetch();
+        if (password_verify($loginPassword, $hashed_password)) {
+            // Set session variables
+            $_SESSION['user'] = $loginEmail;
+            echo json_encode(['success' => true, 'message' => 'Login successful']);
+        } else {
+            echo json_encode(['success' => false, 'message' => 'Invalid email or password']);
+        }
     } else {
-        echo "Invalid email or password";
+        echo json_encode(['success' => false, 'message' => 'Invalid email or password']);
     }
 
     $stmt->close();
     $conn->close();
 } else {
-    // Return validation errors
-    foreach ($loginErrors as $error) {
-        echo $error . "<br>";
-    }
+    echo json_encode(['success' => false, 'message' => 'Validation errors', 'errors' => $loginErrors]);
 }
 
 // Function to sanitize and validate input data
