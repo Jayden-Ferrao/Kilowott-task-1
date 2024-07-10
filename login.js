@@ -147,9 +147,6 @@ function validateSignUpForm() {
                 alert(data.message);
             }
         })
-        .catch(error => {
-            console.error('Error:', error);
-        });
     }
 
     return valid;
