@@ -119,13 +119,6 @@ function validateSignUpForm() {
         confirmPasswordError.classList.add('hidden');
     }
 
-    // if (filesData.length === 0) {
-    //     fileError.classList.remove('hidden');
-    //     valid = false;
-    // } else {
-    //     fileError.classList.add('hidden');
-    // }
-
     if (valid) {
         const formData = new FormData();
         formData.append('email', email);
