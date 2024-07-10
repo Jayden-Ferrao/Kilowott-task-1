@@ -86,12 +86,11 @@ if (empty($errors)) {
 
     // Execute the statement
     if ($stmt->execute()) {
-        // Redirect to login.html after successful insertion
-        header("Location: login.html");
-        exit();
+        echo json_encode(['success' => true, 'message' => 'User registered successfully']);
     } else {
-        echo "Error: " . $stmt->error;
+        echo json_encode(['success' => false, 'message' => 'Error: ' . $stmt->error]);
     }
+
 
     $stmt->close();
     $conn->close();
