@@ -159,8 +159,10 @@ function validateLoginForm() {
 
     if (valid) {
         alert('Logged in successfully!');
+    } else {
+        alert('Invalid email or password');
+        }
         // Here you can redirect the user or perform further actions
-    }
 
     return valid;
 }
