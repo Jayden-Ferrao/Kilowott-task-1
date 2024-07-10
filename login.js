@@ -89,9 +89,13 @@ function validatePassword(password) {
 
 // Validate Sign Up Form
 function validateSignUpForm() {
+    const name = document.getElementById('name').value;
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     const confirmPassword = document.getElementById('confirmPassword').value;
+    const dob = document.getElementById('dob').value;
+    const gender = document.querySelector('input[name="gender"]:checked').value;
+    const age = document.querySelector('input[name="age"]:checked').value;
 
     const emailError = document.getElementById('emailError');
     const passwordError = document.getElementById('passwordError');
@@ -122,8 +126,13 @@ function validateSignUpForm() {
 
     if (valid) {
         const formData = new FormData();
+        formData.append('name', name);
         formData.append('email', email);
         formData.append('password', password);
+        formData.append('confirmPassword', confirmPassword);
+        formData.append('dob', dob);
+        formData.append('gender', gender);
+        formData.append('age', age);
 
         fetch('process_form.php', {
             method: 'POST',
@@ -133,15 +142,9 @@ function validateSignUpForm() {
         .then(data => {
             if (data.success) {
                 alert('User registered successfully');
-                document.getElementById('toggleFormBtn').click(); // Switch to login form
+                window.location.href = 'login.html'; // Redirect to login page
             } else {
-                if (data.errors) {
-                    for (const error in data.errors) {
-                        alert(`${error}: ${data.errors[error]}`);
-                    }
-                } else {
-                    alert(data.message);
-                }
+                alert(data.message);
             }
         })
         .catch(error => {
