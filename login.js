@@ -75,7 +75,7 @@ document.querySelectorAll('.toggle-confirm-password-icon').forEach(icon => {
 //     return fileItem;
 // }
 
-// Validation for sign up form
+// Validation for email & password
 function validateEmail(email) {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return regex.test(email);
@@ -86,6 +86,7 @@ function validatePassword(password) {
     return regex.test(password);
 }
 
+// Validation for sign up form
 function validateSignUpForm() {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
@@ -134,6 +135,7 @@ function validateSignUpForm() {
     return valid;
 }
 
+// Validate Login Form
 function validateLoginForm() {
     const email = document.getElementById('loginEmail').value;
     const password = document.getElementById('loginPassword').value;
@@ -157,13 +159,12 @@ function validateLoginForm() {
         passwordError.classList.add('hidden');
     }
 
-    if (valid) {
-        alert('Logged in successfully!');
-    } else {
-        alert('Invalid email or password');
-        }
-        // Here you can redirect the user or perform further actions
-
     return valid;
 }
-// work on 18+ validation, session for form validation(popup for user login name)
+
+// Attach the validateLoginForm function to the form submission
+document.getElementById('loginForm').addEventListener('submit', function (e) {
+    if (!validateLoginForm()) {
+        e.preventDefault();
+    }
+});

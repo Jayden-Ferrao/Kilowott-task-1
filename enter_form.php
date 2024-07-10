@@ -1,6 +1,8 @@
 <?php
 session_start(); // Start the session
 
+$loginErrors = [];
+
 // Validate Email
 if (empty($_POST['loginEmail'])) {
     $loginErrors['email'] = "Email is required";
@@ -16,7 +18,6 @@ if (empty($_POST['loginPassword'])) {
     $loginErrors['password'] = "Password is required";
 } else {
     $loginPassword = test_input($_POST['loginPassword']);
-    // Check if password is at least 8 characters long and contains a mix of letters, numbers, and special characters
     if (!preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/", $loginPassword)) {
         $loginErrors['password'] = "Invalid password";
     }
@@ -49,7 +50,7 @@ if (empty($loginErrors)) {
         // Set session variables
         $_SESSION['user'] = $loginEmail;
 
-        // Redirect to dashboard.html after successful login
+        // Redirect to dashboard
         header("Location: dashboard.html");
         exit();
     } else {
@@ -58,6 +59,11 @@ if (empty($loginErrors)) {
 
     $stmt->close();
     $conn->close();
+} else {
+    // Return validation errors
+    foreach ($loginErrors as $error) {
+        echo $error . "<br>";
+    }
 }
 
 // Function to sanitize and validate input data
