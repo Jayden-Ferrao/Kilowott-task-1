@@ -1,90 +1,114 @@
 <?php
-session_start();
+$errors = []; // Array to store validation errors
 
-// Function to validate and sanitize input data
-function validateInput($data) {
-    return htmlspecialchars(stripslashes(trim($data)));
+// Validate Name
+if (empty($_POST['name'])) {
+    $errors['name'] = "Name is required";
+} else {
+    $name = test_input($_POST['name']);
+    if (!preg_match("/^[a-zA-Z ]*$/", $name)) {
+        $errors['name'] = "Only letters and white space allowed";
+    }
 }
 
-// Handle form submission
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    // Validate and sanitize form inputs
-    $name = validateInput($_POST["name"]);
-    $email = validateInput($_POST["email"]);
-    $password = validateInput($_POST["password"]);
-    $confirmPassword = validateInput($_POST["confirmPassword"]);
-    $dob = validateInput($_POST["dob"]);
-    $gender = validateInput($_POST["gender"]);
-    $age_confirmation = validateInput($_POST["age"]);
-
-    // Array to store validation errors
-    $errors = [];
-
-    // Basic validation checks
-    if (empty($name)) {
-        $errors[] = "Name is required";
-    }
+// Validate Email
+if (empty($_POST['email'])) {
+    $errors['email'] = "Email is required";
+} else {
+    $email = test_input($_POST['email']);
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors[] = "Invalid email format";
+        $errors['email'] = "Invalid email format";
     }
-    if (strlen($password) < 8) {
-        $errors[] = "Password must be at least 8 characters long";
+}
+
+// Validate Password
+if (empty($_POST['password'])) {
+    $errors['password'] = "Password is required";
+} else {
+    $password = test_input($_POST['password']);
+    // Check if password is at least 8 characters long and contains a mix of letters, numbers, and special characters
+    if (!preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/", $password)) {
+        $errors['password'] = "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character";
     }
+}
+
+// Validate Confirm Password
+if (empty($_POST['confirmPassword'])) {
+    $errors['confirmPassword'] = "Confirm Password is required";
+} else {
+    $confirmPassword = test_input($_POST['confirmPassword']);
     if ($password !== $confirmPassword) {
-        $errors[] = "Passwords do not match";
+        $errors['confirmPassword'] = "Passwords do not match";
     }
-    if (empty($dob)) {
-        $errors[] = "Date of birth is required";
+}
+
+// Validate Date of Birth
+if (empty($_POST['dob'])) {
+    $errors['dob'] = "Date of Birth is required";
+} else {
+    $dob = test_input($_POST['dob']);
+    // You can add additional validation for date format if needed
+}
+
+// Validate Gender
+if (empty($_POST['gender'])) {
+    $errors['gender'] = "Gender is required";
+} else {
+    $gender = test_input($_POST['gender']);
+}
+
+// Validate 18+
+if (empty($_POST['age'])) {
+    $errors['age'] = "Age confirmation is required";
+} else {
+    $age_confirmation = test_input($_POST['age']);
+}
+
+// If there are no validation errors, proceed with database insertion
+if (empty($errors)) {
+    $servername = "localhost"; 
+    $username = "root"; 
+    $password = ""; 
+    $dbname = "dashboard_form"; 
+
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $dbname);
+
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
     }
-    if (empty($gender)) {
-        $errors[] = "Gender is required";
-    }
-    if (empty($age_confirmation) || $age_confirmation !== 'yes') {
-        $errors[] = "Please confirm if you are 18+";
-    }
 
-    // If no validation errors, proceed with database insertion
-    if (empty($errors)) {
-        // Hash the password
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+    // Encrypt the password
+    $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-        // Database connection details
-        $servername = "localhost";
-        $username = "root";
-        $password = "";
-        $dbname = "dashboard_form";
+    // Prepare and bind
+    $stmt = $conn->prepare("INSERT INTO users (name, email, password, dob, gender, age_confirmation) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssss", $name, $email, $hashed_password, $dob, $gender, $age_confirmation);
 
-        // Create connection
-        $conn = new mysqli($servername, $username, $password, $dbname);
-
-        // Check connection
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
-
-        // Prepare INSERT statement using prepared statement
-        $stmt = $conn->prepare("INSERT INTO users (name, email, password, dob, gender, age) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssss", $name, $email, $hashedPassword, $dob, $gender, $age_confirmation);
-
-        // Execute the statement
-        if ($stmt->execute()) {
-            // Registration successful, set session and redirect to login page
-            $_SESSION['user_email'] = $email;
-            header("Location: login.html");
-            exit();
-        } else {
-            // Display error message if execution fails
-            echo "Error: " . $stmt->error;
-        }
-
-        // Close statement and connection
-        $stmt->close();
-        $conn->close();
+    // Execute the statement
+    if ($stmt->execute()) {
+        // Redirect to login.html after successful insertion
+        header("Location: login.html");
+        exit();
     } else {
-        // Display validation errors
-        foreach ($errors as $error) {
-            echo $error . "<br>";
-        }
+        echo "Error: " . $stmt->error;
     }
+
+    $stmt->close();
+    $conn->close();
+} else {
+    // Output errors for debugging
+    foreach ($errors as $error) {
+        echo $error . "<br>";
+    }
+}
+
+// Function to sanitize and validate input data
+function test_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
 }
 ?>
