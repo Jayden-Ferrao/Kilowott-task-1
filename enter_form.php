@@ -27,7 +27,7 @@ if (empty($loginErrors)) {
     $username = "root";
     $password = "";
     $dbname = "dashboard_form";
-
+    
     // Get form data
     $email = $_POST['email'];
     $password = $_POST['password'];
