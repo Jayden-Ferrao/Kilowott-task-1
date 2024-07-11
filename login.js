@@ -1,212 +1,67 @@
-//toogle for signup and login
-document.getElementById('toggleFormBtn').addEventListener('click', function () {
-    const signUpForm = document.getElementById('signUpForm');
-    const loginForm = document.getElementById('loginForm');
-    if (signUpForm.classList.contains('hidden')) {
-        signUpForm.classList.remove('hidden');
-        loginForm.classList.add('hidden');
-        this.textContent = 'Already have an account? Login';
-    } else {
-        signUpForm.classList.add('hidden');
-        loginForm.classList.remove('hidden');
-        this.textContent = "Don't have an account? Sign Up";
-    }
-});
-
-//toogle for eye-icon
-document.querySelectorAll('.toggle-password-icon').forEach(icon => {
-    icon.addEventListener('click', function () {
-        const input = this.previousElementSibling;
-        if (input.type === 'password') {
-            input.type = 'text';
-            this.classList.remove('bi-eye-slash-fill');
-            this.classList.add('bi-eye-fill');
-        } else {
-            input.type = 'password';
-            this.classList.remove('bi-eye-fill');
-            this.classList.add('bi-eye-slash-fill');
+$(document).ready(function () {
+    // jQuery Validation for Signup Form
+    $("#signUpForm").validate({
+        rules: {
+            name: "required",
+            email: {
+                required: true,
+                email: true
+            },
+            password: {
+                required: true,
+                minlength: 8
+            },
+            confirmPassword: {
+                required: true,
+                equalTo: "#password"
+            },
+            dob: "required",
+            gender: "required",
+            age_confirmation: "required",
+            terms: "required"
+        },
+        messages: {
+            name: "Please enter your name",
+            email: {
+                required: "Please enter your email address",
+                email: "Please enter a valid email address"
+            },
+            password: {
+                required: "Please enter a password",
+                minlength: "Your password must be at least 8 characters long"
+            },
+            confirmPassword: {
+                required: "Please confirm your password",
+                equalTo: "Passwords do not match"
+            },
+            dob: "Please enter your date of birth",
+            gender: "Please select your gender",
+            age_confirmation: "Please confirm if you are 18+",
+            terms: "You must agree to the terms and conditions"
         }
     });
-});
 
-document.querySelectorAll('.toggle-confirm-password-icon').forEach(icon => {
-    icon.addEventListener('click', function () {
-        const input = this.previousElementSibling;
-        if (input.type === 'password') {
-            input.type = 'text';
-            this.classList.remove('bi-eye-slash-fill');
-            this.classList.add('bi-eye-fill');
-        } else {
-            input.type = 'password';
-            this.classList.remove('bi-eye-fill');
-            this.classList.add('bi-eye-slash-fill');
+    // jQuery Validation for Login Form
+    $("#loginForm").validate({
+        rules: {
+            loginEmail: {
+                required: true,
+                email: true
+            },
+            loginPassword: {
+                required: true,
+                minlength: 8
+            }
+        },
+        messages: {
+            loginEmail: {
+                required: "Please enter your email address",
+                email: "Please enter a valid email address"
+            },
+            loginPassword: {
+                required: "Please enter your password",
+                minlength: "Your password must be at least 8 characters long"
+            }
         }
     });
-});
-
-// for uploading files
-// const fileInput = document.getElementById('files');
-// const fileList = document.getElementById('fileList');
-// let filesData = [];
-
-// fileInput.addEventListener('change', function () {
-//     fileList.innerHTML = '';
-//     filesData = Array.from(this.files);
-//     filesData.forEach(file => {
-//         const fileItem = createFileItem(file);
-//         fileList.appendChild(fileItem);
-//     });
-// });
-
-// function createFileItem(file) {
-//     const fileItem = document.createElement('div');
-//     fileItem.className = 'file-item';
-//     fileItem.innerHTML = `
-//         <span class="file-name">${file.name}</span>
-//         <i class="bi bi-x-circle-fill text-red-500 remove-file cursor-pointer"></i>
-//     `;
-//     fileItem.querySelector('.remove-file').addEventListener('click', function () {
-//         filesData = filesData.filter(f => f.name !== file.name);
-//         fileItem.remove();
-//         if (filesData.length === 0) {
-//             document.getElementById('files').value = '';
-//         }
-//     });
-//     return fileItem;
-// }
-
-// Validation for email & password
-function validateEmail(email) {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-}
-
-function validatePassword(password) {
-    const regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    return regex.test(password);
-}
-
-// Validation for sign up form
-function validateSignUpForm() {
-        const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
-    const dob = document.getElementById('dob').value;
-    const gender = document.querySelector('input[name="gender"]:checked').value;
-    const age = document.querySelector('input[name="age"]:checked').value;
-
-    const emailError = document.getElementById('emailError');
-    const passwordError = document.getElementById('passwordError');
-    const confirmPasswordError = document.getElementById('confirmPasswordError');
-
-    let valid = true;
-
-    if (!validateEmail(email)) {
-        emailError.classList.remove('hidden');
-        valid = false;
-    } else {
-        emailError.classList.add('hidden');
-    }
-
-    if (!validatePassword(password)) {
-        passwordError.classList.remove('hidden');
-        valid = false;
-    } else {
-        passwordError.classList.add('hidden');
-    }
-
-    if (password !== confirmPassword) {
-        confirmPasswordError.classList.remove('hidden');
-        valid = false;
-    } else {
-        confirmPasswordError.classList.add('hidden');
-    }
-
-    if (valid) {
-        const formData = new FormData();
-        formData.append('name', name);
-        formData.append('email', email);
-        formData.append('password', password);
-        formData.append('confirmPassword', confirmPassword);
-        formData.append('dob', dob);
-        formData.append('gender', gender);
-        formData.append('age', age);
-
-        fetch('process_form.php', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('User registered successfully');
-                document.getElementById('toggleFormBtn').click(); // Switch to login form
-            } else {
-                alert(data.message);
-            }
-        })
-        .catch(error => console.error('Error:', error));
-    }
-
-    return valid;
-}
-
-
-// Validate Login Form
-function validateLoginForm() {
-    const email = document.getElementById('loginEmail').value;
-    const password = document.getElementById('loginPassword').value;
-
-    const emailError = document.getElementById('loginEmailError');
-    const passwordError = document.getElementById('loginPasswordError');
-
-    let valid = true;
-
-    if (!validateEmail(email)) {
-        emailError.classList.remove('hidden');
-        valid = false;
-    } else {
-        emailError.classList.add('hidden');
-    }
-
-    if (!validatePassword(password)) {
-        passwordError.classList.remove('hidden');
-        valid = false;
-    } else {
-        passwordError.classList.add('hidden');
-    }
-
-    if (valid) {
-        const formData = new FormData();
-        formData.append('loginEmail', email);
-        formData.append('loginPassword', password);
-
-        fetch('enter_form.php', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('Logged in successfully!');
-                window.location.href = 'dashboard.html';
-            } else {
-                alert(data.message);
-            }
-        })
-        .catch(error => console.error('Error:', error));
-    }
-
-    return valid;
-}
-
-document.getElementById('signUpForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-    validateSignUpForm();
-});
-
-document.getElementById('loginForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-    validateLoginForm();
 });
