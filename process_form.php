@@ -1,74 +1,113 @@
 <?php
-session_start();
+header('Content-Type: application/json');
+$errors = []; // Array to store validation errors
 
-function validateInput($data) {
-    return htmlspecialchars(stripslashes(trim($data)));
+// Validate Name
+if (empty($_POST['name'])) {
+    $errors['name'] = "Name is required";
+} else {
+    $name = test_input($_POST['name']);
+    if (!preg_match("/^[a-zA-Z ]*$/", $name)) {
+        $errors['name'] = "Only letters and white space allowed";
+    }
 }
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $name = validateInput($_POST["name"]);
-    $email = validateInput($_POST["email"]);
-    $password = validateInput($_POST["password"]);
-    $confirmPassword = validateInput($_POST["confirmPassword"]);
-    $dob = validateInput($_POST["dob"]);
-    $gender = validateInput($_POST["gender"]);
-    $age_confirmation = validateInput($_POST["age"]);
-    $terms = isset($_POST["terms"]) ? true : false;
-
-    $errors = [];
-
-    if (empty($name)) {
-        $errors[] = "Name is required";
-    }
+// Validate Email
+if (empty($_POST['email'])) {
+    $errors['email'] = "Email is required";
+} else {
+    $email = test_input($_POST['email']);
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $errors[] = "Invalid email format";
-    }
-    if (strlen($password) < 8) {
-        $errors[] = "Password must be at least 8 characters long";
-    }
-    if ($password !== $confirmPassword) {
-        $errors[] = "Passwords do not match";
-    }
-    if (empty($dob)) {
-        $errors[] = "Date of birth is required";
-    }
-    if (empty($gender)) {
-        $errors[] = "Gender is required";
-    }
-    if (empty($age_confirmation)) {
-        $errors[] = "Please confirm if you are 18+";
-    }
-    if (!$terms) {
-        $errors[] = "You must agree to the terms and conditions";
-    }
-
-    if (empty($errors)) {
-        // Hash the password
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
-
-        // Database connection
-        $conn = new mysqli("localhost", "root", "", "dashboard_form");
-
-        if ($conn->connect_error) {
-            die("Connection failed: " . $conn->connect_error);
-        }
-
-        // Insert new user data into the database
-        $sql = "INSERT INTO users (name, email, password, dob, gender, age) VALUES ('$name', '$email', '$hashedPassword', '$dob', '$gender', '$age_confirmation')";
-
-        if ($conn->query($sql) === TRUE) {
-            $_SESSION['user_email'] = $email;
-            header("Location: login.html");
-            exit();
-        } else {
-            echo "Error: " . $sql . "<br>" . $conn->error;
-        }
-
-        $conn->close();
-    } else {
-        foreach ($errors as $error) {
-            echo $error . "<br>";
-        }
+        $errors['email'] = "Invalid email format";
     }
 }
-?>
+
+// Validate Password
+if (empty($_POST['password'])) {
+    $errors['password'] = "Password is required";
+} else {
+    $password = test_input($_POST['password']);
+    // Check if password is at least 8 characters long and contains a mix of letters, numbers, and special characters
+    if (!preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/", $password)) {
+        $errors['password'] = "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character";
+    }
+}
+
+// Validate Confirm Password
+if (empty($_POST['confirmPassword'])) {
+    $errors['confirmPassword'] = "Confirm Password is required";
+} else {
+    $confirmPassword = test_input($_POST['confirmPassword']);
+    if ($password !== $confirmPassword) {
+        $errors['confirmPassword'] = "Passwords do not match";
+    }
+}
+
+// Validate Date of Birth
+if (empty($_POST['dob'])) {
+    $errors['dob'] = "Date of Birth is required";
+} else {
+    $dob = test_input($_POST['dob']);
+    // You can add additional validation for date format if needed
+}
+
+// Validate Gender
+if (empty($_POST['gender'])) {
+    $errors['gender'] = "Gender is required";
+} else {
+    $gender = test_input($_POST['gender']);
+}
+
+// Validate 18+
+if (empty($_POST['age'])) {
+    $errors['age'] = "Age confirmation is required";
+} else {
+    $age_confirmation = test_input($_POST['age']);
+}
+
+// If there are no validation errors, proceed with database insertion
+if (empty($errors)) {
+    $servername = "localhost";
+    $username = "root";
+    $password = "";
+    $dbname = "dashboard_form";
+
+    // Get form data
+    $name = $_POST['name'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $dob = $_POST['dob'];
+    $gender = $_POST['gender'];
+    $age_confirmation = $_POST['age_confirmation'];
+
+    // Create connection
+    $conn = new mysqli($servername, $username, $password, $dbname);
+
+    // Check connection
+    if ($conn->connect_error) {
+        die("Connection failed: " . $conn->connect_error);
+    }
+
+    // Prepare and bind
+    $stmt = $conn->prepare("INSERT INTO users (name, email, password, dob, gender, age_confirmation) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssss", $name, $email, $hashed_password, $dob, $gender, $age_confirmation);
+
+    // Execute the statement
+    if ($stmt->execute()) {
+        echo json_encode(['success' => true, 'message' => 'User registered successfully']);
+    } else {
+        echo json_encode(['success' => false, 'message' => 'Error: ' . $stmt->error]);
+    }
+
+
+    $stmt->close();
+    $conn->close();
+}
+
+// Function to sanitize and validate input data
+function test_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+}
