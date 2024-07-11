@@ -15,11 +15,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Database connection details
     $servername = "localhost";
     $username = "root";
-    $password = "";
+    $db_password = ""; 
     $dbname = "dashboard_form";
 
     // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
+    $conn = new mysqli($servername, $username, $db_password, $dbname);
 
     // Check connection
     if ($conn->connect_error) {

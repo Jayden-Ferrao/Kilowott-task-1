@@ -1,5 +1,11 @@
 <?php
+session_start();
 $errors = []; // Array to store validation errors
+
+// Function to sanitize and validate input data
+function test_input($data) {
+    return htmlspecialchars(stripslashes(trim($data)));
+}
 
 // Validate Name
 if (empty($_POST['name'])) {
@@ -68,11 +74,11 @@ if (empty($_POST['age'])) {
 if (empty($errors)) {
     $servername = "localhost"; 
     $username = "root"; 
-    $password = ""; 
+    $db_password = ""; // Renamed to avoid conflict with user password
     $dbname = "dashboard_form"; 
 
     // Create connection
-    $conn = new mysqli($servername, $username, $password, $dbname);
+    $conn = new mysqli($servername, $username, $db_password, $dbname);
 
     // Check connection
     if ($conn->connect_error) {
@@ -105,13 +111,5 @@ if (empty($errors)) {
     foreach ($errors as $error) {
         echo $error . "<br>";
     }
-}
-
-// Function to sanitize and validate input data
-function test_input($data) {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
 }
 ?>
