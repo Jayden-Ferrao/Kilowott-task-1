@@ -1,4 +1,4 @@
-//toggle for signup and login
+//toogle for signup and login
 document.getElementById('toggleFormBtn').addEventListener('click', function () {
     const signUpForm = document.getElementById('signUpForm');
     const loginForm = document.getElementById('loginForm');
@@ -13,7 +13,7 @@ document.getElementById('toggleFormBtn').addEventListener('click', function () {
     }
 });
 
-//toggle for eye-icon
+//toogle for eye-icon
 document.querySelectorAll('.toggle-password-icon').forEach(icon => {
     icon.addEventListener('click', function () {
         const input = this.previousElementSibling;
@@ -75,30 +75,17 @@ document.querySelectorAll('.toggle-confirm-password-icon').forEach(icon => {
 //     return fileItem;
 // }
 
-// Validation for email & password
-function validateEmail(email) {
-    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    return regex.test(email);
-}
-
-function validatePassword(password) {
-    const regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
-    return regex.test(password);
-}
-
 // Validation for sign up form
 function validateSignUpForm() {
-        const name = document.getElementById('name').value;
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     const confirmPassword = document.getElementById('confirmPassword').value;
-    const dob = document.getElementById('dob').value;
-    const gender = document.querySelector('input[name="gender"]:checked').value;
     const age = document.querySelector('input[name="age"]:checked').value;
 
     const emailError = document.getElementById('emailError');
     const passwordError = document.getElementById('passwordError');
     const confirmPasswordError = document.getElementById('confirmPasswordError');
+    const ageError = document.getElementById('ageError');
 
     let valid = true;
 
@@ -123,37 +110,21 @@ function validateSignUpForm() {
         confirmPasswordError.classList.add('hidden');
     }
 
-    if (valid) {
-        const formData = new FormData();
-        formData.append('name', name);
-        formData.append('email', email);
-        formData.append('password', password);
-        formData.append('confirmPassword', confirmPassword);
-        formData.append('dob', dob);
-        formData.append('gender', gender);
-        formData.append('age', age);
+    if (age !== 'yes') {
+        ageError.classList.remove('hidden');
+        valid = false;
+    } else {
+        ageError.classList.add('hidden');
+    }
 
-        fetch('process_form.php', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('User registered successfully');
-                document.getElementById('toggleFormBtn').click(); // Switch to login form
-            } else {
-                alert(data.message);
-            }
-        })
-        .catch(error => console.error('Error:', error));
+    if (valid) {
+        alert('Form submitted!');
+        // Here you can submit the form data using fetch or any other method
     }
 
     return valid;
 }
 
-
-// Validate Login Form
 function validateLoginForm() {
     const email = document.getElementById('loginEmail').value;
     const password = document.getElementById('loginPassword').value;
@@ -178,35 +149,9 @@ function validateLoginForm() {
     }
 
     if (valid) {
-        const formData = new FormData();
-        formData.append('loginEmail', email);
-        formData.append('loginPassword', password);
-
-        fetch('enter_form.php', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('Logged in successfully!');
-                window.location.href = 'dashboard.html';
-            } else {
-                alert(data.message);
-            }
-        })
-        .catch(error => console.error('Error:', error));
+        alert('Logged in successfully!');
+        // Here you can redirect the user or perform further actions
     }
 
     return valid;
 }
-
-document.getElementById('signUpForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-    validateSignUpForm();
-});
-
-document.getElementById('loginForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-    validateLoginForm();
-});
