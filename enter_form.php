@@ -1,78 +1,60 @@
 <?php
-header('Content-Type: application/json');
-session_start(); // Start the session
+session_start();
 
-$loginErrors = [];
-
-// Validate Email
-if (empty($_POST['loginEmail'])) {
-    $loginErrors['email'] = "Email is required";
-} else {
-    $loginEmail = test_input($_POST['loginEmail']);
-    if (!filter_var($loginEmail, FILTER_VALIDATE_EMAIL)) {
-        $loginErrors['email'] = "Invalid email format";
-    }
+// Function to validate and sanitize input data
+function validateInput($data) {
+    return htmlspecialchars(stripslashes(trim($data)));
 }
 
-// Validate Password
-if (empty($_POST['loginPassword'])) {
-    $loginErrors['password'] = "Password is required";
-} else {
-    $loginPassword = test_input($_POST['loginPassword']);
-}
+// Handle login form submission
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Validate and sanitize form inputs
+    $email = validateInput($_POST["loginEmail"]);
+    $password = validateInput($_POST["loginPassword"]);
 
-// If there are no validation errors, proceed with checking credentials
-if (empty($loginErrors)) {
+    // Database connection details
     $servername = "localhost";
     $username = "root";
     $password = "";
     $dbname = "dashboard_form";
-    
-    // Get form data
-    $email = $_POST['email'];
-    $password = $_POST['password'];
 
     // Create connection
     $conn = new mysqli($servername, $username, $password, $dbname);
 
     // Check connection
     if ($conn->connect_error) {
-        echo json_encode(['success' => false, 'message' => 'Connection failed: ' . $conn->connect_error]);
-        exit();
+        die("Connection failed: " . $conn->connect_error);
     }
 
-    // Prepare and bind
-    $stmt = $conn->prepare("SELECT password FROM users WHERE email = ?");
-    $stmt->bind_param("s", $loginEmail);
-
-    // Execute the statement
+    // Prepare SELECT statement using prepared statement
+    $stmt = $conn->prepare("SELECT email, password FROM users WHERE email = ?");
+    $stmt->bind_param("s", $email);
     $stmt->execute();
     $stmt->store_result();
-    if ($stmt->num_rows > 0) {
-        $stmt->bind_result($hashed_password);
+
+    // Check if user exists
+    if ($stmt->num_rows == 1) {
+        // Bind result variables
+        $stmt->bind_result($db_email, $db_password);
         $stmt->fetch();
-        if (password_verify($loginPassword, $hashed_password)) {
-            // Set session variables
-            $_SESSION['user'] = $loginEmail;
-            echo json_encode(['success' => true, 'message' => 'Login successful']);
+
+        // Verify hashed password
+        if (password_verify($password, $db_password)) {
+            // Password correct, set session and redirect or perform further actions
+            $_SESSION['user_email'] = $email;
+            echo "Login successful!";
+            // Redirect or perform further actions after successful login
         } else {
-            echo json_encode(['success' => false, 'message' => 'Invalid email or password']);
+            // Incorrect password
+            echo "Incorrect password!";
         }
     } else {
-        echo json_encode(['success' => false, 'message' => 'Invalid email or password']);
+        // User not found
+        echo "User not found!";
     }
 
+    // Close statement and connection
     $stmt->close();
     $conn->close();
-} else {
-    echo json_encode(['success' => false, 'message' => 'Validation errors', 'errors' => $loginErrors]);
-}
-
-// Function to sanitize and validate input data
-function test_input($data) {
-    $data = trim($data);
-    $data = stripslashes($data);
-    $data = htmlspecialchars($data);
-    return $data;
 }
 ?>

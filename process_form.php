@@ -1,11 +1,14 @@
 <?php
 session_start();
 
+// Function to validate and sanitize input data
 function validateInput($data) {
     return htmlspecialchars(stripslashes(trim($data)));
 }
 
+// Handle form submission
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Validate and sanitize form inputs
     $name = validateInput($_POST["name"]);
     $email = validateInput($_POST["email"]);
     $password = validateInput($_POST["password"]);
@@ -13,10 +16,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $dob = validateInput($_POST["dob"]);
     $gender = validateInput($_POST["gender"]);
     $age_confirmation = validateInput($_POST["age"]);
-    $terms = isset($_POST["terms"]) ? true : false;
 
+    // Array to store validation errors
     $errors = [];
 
+    // Basic validation checks
     if (empty($name)) {
         $errors[] = "Name is required";
     }
@@ -35,37 +39,49 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (empty($gender)) {
         $errors[] = "Gender is required";
     }
-    if (empty($age_confirmation)) {
+    if (empty($age_confirmation) || $age_confirmation !== 'yes') {
         $errors[] = "Please confirm if you are 18+";
     }
-    if (!$terms) {
-        $errors[] = "You must agree to the terms and conditions";
-    }
 
+    // If no validation errors, proceed with database insertion
     if (empty($errors)) {
         // Hash the password
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
-        // Database connection
-        $conn = new mysqli("localhost", "root", "", "dashboard_form");
+        // Database connection details
+        $servername = "localhost";
+        $username = "root";
+        $password = "";
+        $dbname = "dashboard_form";
 
+        // Create connection
+        $conn = new mysqli($servername, $username, $password, $dbname);
+
+        // Check connection
         if ($conn->connect_error) {
             die("Connection failed: " . $conn->connect_error);
         }
 
-        // Insert new user data into the database
-        $sql = "INSERT INTO users (name, email, password, dob, gender, age) VALUES ('$name', '$email', '$hashedPassword', '$dob', '$gender', '$age_confirmation')";
+        // Prepare INSERT statement using prepared statement
+        $stmt = $conn->prepare("INSERT INTO users (name, email, password, dob, gender, age) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssss", $name, $email, $hashedPassword, $dob, $gender, $age_confirmation);
 
-        if ($conn->query($sql) === TRUE) {
+        // Execute the statement
+        if ($stmt->execute()) {
+            // Registration successful, set session and redirect to login page
             $_SESSION['user_email'] = $email;
             header("Location: login.html");
             exit();
         } else {
-            echo "Error: " . $sql . "<br>" . $conn->error;
+            // Display error message if execution fails
+            echo "Error: " . $stmt->error;
         }
 
+        // Close statement and connection
+        $stmt->close();
         $conn->close();
     } else {
+        // Display validation errors
         foreach ($errors as $error) {
             echo $error . "<br>";
         }

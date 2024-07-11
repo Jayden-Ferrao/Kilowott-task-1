@@ -85,7 +85,6 @@ function validateSignUpForm() {
     const emailError = document.getElementById('emailError');
     const passwordError = document.getElementById('passwordError');
     const confirmPasswordError = document.getElementById('confirmPasswordError');
-    const ageError = document.getElementById('ageError');
 
     let valid = true;
 
@@ -118,7 +117,7 @@ function validateSignUpForm() {
     }
 
     if (valid) {
-        alert('Form submitted!');
+        alert('Form submitted succesfully!');
         // Here you can submit the form data using fetch or any other method
     }
 
