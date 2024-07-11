@@ -1,8 +1,7 @@
-// Toggle for signup and login
+//toogle for signup and login
 document.getElementById('toggleFormBtn').addEventListener('click', function () {
     const signUpForm = document.getElementById('signUpForm');
     const loginForm = document.getElementById('loginForm');
-    
     if (signUpForm.classList.contains('hidden')) {
         signUpForm.classList.remove('hidden');
         loginForm.classList.add('hidden');
@@ -87,7 +86,7 @@ function validatePassword(password) {
     return regex.test(password);
 }
 
-// Validate Sign Up Form
+// Validation for sign up form
 function validateSignUpForm() {
     const name = document.getElementById('name').value;
     const email = document.getElementById('email').value;
@@ -142,15 +141,17 @@ function validateSignUpForm() {
         .then(data => {
             if (data.success) {
                 alert('User registered successfully');
-                window.location.href = 'login.html'; // Redirect to login page
+                document.getElementById('toggleFormBtn').click(); // Switch to login form
             } else {
                 alert(data.message);
             }
         })
+        .catch(error => console.error('Error:', error));
     }
 
     return valid;
 }
+
 
 // Validate Login Form
 function validateLoginForm() {
@@ -200,7 +201,6 @@ function validateLoginForm() {
     return valid;
 }
 
-// Event listeners for form submissions
 document.getElementById('signUpForm').addEventListener('submit', function (e) {
     e.preventDefault();
     validateSignUpForm();
