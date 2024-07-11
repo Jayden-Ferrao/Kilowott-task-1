@@ -129,8 +129,7 @@ function validateSignUpForm() {
     }
 
     if (valid) {
-        // Simulate form submission
-        alert('Form submitted successfully!');
+        // alert('Form submitted successfully!');
         // Redirect after submission
         window.location.href = 'login.html';
     }
@@ -162,7 +161,6 @@ function validateLoginForm() {
     }
 
     if (valid) {
-        // Simulate login 
         // alert('Logged in successfully!');
         // Redirect after login
         window.location.href = 'dashboard.html';

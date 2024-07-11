@@ -47,11 +47,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             exit;
         } else {
             // Incorrect password
-            echo "Incorrect password!";
+            echo "<script>alert('Incorrect password!'); window.location.href='login.html';</script>";
         }
     } else {
         // User not found
-        echo "User not found!";
+        echo "<script>alert('User not found!'); window.location.href='login.html';</script>";
     }
 
     // Close statement and connection

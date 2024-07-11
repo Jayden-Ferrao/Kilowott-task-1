@@ -89,7 +89,10 @@ if (empty($errors)) {
     // Execute the statement
     if ($stmt->execute()) {
         // Redirect to login.html after successful insertion
-        header("Location: login.html");
+        echo "<script>
+        alert('Form submitted successfully!');
+        window.location.href='login.html';
+        </script>";
         exit();
     } else {
         echo "Error: " . $stmt->error;
