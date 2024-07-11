@@ -163,7 +163,7 @@ function validateLoginForm() {
 
     if (valid) {
         // Simulate login 
-        alert('Logged in successfully!');
+        // alert('Logged in successfully!');
         // Redirect after login
         window.location.href = 'dashboard.html';
     }
