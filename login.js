@@ -1,47 +1,39 @@
-//toogle for signup and login
-document.getElementById('toggleFormBtn').addEventListener('click', function () {
-    const signUpForm = document.getElementById('signUpForm');
-    const loginForm = document.getElementById('loginForm');
-    if (signUpForm.classList.contains('hidden')) {
-        signUpForm.classList.remove('hidden');
-        loginForm.classList.add('hidden');
-        this.textContent = 'Already have an account? Login';
+// Toggle for signup and login
+$('#toggleFormBtn').on('click', function () {
+    const $signUpForm = $('#signUpForm');
+    const $loginForm = $('#loginForm');
+    if ($signUpForm.hasClass('hidden')) {
+        $signUpForm.removeClass('hidden');
+        $loginForm.addClass('hidden');
+        $(this).text('Already have an account? Login');
     } else {
-        signUpForm.classList.add('hidden');
-        loginForm.classList.remove('hidden');
-        this.textContent = "Don't have an account? Sign Up";
+        $signUpForm.addClass('hidden');
+        $loginForm.removeClass('hidden');
+        $(this).text("Don't have an account? Sign Up");
     }
 });
 
-//toogle for eye-icon
-document.querySelectorAll('.toggle-password-icon').forEach(icon => {
-    icon.addEventListener('click', function () {
-        const input = this.previousElementSibling;
-        if (input.type === 'password') {
-            input.type = 'text';
-            this.classList.remove('bi-eye-slash-fill');
-            this.classList.add('bi-eye-fill');
-        } else {
-            input.type = 'password';
-            this.classList.remove('bi-eye-fill');
-            this.classList.add('bi-eye-slash-fill');
-        }
-    });
+// Toggle for eye-icon
+$('.toggle-password-icon').on('click', function () {
+    const $input = $(this).prev();
+    if ($input.attr('type') === 'password') {
+        $input.attr('type', 'text');
+        $(this).removeClass('bi-eye-slash-fill').addClass('bi-eye-fill');
+    } else {
+        $input.attr('type', 'password');
+        $(this).removeClass('bi-eye-fill').addClass('bi-eye-slash-fill');
+    }
 });
 
-document.querySelectorAll('.toggle-confirm-password-icon').forEach(icon => {
-    icon.addEventListener('click', function () {
-        const input = this.previousElementSibling;
-        if (input.type === 'password') {
-            input.type = 'text';
-            this.classList.remove('bi-eye-slash-fill');
-            this.classList.add('bi-eye-fill');
-        } else {
-            input.type = 'password';
-            this.classList.remove('bi-eye-fill');
-            this.classList.add('bi-eye-slash-fill');
-        }
-    });
+$('.toggle-confirm-password-icon').on('click', function () {
+    const $input = $(this).prev();
+    if ($input.attr('type') === 'password') {
+        $input.attr('type', 'text');
+        $(this).removeClass('bi-eye-slash-fill').addClass('bi-eye-fill');
+    } else {
+        $input.attr('type', 'password');
+        $(this).removeClass('bi-eye-fill').addClass('bi-eye-slash-fill');
+    }
 });
 
 // for uploading files
@@ -88,39 +80,39 @@ function validatePassword(password) {
 
 // Validation for sign up form
 function validateSignUpForm() {
-    const name = document.getElementById('name').value;
-    const email = document.getElementById('email').value;
-    const password = document.getElementById('password').value;
-    const confirmPassword = document.getElementById('confirmPassword').value;
-    const dob = document.getElementById('dob').value;
-    const gender = document.querySelector('input[name="gender"]:checked').value;
-    const age = document.querySelector('input[name="age"]:checked').value;
+    const name = $('#name').val();
+    const email = $('#email').val();
+    const password = $('#password').val();
+    const confirmPassword = $('#confirmPassword').val();
+    const dob = $('#dob').val();
+    const gender = $('input[name="gender"]:checked').val();
+    const age = $('input[name="age"]:checked').val();
 
-    const emailError = document.getElementById('emailError');
-    const passwordError = document.getElementById('passwordError');
-    const confirmPasswordError = document.getElementById('confirmPasswordError');
+    const $emailError = $('#emailError');
+    const $passwordError = $('#passwordError');
+    const $confirmPasswordError = $('#confirmPasswordError');
 
     let valid = true;
 
     if (!validateEmail(email)) {
-        emailError.classList.remove('hidden');
+        $emailError.removeClass('hidden');
         valid = false;
     } else {
-        emailError.classList.add('hidden');
+        $emailError.addClass('hidden');
     }
 
     if (!validatePassword(password)) {
-        passwordError.classList.remove('hidden');
+        $passwordError.removeClass('hidden');
         valid = false;
     } else {
-        passwordError.classList.add('hidden');
+        $passwordError.addClass('hidden');
     }
 
     if (password !== confirmPassword) {
-        confirmPasswordError.classList.remove('hidden');
+        $confirmPasswordError.removeClass('hidden');
         valid = false;
     } else {
-        confirmPasswordError.classList.add('hidden');
+        $confirmPasswordError.addClass('hidden');
     }
 
     if (valid) {
@@ -133,48 +125,52 @@ function validateSignUpForm() {
         formData.append('gender', gender);
         formData.append('age', age);
 
-        fetch('process_form.php', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('User registered successfully');
-                document.getElementById('toggleFormBtn').click(); // Switch to login form
-            } else {
-                alert(data.message);
+        $.ajax({
+            url: 'process_form.php',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                data = JSON.parse(data);
+                if (data.success) {
+                    alert('User registered successfully');
+                    $('#toggleFormBtn').click(); // Switch to login form
+                } else {
+                    alert(data.message);
+                }
+            },
+            error: function (error) {
+                console.error('Error:', error);
             }
-        })
-        .catch(error => console.error('Error:', error));
+        });
     }
 
     return valid;
 }
 
-
 // Validate Login Form
 function validateLoginForm() {
-    const email = document.getElementById('loginEmail').value;
-    const password = document.getElementById('loginPassword').value;
+    const email = $('#loginEmail').val();
+    const password = $('#loginPassword').val();
 
-    const emailError = document.getElementById('loginEmailError');
-    const passwordError = document.getElementById('loginPasswordError');
+    const $emailError = $('#loginEmailError');
+    const $passwordError = $('#loginPasswordError');
 
     let valid = true;
 
     if (!validateEmail(email)) {
-        emailError.classList.remove('hidden');
+        $emailError.removeClass('hidden');
         valid = false;
     } else {
-        emailError.classList.add('hidden');
+        $emailError.addClass('hidden');
     }
 
     if (!validatePassword(password)) {
-        passwordError.classList.remove('hidden');
+        $passwordError.removeClass('hidden');
         valid = false;
     } else {
-        passwordError.classList.add('hidden');
+        $passwordError.addClass('hidden');
     }
 
     if (valid) {
@@ -182,31 +178,36 @@ function validateLoginForm() {
         formData.append('loginEmail', email);
         formData.append('loginPassword', password);
 
-        fetch('enter_form.php', {
-            method: 'POST',
-            body: formData
-        })
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                alert('Logged in successfully!');
-                window.location.href = 'dashboard.html';
-            } else {
-                alert(data.message);
+        $.ajax({
+            url: 'enter_form.php',
+            type: 'POST',
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                data = JSON.parse(data);
+                if (data.success) {
+                    alert('Logged in successfully!');
+                    window.location.href = 'dashboard.html';
+                } else {
+                    alert(data.message);
+                }
+            },
+            error: function (error) {
+                console.error('Error:', error);
             }
-        })
-        .catch(error => console.error('Error:', error));
+        });
     }
 
     return valid;
 }
 
-document.getElementById('signUpForm').addEventListener('submit', function (e) {
+$('#signUpForm').on('submit', function (e) {
     e.preventDefault();
     validateSignUpForm();
 });
 
-document.getElementById('loginForm').addEventListener('submit', function (e) {
+$('#loginForm').on('submit', function (e) {
     e.preventDefault();
     validateLoginForm();
 });
