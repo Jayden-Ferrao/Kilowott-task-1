@@ -41,7 +41,7 @@ $(document).ready(function () {
         }
     });
 
-    // jQuery Validation for Login Form
+// jQuery Validation for Login Form$(document).ready(function () {
     $("#loginForm").validate({
         rules: {
             loginEmail: {
@@ -62,6 +62,23 @@ $(document).ready(function () {
                 required: "Please enter your password",
                 minlength: "Your password must be at least 8 characters long"
             }
+        },
+        submitHandler: function (form) {
+            $.ajax({
+                url: form.action,
+                type: form.method,
+                data: $(form).serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        window.location.href = "dashboard.html";
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert("An error occurred: " + error);
+                }
+            });
         }
     });
 });
