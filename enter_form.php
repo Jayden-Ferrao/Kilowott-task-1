@@ -1,15 +1,9 @@
 <?php
 session_start();
-header('Content-Type: application/json');
 
 function validateInput($data) {
     return htmlspecialchars(stripslashes(trim($data)));
 }
-
-$response = [
-    'success' => false,
-    'message' => ''
-];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = validateInput($_POST["loginEmail"]);
@@ -29,9 +23,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $conn = new mysqli("localhost", "root", "", "dashboard_form");
 
         if ($conn->connect_error) {
-            $response['message'] = "Connection failed: " . $conn->connect_error;
-            echo json_encode($response);
-            exit();
+            die("Connection failed: " . $conn->connect_error);
         }
 
         // Check if the email exists in the database
@@ -42,22 +34,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $row = $result->fetch_assoc();
             if (password_verify($password, $row['password'])) {
                 $_SESSION['user_email'] = $email;
-                $response['success'] = true;
-                $response['message'] = "Login successful";
-                echo json_encode($response);
+                header("Location: dashboard.html");
                 exit();
             } else {
-                $response['message'] = "Invalid password.";
+                echo "Invalid password.";
             }
         } else {
-            $response['message'] = "Invalid email.";
+            echo "Invalid email.";
         }
 
         $conn->close();
     } else {
-        $response['message'] = implode("\n", $errors);
+        foreach ($errors as $error) {
+            echo $error . "<br>";
+        }
     }
 }
-
-echo json_encode($response);
 ?>
