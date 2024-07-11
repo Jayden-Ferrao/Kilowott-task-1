@@ -1,4 +1,4 @@
-//toogle for signup and login
+//toggle for signup and login
 document.getElementById('toggleFormBtn').addEventListener('click', function () {
     const signUpForm = document.getElementById('signUpForm');
     const loginForm = document.getElementById('loginForm');
@@ -13,7 +13,7 @@ document.getElementById('toggleFormBtn').addEventListener('click', function () {
     }
 });
 
-//toogle for eye-icon
+//toggle for eye-icon
 document.querySelectorAll('.toggle-password-icon').forEach(icon => {
     icon.addEventListener('click', function () {
         const input = this.previousElementSibling;
@@ -74,6 +74,18 @@ document.querySelectorAll('.toggle-confirm-password-icon').forEach(icon => {
 //     });
 //     return fileItem;
 // }
+
+// Validate Email
+function validateEmail(email) {
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+}
+
+// Validate Password
+function validatePassword(password) {
+    const regex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
+    return regex.test(password);
+}
 
 // Validation for sign up form
 function validateSignUpForm() {
