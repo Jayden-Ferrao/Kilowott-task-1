@@ -1,4 +1,43 @@
 $(document).ready(function () {
+    // Toggle between Signup and Login forms
+    $('#toggleFormBtn').on('click', function () {
+        const signUpForm = $('#signUpForm');
+        const loginForm = $('#loginForm');
+        
+        if (signUpForm.hasClass('hidden')) {
+            signUpForm.removeClass('hidden');
+            loginForm.addClass('hidden');
+            $(this).text('Already have an account? Login');
+        } else {
+            signUpForm.addClass('hidden');
+            loginForm.removeClass('hidden');
+            $(this).text("Don't have an account? Sign Up");
+        }
+    });
+
+    // Toggle for eye-icon
+    $('.toggle-password-icon').on('click', function () {
+        const input = $(this).prev('input');
+        if (input.attr('type') === 'password') {
+            input.attr('type', 'text');
+            $(this).removeClass('bi-eye-slash-fill').addClass('bi-eye-fill');
+        } else {
+            input.attr('type', 'password');
+            $(this).removeClass('bi-eye-fill').addClass('bi-eye-slash-fill');
+        }
+    });
+
+    $('.toggle-confirm-password-icon').on('click', function () {
+        const input = $(this).prev('input');
+        if (input.attr('type') === 'password') {
+            input.attr('type', 'text');
+            $(this).removeClass('bi-eye-slash-fill').addClass('bi-eye-fill');
+        } else {
+            input.attr('type', 'password');
+            $(this).removeClass('bi-eye-fill').addClass('bi-eye-slash-fill');
+        }
+    });
+
     // jQuery Validation for Signup Form
     $("#signUpForm").validate({
         rules: {
@@ -41,7 +80,7 @@ $(document).ready(function () {
         }
     });
 
-    // jQuery Validation for Login Form
+    // jQuery Validation for Login Form with AJAX submission
     $("#loginForm").validate({
         rules: {
             loginEmail: {
@@ -62,6 +101,23 @@ $(document).ready(function () {
                 required: "Please enter your password",
                 minlength: "Your password must be at least 8 characters long"
             }
+        },
+        submitHandler: function (form) {
+            $.ajax({
+                url: form.action,
+                type: form.method,
+                data: $(form).serialize(),
+                success: function (response) {
+                    if (response.success) {
+                        window.location.href = "dashboard.html";
+                    } else {
+                        alert(response.message);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    alert("An error occurred: " + error);
+                }
+            });
         }
     });
 });
