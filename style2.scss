@@ -64,6 +64,18 @@ $breakpoint-xl: 1200px;
     }
 }
 
+@mixin breakpoint($breakpoint) {
+    @if $breakpoint == sm {
+        @media (max-width: $breakpoint-sm) { @content; }
+    } @else if $breakpoint == md {
+        @media (max-width: $breakpoint-md) { @content; }
+    } @else if $breakpoint == lg {
+        @media (max-width: $breakpoint-lg) { @content; }
+    } @else if $breakpoint == xl {
+        @media (max-width: $breakpoint-xl) { @content; }
+    }
+}
+
 // Base Styles
 body {
     font-size: $font-size-base;
@@ -210,7 +222,7 @@ body {
 
 // Media Queries
 @include responsive-margin($breakpoint-lg, $margin-medium);
-@media (max-width: 992px) {
+@include breakpoint(lg) {
     .navbar-nav .dropdown-menu {
         position: static !important; /* Override Bootstrap's absolute positioning */
         float: none; 
@@ -225,6 +237,7 @@ body {
         margin-top: -1px; /* Adjust the margin to prevent overlapping */
     }
 }
+
 // Mega Menu
 .mega-menu {
     position: absolute;
