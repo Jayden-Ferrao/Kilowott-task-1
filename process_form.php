@@ -26,7 +26,6 @@ if (empty($_POST['password'])) {
     $errors['password'] = "Password is required";
 } else {
     $password = test_input($_POST['password']);
-    // Check if password is at least 8 characters long and contains a mix of letters, numbers, and special characters
     if (!preg_match("/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/", $password)) {
         $errors['password'] = "Password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character";
     }
@@ -47,7 +46,7 @@ if (empty($_POST['dob'])) {
     $errors['dob'] = "Date of Birth is required";
 } else {
     $dob = test_input($_POST['dob']);
-    // You can add additional validation for date format if needed
+    //additional validation for date format if needed
 }
 
 // Validate Gender
@@ -62,6 +61,7 @@ if (empty($_POST['age'])) {
     $errors['age'] = "Age confirmation is required";
 } else {
     $age_confirmation = test_input($_POST['age']);
+    //additional validation for age if needed
 }
 
 // If there are no validation errors, proceed with database insertion

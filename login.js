@@ -129,8 +129,10 @@ function validateSignUpForm() {
     }
 
     if (valid) {
-        alert('Form submitted succesfully!');
-        // Here you can submit the form data using fetch or any other method
+        // Simulate form submission
+        alert('Form submitted successfully!');
+        // Redirect after submission
+        window.location.href = 'login.html';
     }
 
     return valid;
@@ -160,8 +162,10 @@ function validateLoginForm() {
     }
 
     if (valid) {
+        // Simulate login 
         alert('Logged in successfully!');
-        // Here you can redirect the user or perform further actions
+        // Redirect after login
+        window.location.href = 'dashboard.html';
     }
 
     return valid;

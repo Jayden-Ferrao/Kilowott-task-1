@@ -40,10 +40,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         // Verify hashed password
         if (password_verify($password, $db_password)) {
-            // Password correct, set session and redirect or perform further actions
+            // Password correct, set session and redirect
             $_SESSION['user_email'] = $email;
-            echo "Login successful!";
-            // Redirect or perform further actions after successful login
+            // Redirect to dashboard.html
+            header('Location: dashboard.html');
+            exit;
         } else {
             // Incorrect password
             echo "Incorrect password!";
