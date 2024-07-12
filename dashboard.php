@@ -1,3 +1,19 @@
+<?php
+session_set_cookie_params(0, '/', '', false, true);
+session_start();
+// Check if user is not logged in
+if (!isset($_SESSION['user_name'])) {
+    // Redirect to login page or display message
+    echo "<script>
+            alert('Please log in to continue.');
+            window.location.href = 'login.html'; // Redirect to the login page
+          </script>";
+    exit(); // Stop further execution
+}
+?>
+
+
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -68,7 +84,7 @@
                         Profile</a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
                         <a class="dropdown-item" href=""><i class="fas fa-cog"></i> Settings</a>
-                        <a class="dropdown-item" href="login.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                        <a class="dropdown-item" href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>
                     </div>
                 </li>
             </ul>

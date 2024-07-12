@@ -43,8 +43,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["loginEmail"]) && isset
             // Password correct, set session and redirect
             $_SESSION['user_email'] = $email;
             $_SESSION['user_name'] = $db_name;
-            // Redirect to dashboard.html
-            echo "<script>alert('Logged in successfully as ".$_SESSION['user_name']."!'); window.location.href='dashboard.html';</script>";
+            // Redirect to dashboard.php
+            echo "<script>alert('Logged in successfully as ".$_SESSION['user_name']."!'); window.location.href='dashboard.php';</script>";
             exit;
         } else {
             // Incorrect password
@@ -59,17 +59,3 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["loginEmail"]) && isset
     $stmt->close();
     $conn->close();
 }
-
-// If not logged in and trying to access dashboard.html, redirect to login page
-if (!isset($_SESSION['user_email'])) {
-    echo "<script>alert('Please login to continue!'); window.location.href='login.html';</script>";
-    exit;
-}
-
-// Logout functionality
-if (isset($_GET['logout'])) {
-    session_destroy();
-    echo "<script>alert('Logged out successfully!'); window.location.href='login.html';</script>";
-    exit;
-}
-?>

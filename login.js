@@ -179,7 +179,7 @@ function validateLoginForm() {
     if (valid) {
         // alert('Logged in successfully!');
         // Redirect after login
-        window.location.href = 'dashboard.html';
+        window.location.href = 'dashboard.php';
     }
 
     return valid;
