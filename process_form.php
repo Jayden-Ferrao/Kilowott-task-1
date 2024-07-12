@@ -67,7 +67,6 @@ if (empty($_POST['gender'])) {
     $gender = test_input($_POST['gender']);
 }
 
-
 // If there are no validation errors, proceed with database insertion
 if (empty($errors)) {
     $servername = "localhost"; 

@@ -129,13 +129,6 @@ function validateSignUpForm() {
         dobError.classList.add('hidden');
     }
 
-    // if (filesData.length === 0) {
-    //     fileError.classList.remove('hidden');
-    //     valid = false;
-    // } else {
-    //     fileError.classList.add('hidden');
-    // }
-
     if (valid) {
         // alert('Form submitted successfully!');
         // Redirect after submission
@@ -145,13 +138,13 @@ function validateSignUpForm() {
     return valid;
 }
 
-// Validation for 18+ age
 function isValidAge(dob) {
     var dobDate = new Date(dob);
     var today = new Date();
     var age = today.getFullYear() - dobDate.getFullYear();
     var monthDifference = today.getMonth() - dobDate.getMonth();
 
+    // Adjust age if the birth month hasn't occurred yet this year
     if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < dobDate.getDate())) {
         age--;
     }
