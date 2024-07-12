@@ -52,7 +52,12 @@ if (empty($_POST['dob'])) {
     $errors['dob'] = "Date of Birth is required";
 } else {
     $dob = test_input($_POST['dob']);
-    //additional validation for date format if needed
+    $dobDate = new DateTime($dob);
+    $today = new DateTime();
+    $age = $today->diff($dobDate)->y;
+    if ($age < 18) {
+        $errors['dob'] = "You must be at least 18 years old.";
+    }
 }
 
 // Validate Gender
@@ -62,13 +67,6 @@ if (empty($_POST['gender'])) {
     $gender = test_input($_POST['gender']);
 }
 
-// Validate 18+
-if (empty($_POST['age'])) {
-    $errors['age'] = "Age confirmation is required";
-} else {
-    $age_confirmation = test_input($_POST['age']);
-    //additional validation for age if needed
-}
 
 // If there are no validation errors, proceed with database insertion
 if (empty($errors)) {
@@ -89,16 +87,13 @@ if (empty($errors)) {
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     // Prepare and bind
-    $stmt = $conn->prepare("INSERT INTO users (name, email, password, dob, gender, age_confirmation) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssss", $name, $email, $hashed_password, $dob, $gender, $age_confirmation);
+    $stmt = $conn->prepare("INSERT INTO users (name, email, password, dob, gender) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssss", $name, $email, $hashed_password, $dob, $gender);
 
     // Execute the statement
     if ($stmt->execute()) {
         // Redirect to login.html after successful insertion
-        echo "<script>
-        alert('Form submitted successfully!');
-        window.location.href='login.html';
-        </script>";
+        echo "<script>alert('Form submitted successfully!'); window.location.href='login.html';</script>";
         exit();
     } else {
         echo "Error: " . $stmt->error;

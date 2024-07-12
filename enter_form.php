@@ -43,7 +43,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             // Password correct, set session and redirect
             $_SESSION['user_email'] = $email;
             // Redirect to dashboard.html
-            header('Location: dashboard.html');
+            echo "<script>alert('Logged in succesfully!'); window.location.href='dashboard.html';</script>";
             exit;
         } else {
             // Incorrect password

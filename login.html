@@ -59,6 +59,7 @@
                     <label for="dob" class="block text-sm font-medium text-gray-700">Date of Birth</label>
                     <input type="date" id="dob" name="dob" required
                         class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:border-blue-500 focus:ring focus:ring-blue-500 focus:ring-opacity-50">
+                    <p id="dobError" class="text-red-500 text-sm hidden">You must be at least 18 years old.</p>
                 </div>
 
                 <!-- <div id="fileUploadContainer">
@@ -77,16 +78,6 @@
                         <label for="male" class="ml-2">Male</label>
                         <input type="radio" id="female" name="gender" value="female" required>
                         <label for="female" class="ml-2">Female</label>
-                    </div>
-                </div>
-
-                <div>
-                    <span class="block text-sm font-medium text-gray-700">Are you 18+?</span>
-                    <div class="mt-1">
-                        <input type="radio" id="yes" name="age" value="yes" required>
-                        <label for="yes" class="ml-2">Yes</label>
-                        <input type="radio" id="no" name="age" value="no" required>
-                        <label for="no" class="ml-2">No</label>
                     </div>
                 </div>
 

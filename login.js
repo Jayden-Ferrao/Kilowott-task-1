@@ -92,11 +92,12 @@ function validateSignUpForm() {
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     const confirmPassword = document.getElementById('confirmPassword').value;
-    const age = document.querySelector('input[name="age"]:checked').value;
+    const dob = document.getElementById('dob').value;
 
     const emailError = document.getElementById('emailError');
     const passwordError = document.getElementById('passwordError');
     const confirmPasswordError = document.getElementById('confirmPasswordError');
+    const dobError = document.getElementById('dobError');
 
     let valid = true;
 
@@ -121,12 +122,19 @@ function validateSignUpForm() {
         confirmPasswordError.classList.add('hidden');
     }
 
-    if (age !== 'yes') {
-        ageError.classList.remove('hidden');
+    if (!isValidAge(dob)) {
+        dobError.classList.remove('hidden');
         valid = false;
     } else {
-        ageError.classList.add('hidden');
+        dobError.classList.add('hidden');
     }
+
+    // if (filesData.length === 0) {
+    //     fileError.classList.remove('hidden');
+    //     valid = false;
+    // } else {
+    //     fileError.classList.add('hidden');
+    // }
 
     if (valid) {
         // alert('Form submitted successfully!');
@@ -137,6 +145,21 @@ function validateSignUpForm() {
     return valid;
 }
 
+// Validation for 18+ age
+function isValidAge(dob) {
+    var dobDate = new Date(dob);
+    var today = new Date();
+    var age = today.getFullYear() - dobDate.getFullYear();
+    var monthDifference = today.getMonth() - dobDate.getMonth();
+
+    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < dobDate.getDate())) {
+        age--;
+    }
+
+    return age >= 18;
+}
+
+// Validation for login form
 function validateLoginForm() {
     const email = document.getElementById('loginEmail').value;
     const password = document.getElementById('loginPassword').value;
