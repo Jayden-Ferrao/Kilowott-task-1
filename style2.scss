@@ -241,7 +241,7 @@ body {
 @include responsive-margin($breakpoint-lg, $margin-medium);
 @include breakpoint(lg) {
     .navbar-nav .dropdown-menu {
-        position: static !important; /* Override Bootstrap's absolute positioning */
+        position: static !important; /* Overrides Bootstrap's absolute positioning */
         float: none; 
         width: auto; 
         margin-top: 0.5rem; 
@@ -251,7 +251,7 @@ body {
     .dropdown-submenu .dropdown-menu {
         left: 100%; 
         top: 0; 
-        margin-top: -1px; /* Adjust the margin to prevent overlapping */
+        margin-top: -1px; /* Adjusted the margin to prevent overlapping */
     }
 }
 

@@ -32,7 +32,7 @@ $(document).ready(function() {
 
 // Toggle dropdown menu on hover for Menu
 $(document).ready(function() {
-    // Toggle dropdown menu on hover for menu
+    // Toggle dropdown menu on hover for larger screens
     $('.nav-item.dropdown').hover(function() {
         if ($(window).width() >= 992) {
             $(this).find('.dropdown-menu').first().stop(true, true).slideDown(250);
@@ -45,7 +45,7 @@ $(document).ready(function() {
         }
     });
 
-    // Toggle dropdown menu on hover for dropdown-submenu
+    // Toggle dropdown menu on hover for dropdown-submenu on larger screens
     $('.dropdown-submenu').hover(function() {
         if ($(window).width() >= 992) {
             $(this).find('.dropdown-menu').first().stop(true, true).slideDown(250);
@@ -61,11 +61,21 @@ $(document).ready(function() {
     // Prevent submenu from showing on page load
     $('.dropdown-submenu .dropdown-menu').hide();
 
-    // Toggle dropdown menu on smaller screens
+    // Toggle dropdown menu on click for smaller screens
     $('.nav-item.dropdown > a').click(function(e) {
         if ($(window).width() < 992) {
             e.preventDefault();
             $(this).next('.dropdown-menu').stop(true, true).slideToggle(250);
+            $(this).find('.caret').toggleClass('rotate'); // Rotates caret on click
+        }
+    });
+
+    // Toggle submenu on click for smaller screens
+    $('.dropdown-submenu > a').click(function(e) {
+        if ($(window).width() < 992) {
+            e.preventDefault();
+            $(this).next('.dropdown-menu').stop(true, true).slideToggle(250);
+            $(this).find('.caret').toggleClass('rotate'); // Rotates caret on click
         }
     });
 });
