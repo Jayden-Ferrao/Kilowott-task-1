@@ -7,7 +7,7 @@ function validateInput($data) {
 }
 
 // Handle login form submission
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
+if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["loginEmail"]) && isset($_POST["loginPassword"])) {
     // Validate and sanitize form inputs
     $email = validateInput($_POST["loginEmail"]);
     $password = validateInput($_POST["loginPassword"]);
@@ -27,7 +27,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 
     // Prepare SELECT statement using prepared statement
-    $stmt = $conn->prepare("SELECT email, password FROM users WHERE email = ?");
+    $stmt = $conn->prepare("SELECT email, password, name FROM users WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $stmt->store_result();
@@ -35,15 +35,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Check if user exists
     if ($stmt->num_rows == 1) {
         // Bind result variables
-        $stmt->bind_result($db_email, $db_password);
+        $stmt->bind_result($db_email, $db_password, $db_name);
         $stmt->fetch();
 
         // Verify hashed password
         if (password_verify($password, $db_password)) {
             // Password correct, set session and redirect
             $_SESSION['user_email'] = $email;
+            $_SESSION['user_name'] = $db_name;
             // Redirect to dashboard.html
-            echo "<script>alert('Logged in succesfully!'); window.location.href='dashboard.html';</script>";
+            echo "<script>alert('Logged in successfully as ".$_SESSION['user_name']."!'); window.location.href='dashboard.html';</script>";
             exit;
         } else {
             // Incorrect password
@@ -57,5 +58,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     // Close statement and connection
     $stmt->close();
     $conn->close();
+}
+
+// If not logged in and trying to access dashboard.html, redirect to login page
+if (!isset($_SESSION['user_email'])) {
+    echo "<script>alert('Please login to continue!'); window.location.href='login.html';</script>";
+    exit;
+}
+
+// Logout functionality
+if (isset($_GET['logout'])) {
+    session_destroy();
+    echo "<script>alert('Logged out successfully!'); window.location.href='login.html';</script>";
+    exit;
 }
 ?>
