@@ -13,7 +13,6 @@ if (!isset($_SESSION['user_name'])) {
 ?>
 
 
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -81,7 +80,10 @@ if (!isset($_SESSION['user_name'])) {
                 <li class="nav-item dropdown">
                     <a class="nav-link rounded-pill dropdown-toggle" href="#" id="profileDropdown" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user"></i>
-                        Profile</a>
+                        <?php if (isset($_SESSION['user_name'])): ?>
+                            <span class="ml-2"><?php echo htmlspecialchars($_SESSION['user_name']); ?></span>
+                        <?php endif; ?>
+                    </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
                         <a class="dropdown-item" href=""><i class="fas fa-cog"></i> Settings</a>
                         <a class="dropdown-item" href="logout.php"><i class="fas fa-sign-out-alt"></i> Logout</a>

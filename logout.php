@@ -4,7 +4,7 @@ session_start();
 session_unset();
 session_destroy();
 echo "<script>
-        alert('You have been logged out.');
+        alert('You have logged out.');
         window.location.href = 'login.html'; // Redirect to the login page
       </script>";
 exit();
