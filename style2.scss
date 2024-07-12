@@ -220,6 +220,23 @@ body {
     transition: opacity 0.5s ease;
 }
 
+.caret {
+    display: inline-block;
+    width: 0;
+    height: 0;
+    margin-left: 35px;
+    vertical-align: middle;
+    border-top: 4px solid;
+    border-right: 4px solid transparent;
+    border-left: 4px solid transparent;
+    transition: transform 0.3s;
+}
+
+/* Rotated caret */
+.rotate {
+    transform: rotate(-90deg);
+}
+
 // Media Queries
 @include responsive-margin($breakpoint-lg, $margin-medium);
 @include breakpoint(lg) {
