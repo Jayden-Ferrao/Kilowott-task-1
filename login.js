@@ -75,6 +75,12 @@ document.querySelectorAll('.toggle-confirm-password-icon').forEach(icon => {
 //     return fileItem;
 // }
 
+// Validate Name
+function validateName(name) {
+    const regex = /^[a-zA-Z\s\-]+$/;
+    return regex.test(name);
+}
+
 // Validate Email
 function validateEmail(email) {
     const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -89,17 +95,26 @@ function validatePassword(password) {
 
 // Validation for sign up form
 function validateSignUpForm() {
+    const name = document.getElementById('name').value;
     const email = document.getElementById('email').value;
     const password = document.getElementById('password').value;
     const confirmPassword = document.getElementById('confirmPassword').value;
     const dob = document.getElementById('dob').value;
 
+    const nameError = document.getElementById('nameError');
     const emailError = document.getElementById('emailError');
     const passwordError = document.getElementById('passwordError');
     const confirmPasswordError = document.getElementById('confirmPasswordError');
     const dobError = document.getElementById('dobError');
 
     let valid = true;
+
+    if (!validateName(name)) {
+        nameError.classList.remove('hidden');
+        valid = false;
+    } else {
+        nameError.classList.add('hidden');
+    }
 
     if (!validateEmail(email)) {
         emailError.classList.remove('hidden');
