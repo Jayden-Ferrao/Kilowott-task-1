@@ -8,14 +8,14 @@ function test_input($data) {
 }
 
 // Validate Name
-// if (empty($_POST['name'])) {
-//     $errors['name'] = "Name is required";
-// } else {
-//     $name = test_input($_POST['name']);
-//     if (!preg_match("/^[a-zA-Z ]*$/", $name)) {
-//         $errors['name'] = "Only letters and white space allowed";
-//     }
-// }
+if (empty($_POST['name'])) {
+    $errors['name'] = "Name is required";
+} else {
+    $name = test_input($_POST['name']);
+    if (!preg_match("/^[a-zA-Z ]*$/", $name)) {
+        $errors['name'] = "Only letters and white space allowed";
+    }
+}
 
 // Validate Email
 if (empty($_POST['email'])) {
