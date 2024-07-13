@@ -95,7 +95,8 @@ if (empty($errors)) {
         echo "<script>alert('Form submitted successfully by $name!'); window.location.href='login.html';</script>";
         exit();
     } else {
-        echo "Error: " . $stmt->error;
+    // Display an error alert
+    echo "<script>alert('Unsuccessfull submission, Please try again.');</script>";
     }
 
     $stmt->close();
