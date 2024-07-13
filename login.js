@@ -2,13 +2,16 @@
 document.getElementById('toggleFormBtn').addEventListener('click', function () {
     const signUpForm = document.getElementById('signUpForm');
     const loginForm = document.getElementById('loginForm');
+    const backToHome = document.getElementById('backToHome');
     if (signUpForm.classList.contains('hidden')) {
         signUpForm.classList.remove('hidden');
         loginForm.classList.add('hidden');
+        backToHome.classList.add('hidden');
         this.textContent = 'Already have an account? Login';
     } else {
         signUpForm.classList.add('hidden');
         loginForm.classList.remove('hidden');
+        backToHome.classList.remove('hidden'); 
         this.textContent = "Don't have an account? Sign Up";
     }
 });
