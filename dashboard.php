@@ -46,12 +46,19 @@ if (!isset($_SESSION['user_name'])) {
 
         .input-group {
             width: 100%;
-            max-width: 400px; /* Adjust as needed */
+            max-width: 400px;
         }
     </style>
 </head>
 
 <body>
+    <!-- Loading Spinner -->
+    <div class="spinner-container">
+        <div class="spinner-border text-primary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+     </div>
+
     <!-- Top Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
