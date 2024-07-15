@@ -112,27 +112,5 @@ $(document).ready(function() {
       $('#serviceModal').modal('show');
     });
   });
-
-// Add & Delete task in Dashboard
-  $(document).ready(function() {
-    // Add new task
-    $('#add-task').click(function() {
-        var newTask = $('#new-task').val();
-        if (newTask.trim() !== "") {
-            $('#todo-list').append(
-                '<li class="list-group-item">' +
-                    '<input type="checkbox" class="mr-2"> ' + newTask +
-                    '<button class="btn btn-danger btn-sm float-right delete-task"><i class="fas fa-trash-alt"></i></button>' +
-                '</li>'
-            );
-            $('#new-task').val(''); // Clear the input field
-        }
-    });
-
-    // Delete task
-    $('#todo-list').on('click', '.delete-task', function() {
-        $(this).closest('li').remove();
-    });
-});
 // JQuery: fadein-fadeout, slide, stop, callback, chaining, get-set-remove-add, ancestors-traversing-siblings
 // JS: hoisting, strict, methods, get-set, call-apply-bind, async-await, DOM-BOM, slideup-slidedown-slidetoggle
