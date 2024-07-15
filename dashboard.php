@@ -137,6 +137,7 @@ if (!isset($_SESSION['user_name'])) {
                 </div>
             </div>
         </div>
+
         <div class="row">
             <!-- Chart Section -->
             <div class="col-lg-8 col-md-12 col-sm-12 mb-4">
@@ -154,24 +155,15 @@ if (!isset($_SESSION['user_name'])) {
                         <h5 class="card-title">Feedback Reviews</h5>
                         <div class="testimonial-slider">
                             <div class="testimonial-card">
-                                <div class="d-flex align-items-center mb-2">
-                                    <img src="profile1.png" alt="John Doe" class="rounded-circle mr-3">
-                                    <p class="font-weight-bold mb-0">John Doe</p>
-                                </div>
+                                <p class="font-weight-bold">John Doe</p>
                                 <p>"This is the best service I have ever used. Highly recommend to everyone!"</p>
                             </div>
                             <div class="testimonial-card">
-                                <div class="d-flex align-items-center mb-2">
-                                    <img src="profile2.png" alt="Jane Smith" class="rounded-circle mr-3">
-                                    <p class="font-weight-bold mb-0">Jane Smith</p>
-                                </div>
+                                <p class="font-weight-bold">Jane Smith</p>
                                 <p>"Fantastic experience from start to finish. Exceptional quality!"</p>
                             </div>
                             <div class="testimonial-card">
-                                <div class="d-flex align-items-center mb-2">
-                                    <img src="profile3.png" alt="Tim Cook" class="rounded-circle mr-3">
-                                    <p class="font-weight-bold mb-0">Tim Cook</p>
-                                </div>
+                                <p class="font-weight-bold">Tim Cook</p>
                                 <p>"A game-changer for our business. Outstanding results!"</p>
                             </div>
                         </div>
