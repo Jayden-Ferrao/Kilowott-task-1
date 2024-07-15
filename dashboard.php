@@ -104,104 +104,134 @@ if (!isset($_SESSION['user_name'])) {
     <div class="container-fluid">
         <div class="row">
             <!-- Cards Section -->
-            <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-                <div class="card" style="background: linear-gradient(to right, #f4c17f, #bbf762);">
+            <div class="col-lg-3 col-md-6 col-sm-12 mb-4 d-flex">
+                <div class="card flex-fill" style="background: linear-gradient(to right, #f4c17f, #bbf762);">
                     <div class="card-body">
                         <h5 class="card-title"><i class="fas fa-concierge-bell"></i> Services</h5>
                         <p class="card-text">Manage your services effectively and efficiently.</p>
+                        <h6 class="card-info">Number of Services: 100</h6>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-                <div class="card" style="background: linear-gradient(to right, #6fb7f6, #5bf2fa);">
+            <div class="col-lg-3 col-md-6 col-sm-12 mb-4 d-flex">
+                <div class="card flex-fill" style="background: linear-gradient(to right, #6fb7f6, #5bf2fa);">
                     <div class="card-body">
                         <h5 class="card-title"><i class="fas fa-shopping-cart"></i> Orders</h5>
                         <p class="card-text">Keep track of all your orders in one place.</p>
+                        <h6 class="card-info">Number of Orders: 200</h6>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-                <div class="card" style="background: linear-gradient(to right, #72f19d, #73f3db);">
+            <div class="col-lg-3 col-md-6 col-sm-12 mb-4 d-flex">
+                <div class="card flex-fill" style="background: linear-gradient(to right, #72f19d, #73f3db);">
                     <div class="card-body">
                         <h5 class="card-title"><i class="fas fa-users"></i> Customers</h5>
                         <p class="card-text">Manage your customer information and interactions.</p>
+                        <h6 class="card-info">Number of Customers: 350</h6>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-                <div class="card" style="background: linear-gradient(to right, #eef899, #f8a2e4);">
+            <div class="col-lg-3 col-md-6 col-sm-12 mb-4 d-flex">
+                <div class="card flex-fill" style="background: linear-gradient(to right, #eef899, #f8a2e4);">
                     <div class="card-body">
                         <h5 class="card-title"><i class="fas fa-chart-line"></i> Reports</h5>
                         <p class="card-text">Generate detailed reports and analytics.</p>
+                        <h6 class="card-info">Number of Reports: 50</h6>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="row">
-            <!-- Chart Section -->
-            <div class="col-lg-8 col-md-12 col-sm-12 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <canvas id="myChart"></canvas>
-                    </div>
+<div class="container-fluid">
+    <div class="row">
+        <!-- Notifications Section -->
+        <div class="col-lg-4 col-md-12 col-sm-12 mb-4 d-flex">
+            <div class="card flex-fill">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-bell"></i> Recent Activiy</h5>
+                    <ul class="list-group">
+                        <li class="list-group-item"><i class="fas fa-user-plus"></i> New user registered</li>
+                        <li class="list-group-item"><i class="fas fa-shipping-fast"></i> Order #1234 has been shipped</li>
+                        <li class="list-group-item"><i class="fas fa-comment-dots"></i> New feedback received</li>
+                        <li class="list-group-item"><i class="fas fa-tools"></i> System maintenance scheduled</li>
+                    </ul>
                 </div>
             </div>
+        </div>
+        <!-- To-Do List Section -->
+                <div class="col-lg-4 col-md-6 col-sm-12 mb-4 d-flex">
+                    <div class="card flex-fill">
+                        <div class="card-body">
+                            <h5 class="card-title"><i class="fas fa-tasks"></i> To-Do List</h5>
+                            <ul class="list-group" id="todo-list">
+                                <li class="list-group-item">
+                                    <input type="checkbox" class="mr-2"> Task 1
+                                    <button class="btn btn-danger btn-sm float-right delete-task"><i class="fas fa-trash-alt"></i></button>
+                                </li>
+                                <li class="list-group-item">
+                                    <input type="checkbox" class="mr-2"> Task 2
+                                    <button class="btn btn-danger btn-sm float-right delete-task"><i class="fas fa-trash-alt"></i></button>
+                                </li>
+                                <li class="list-group-item">
+                                    <input type="checkbox" class="mr-2"> Task 3
+                                    <button class="btn btn-danger btn-sm float-right delete-task"><i class="fas fa-trash-alt"></i></button>
+                                </li>
+                                <li class="list-group-item">
+                                    <input type="checkbox" class="mr-2"> Task 4
+                                    <button class="btn btn-danger btn-sm float-right delete-task"><i class="fas fa-trash-alt"></i></button>
+                                </li>
+                            </ul>
+                            <div class="input-group mt-3">
+                                <input type="text" class="form-control" id="new-task" placeholder="Add new task">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary" id="add-task"><i class="fas fa-plus"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-            <!-- Feedback Section -->
-            <div class="col-lg-4 col-md-12 col-sm-12 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Feedback Reviews</h5>
-                        <div class="testimonial-slider">
-                            <div class="testimonial-card">
-                                <p class="font-weight-bold">John Doe</p>
-                                <p>"This is the best service I have ever used. Highly recommend to everyone!"</p>
-                            </div>
-                            <div class="testimonial-card">
-                                <p class="font-weight-bold">Jane Smith</p>
-                                <p>"Fantastic experience from start to finish. Exceptional quality!"</p>
-                            </div>
-                            <div class="testimonial-card">
-                                <p class="font-weight-bold">Tim Cook</p>
-                                <p>"A game-changer for our business. Outstanding results!"</p>
-                            </div>
+    <!-- Feedback Section -->
+        <div class="col-lg-4 col-md-6 col-sm-12 mb-4 d-flex">
+            <div class="card flex-fill">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-comments"></i> Feedback Reviews</h5>
+                    <div class="testimonial-slider">
+                        <div class="testimonial-card">
+                            <p class="font-weight-bold">John Doe</p>
+                            <p>"This is the best service I have ever used. Highly recommend to everyone!"</p>
+                        </div>
+                        <div class="testimonial-card">
+                            <p class="font-weight-bold">Jane Smith</p>
+                            <p>"Fantastic experience from start to finish. Exceptional quality!"</p>
+                        </div>
+                        <div class="testimonial-card">
+                            <p class="font-weight-bold">Tim Cook</p>
+                            <p>"A game-changer for our business. Outstanding results!"</p>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
-        <div class="row">
-            <!-- To-Do List Section -->
-            <div class="col-lg-4 col-md-6 col-sm-12 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">To-Do List</h5>
-                        <ul class="list-group">
-                            <li class="list-group-item">
-                                <input type="checkbox" class="mr-2"> Task 1
-                            </li>
-                            <li class="list-group-item">
-                                <input type="checkbox" class="mr-2"> Task 2
-                            </li>
-                            <li class="list-group-item">
-                                <input type="checkbox" class="mr-2"> Task 3
-                            </li>
-                            <li class="list-group-item">
-                                <input type="checkbox" class="mr-2"> Task 4
-                            </li>
-                        </ul>
-                    </div>
+    <div class="row">
+        <!-- Line Graph -->
+        <div class="col-lg-6 col-md-12 col-sm-12 mb-4 d-flex">
+            <div class="card flex-fill">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-chart-line"></i> Current Sales</h5>
+                    <canvas id="lineChart"></canvas>
                 </div>
             </div>
-            <!-- Another Section for Additional Content -->
-            <div class="col-lg-8 col-md-6 col-sm-12 mb-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Additional Content</h5>
-                        <p>Here you can add any additional content you need for your dashboard.</p>
-                    </div>
+        </div>
+        <!-- Bar Graph -->
+        <div class="col-lg-6 col-md-12 col-sm-12 mb-4 d-flex">
+            <div class="card flex-fill">
+                <div class="card-body">
+                    <h5 class="card-title"><i class="fas fa-chart-bar"></i> Active Users</h5>
+                    <canvas id="barChart"></canvas>
                 </div>
             </div>
         </div>
