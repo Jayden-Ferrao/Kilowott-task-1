@@ -33,11 +33,8 @@ function getMonthName($date) {
             return "Oh no! The month is out of this world!";
     }
 }
-
-// Get user input
-echo "Enter a date in the format dd-mm-yyyy: ";
-$date = trim(fgets(STDIN));
-
 // JavaScript alert
-echo "<script>alert('" . getMonthName($date) . "');</script>";
+echo "<script>alert('Enter a date in the format dd-mm-yyyy:" . getMonthName($date) . "');</script>";
+$date = trim(fgets(STDIN));
+echo "<script>alert('".$month. "');</script>";
 ?>
