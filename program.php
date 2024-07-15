@@ -1,51 +1,51 @@
 <?php
-function getMonthName($date) {
-    // Extract the month part from the date string
-    $month = substr($date, 3, 2);
-    switch ($month) {
-        case '01':
-            echo "It's January!";
-            break;
-        case '02':
-            echo "It's February!";
-            break;
-        case '03':
-            echo "It's March!";
-            break;
-        case '04':
-            echo "It's April!";
-            break;
-        case '05':
-            echo "It's May!";
-            break;
-        case '06':
-            echo "It's June!";
-            break;
-        case '07':
-            echo "It's July!";
-            break;
-        case '08':
-            echo "It's August!";
-            break;
-        case '09':
-            echo "It's September!";
-            break;
-        case '10':
-            echo "It's October!";
-            break;
-        case '11':
-            echo "It's November!";
-            break;
-        case '12':
-            echo "It's December!";
-            break;
-        default:
-            echo "Oh no! The month is out of this world!";
-    }
-}
+if (isset($_POST['date'])) {
+    $date = $_POST['date'];
 
-// Get user input
-echo "Enter a date in the format dd-mm-yyyy: ";
-$date = trim(fgets(STDIN));
-getMonthName($date);
+    function getMonthName($date) {
+        // Extract the month part from the date string
+        $month = substr($date, 3, 2);
+
+        // Determine the month name using switch case
+        switch ($month) {
+            case '01':
+                return "It's January!";
+            case '02':
+                return "It's February!";
+            case '03':
+                return "It's March!";
+            case '04':
+                return "It's April!";
+            case '05':
+                return "It's May!";
+            case '06':
+                return "It's June!";
+            case '07':
+                return "It's July!";
+            case '08':
+                return "It's August!";
+            case '09':
+                return "It's September!";
+            case '10':
+                return "It's October!";
+            case '11':
+                return "It's November!";
+            case '12':
+                return "It's December!";
+            default:
+                return "Oh no! The month is out of this world!";
+        }
+    }
+
+    $message = getMonthName($date);
+    echo "<input type='hidden' id='message' value='{$message}'>";
+    echo "<script type='text/javascript'>
+            alert(document.getElementById('message').value);
+          </script>";
+}
 ?>
+
+<form method="post">
+    Enter a date in the format dd-mm-yyyy: <input type="text" name="date">
+    <input type="submit">
+</form>
