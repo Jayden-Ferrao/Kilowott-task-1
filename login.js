@@ -156,6 +156,7 @@ function validateSignUpForm() {
     return valid;
 }
 
+// Validation for age 18+
 function isValidAge(dob) {
     var dobDate = new Date(dob);
     var today = new Date();
