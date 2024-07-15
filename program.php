@@ -33,8 +33,20 @@ function getMonthName($date) {
             return "Oh no! The month is out of this world!";
     }
 }
-// JavaScript alert
-echo "<script>alert('Enter a date in the format dd-mm-yyyy:" . getMonthName($date) . "');</script>";
-$date = trim(fgets(STDIN));
-echo "<script>alert('".$month. "');</script>";
+
+// PHP code for server-side processing
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    // Get the date input from the form
+    $date = $_POST['date'];
+
+    // Output JavaScript alert with the month name
+    echo "<script>alert('" . getMonthName($date) . "');</script>";
+}
 ?>
+
+<!-- HTML form for user input -->
+<form method="post" action="<?php echo $_SERVER['PHP_SELF']; ?>">
+    Enter a date in the format dd-mm-yyyy:
+    <input type="text" name="date">
+    <input type="submit" value="Submit">
+</form>
