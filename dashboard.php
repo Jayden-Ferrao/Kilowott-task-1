@@ -105,39 +105,38 @@ if (!isset($_SESSION['user_name'])) {
         <div class="row">
             <!-- Cards Section -->
             <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-                <div class="card">
+                <div class="card" style="background: linear-gradient(to right, #f4c17f, #bbf762);">
                     <div class="card-body">
-                        <h5 class="card-title">Card 1</h5>
-                        <p class="card-text">Some quick example text to build on the card title.</p>
+                        <h5 class="card-title"><i class="fas fa-concierge-bell"></i> Services</h5>
+                        <p class="card-text">Manage your services effectively and efficiently.</p>
                     </div>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-                <div class="card">
+                <div class="card" style="background: linear-gradient(to right, #6fb7f6, #5bf2fa);">
                     <div class="card-body">
-                        <h5 class="card-title">Card 2</h5>
-                        <p class="card-text">Some quick example text to build on the card title.</p>
+                        <h5 class="card-title"><i class="fas fa-shopping-cart"></i> Orders</h5>
+                        <p class="card-text">Keep track of all your orders in one place.</p>
                     </div>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-                <div class="card">
+                <div class="card" style="background: linear-gradient(to right, #72f19d, #73f3db);">
                     <div class="card-body">
-                        <h5 class="card-title">Card 3</h5>
-                        <p class="card-text">Some quick example text to build on the card title.</p>
+                        <h5 class="card-title"><i class="fas fa-users"></i> Customers</h5>
+                        <p class="card-text">Manage your customer information and interactions.</p>
                     </div>
                 </div>
             </div>
             <div class="col-lg-3 col-md-6 col-sm-12 mb-4">
-                <div class="card">
+                <div class="card" style="background: linear-gradient(to right, #eef899, #f8a2e4);">
                     <div class="card-body">
-                        <h5 class="card-title">Card 4</h5>
-                        <p class="card-text">Some quick example text to build on the card title.</p>
+                        <h5 class="card-title"><i class="fas fa-chart-line"></i> Reports</h5>
+                        <p class="card-text">Generate detailed reports and analytics.</p>
                     </div>
                 </div>
             </div>
         </div>
-
         <div class="row">
             <!-- Chart Section -->
             <div class="col-lg-8 col-md-12 col-sm-12 mb-4">
@@ -155,15 +154,24 @@ if (!isset($_SESSION['user_name'])) {
                         <h5 class="card-title">Feedback Reviews</h5>
                         <div class="testimonial-slider">
                             <div class="testimonial-card">
-                                <p class="font-weight-bold">John Doe</p>
+                                <div class="d-flex align-items-center mb-2">
+                                    <img src="profile1.png" alt="John Doe" class="rounded-circle mr-3">
+                                    <p class="font-weight-bold mb-0">John Doe</p>
+                                </div>
                                 <p>"This is the best service I have ever used. Highly recommend to everyone!"</p>
                             </div>
                             <div class="testimonial-card">
-                                <p class="font-weight-bold">Jane Smith</p>
+                                <div class="d-flex align-items-center mb-2">
+                                    <img src="profile2.png" alt="Jane Smith" class="rounded-circle mr-3">
+                                    <p class="font-weight-bold mb-0">Jane Smith</p>
+                                </div>
                                 <p>"Fantastic experience from start to finish. Exceptional quality!"</p>
                             </div>
                             <div class="testimonial-card">
-                                <p class="font-weight-bold">Tim Cook</p>
+                                <div class="d-flex align-items-center mb-2">
+                                    <img src="profile3.png" alt="Tim Cook" class="rounded-circle mr-3">
+                                    <p class="font-weight-bold mb-0">Tim Cook</p>
+                                </div>
                                 <p>"A game-changer for our business. Outstanding results!"</p>
                             </div>
                         </div>
