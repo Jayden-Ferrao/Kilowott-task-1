@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>If Else Date</title>
+    <title>Switch Date</title>
 </head>
 <body>
     <form method="post" action="">
