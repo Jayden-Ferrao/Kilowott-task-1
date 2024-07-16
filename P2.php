@@ -2,11 +2,11 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Month Extractor</title>
+    <title>Switch Date</title>
 </head>
 <body>
     <form method="post">
-        <label for="date">Enter date (dd-mm-yyyy):</label>
+        <label for="date">Enter a date in dd-mm-yy:</label>
         <input type="text" id="date" name="date" required>
         <input type="submit" value="Submit">
     </form>
@@ -14,12 +14,8 @@
     <?php
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $date = $_POST['date'];
-        
         function getMonthName($date) {
-            // Extract the month part from the date string
-            $month = substr($date, 3, 2);
-
-            // Use switch case to determine the month name
+            $month = substr($date, 3, 2); //using as string itself
             switch ($month) {
                 case '01':
                     echo "It's January!";
@@ -58,11 +54,10 @@
                     echo "It's December!";
                     break;
                 default:
-                    echo "Oh no! The month is out of this world!";
+                    echo "Invalid";
                     break;
             }
         }
-
         getMonthName($date);
     }
     ?>

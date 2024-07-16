@@ -16,7 +16,7 @@
         $date = $_POST["date"];
         function printMonthIfElse($date) {
             $month = substr($date, 3, 2);
-            $monthInt = (int)$month;
+            $monthInt = (int)$month; // converting string to int
             if ($monthInt == 1) {
                 echo "It's January!";
             } elseif ($monthInt == 2) {
