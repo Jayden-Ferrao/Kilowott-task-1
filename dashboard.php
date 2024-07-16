@@ -149,7 +149,7 @@ if (!isset($_SESSION['user_name'])) {
         <div class="col-lg-4 col-md-12 col-sm-12 mb-4 d-flex">
             <div class="card flex-fill">
                 <div class="card-body">
-                    <h5 class="card-title"><i class="fas fa-bell"></i> Recent Activiy</h5>
+                    <h5 class="card-title"><i class="fas fa-bell"></i> Recent Activity</h5>
                     <ul class="list-group">
                         <li class="list-group-item"><i class="fas fa-user-plus"></i> New user registered</li>
                         <li class="list-group-item"><i class="fas fa-shipping-fast"></i> Order #1234 has been shipped</li>
@@ -192,7 +192,7 @@ if (!isset($_SESSION['user_name'])) {
                     </div>
                 </div>
 
-    <!-- Feedback Section -->
+     <!-- Feedback Section -->
         <div class="col-lg-4 col-md-6 col-sm-12 mb-4 d-flex">
             <div class="card flex-fill">
                 <div class="card-body">
@@ -244,5 +244,4 @@ if (!isset($_SESSION['user_name'])) {
     <script src="chart.js"></script>
     <script src="index2.js"></script>
 </body>
-
 </html>
