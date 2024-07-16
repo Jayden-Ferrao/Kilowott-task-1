@@ -45,6 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST["loginEmail"]) && isset
             $_SESSION['user_email'] = $email;
             $_SESSION['user_name'] = $db_name;
             // Redirect to dashboard.php
+            // $_SESSION was used because of user_name persisting across pages and keeps user data secured
             echo "<script>alert('Logged in successfully as ".$_SESSION['user_name']."!'); window.location.href='dashboard.php';</script>";
             exit;
         } else {
