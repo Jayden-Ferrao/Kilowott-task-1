@@ -2,65 +2,69 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Switch Date</title>
+    <title>Month Extractor</title>
 </head>
 <body>
-    <form method="post" action="">
-        <label for="date">Enter a date in dd-mm-yy: </label>
+    <form method="post">
+        <label for="date">Enter date (dd-mm-yyyy):</label>
         <input type="text" id="date" name="date" required>
-        <button type="submit">Submit</button>
+        <input type="submit" value="Submit">
     </form>
+
     <?php
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
-        $date = $_POST["date"];
-        function printMonthIfElse($date) {
+        $date = $_POST['date'];
+        
+        function getMonthName($date) {
+            // Extract the month part from the date string
             $month = substr($date, 3, 2);
-            $monthInt = (int)$month;
-            switch ($monthInt) {
+
+            // Use switch case to determine the month name
+            switch ($month) {
                 case '01':
-                    echo "Its January!";
+                    echo "It's January!";
                     break;
                 case '02':
-                    echo "Its February!";
+                    echo "It's February!";
                     break;
                 case '03':
-                    echo "Its March!";
+                    echo "It's March!";
                     break;
                 case '04':
-                    echo "Its April!";
+                    echo "It's April!";
                     break;
                 case '05':
-                    echo "Its May!";
+                    echo "It's May!";
                     break;
                 case '06':
-                    echo "Its June!";
+                    echo "It's June!";
                     break;
                 case '07':
-                    echo "Its July!";
+                    echo "It's July!";
                     break;
                 case '08':
-                    echo "Its August!";
+                    echo "It's August!";
                     break;
                 case '09':
-                    echo "Its September!";
+                    echo "It's September!";
                     break;
                 case '10':
-                    echo "Its October!";
+                    echo "It's October!";
                     break;
                 case '11':
-                    echo "Its November!";
+                    echo "It's November!";
                     break;
                 case '12':
-                    echo "Its December!";
+                    echo "It's December!";
                     break;
                 default:
-                echo "Invalid";
+                    echo "Oh no! The month is out of this world!";
                     break;
             }
-        printMonthIfElse($date);
+        }
+
+        getMonthName($date);
     }
-}
     ?>
 </body>
 </html>
