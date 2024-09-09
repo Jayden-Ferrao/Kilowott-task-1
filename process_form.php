@@ -67,6 +67,39 @@ if (empty($_POST['gender'])) {
     $gender = test_input($_POST['gender']);
 }
 
+// Check for image upload errors
+if (isset($_FILES['profileImage']) && $_FILES['profileImage']['error'] == 0) {
+    $target_dir = "uploads/"; // Directory where images will be stored
+    $target_file = $target_dir . basename($_FILES['profileImage']['name']);
+    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+    
+    // Check if the file is an actual image
+    $check = getimagesize($_FILES['profileImage']['tmp_name']);
+    if ($check === false) {
+        $errors['profileImage'] = "File is not an image.";
+    }
+
+    // Check file size (limit to 2MB)
+    if ($_FILES['profileImage']['size'] > 2000000) {
+        $errors['profileImage'] = "Sorry, your file is too large.";
+    }
+
+    // Allow only certain file formats (jpg, png, jpeg, gif)
+    if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+        $errors['profileImage'] = "Sorry, only JPG, JPEG & PNG files are allowed.";
+    }
+
+    // Check if no errors occurred
+    if (empty($errors)) {
+        // Move the uploaded file to the target directory
+        if (!move_uploaded_file($_FILES['profileImage']['tmp_name'], $target_file)) {
+            $errors['profileImage'] = "Sorry, there was an error uploading your file.";
+        }
+    }
+} else {
+    $errors['profileImage'] = "Profile image is required.";
+}
+
 // If there are no validation errors, proceed with database insertion
 if (empty($errors)) {
     $servername = "localhost"; 
@@ -86,17 +119,17 @@ if (empty($errors)) {
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     // Prepare and bind
-    $stmt = $conn->prepare("INSERT INTO users (name, email, password, dob, gender) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssss", $name, $email, $hashed_password, $dob, $gender);
+    $stmt = $conn->prepare("INSERT INTO users (name, email, password, dob, gender, profile_image) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssss", $name, $email, $hashed_password, $dob, $gender, $target_file);
 
     // Execute the statement
     if ($stmt->execute()) {
-        // Redirect to login.html after successful insertion
+        // Store the image path in the session
+        $_SESSION['user_image'] = $target_file;
         echo "<script>alert('Form submitted successfully by $name!'); window.location.href='login.html';</script>";
         exit();
     } else {
-    // Display an error alert
-    echo "<script>alert('Unsuccessfull submission, Please try again.');</script>";
+        echo "<script>alert('Unsuccessful submission, Please try again.');</script>";
     }
 
     $stmt->close();
