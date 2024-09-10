@@ -105,7 +105,7 @@ if (empty($errors)) {
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     // Handle file upload
-    $targetDir = "uploads";
+    $targetDir = "/Users/jaydenferrao/Documents/GitHub/Kilowott-task-1/uploads";
     $imageName = uniqid() . "." . $imageFileType; // Generate unique file name
     $targetFilePath = $targetDir . $imageName;
 
