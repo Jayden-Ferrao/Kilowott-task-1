@@ -96,37 +96,6 @@ function validatePassword(password) {
     return regex.test(password);
 }
 
-// Add image validation
-function validateImage() {
-    const imageInput = document.getElementById('profileImage');
-    const imageError = document.getElementById('imageError');
-    const file = imageInput.files[0];
-    let valid = true;
-
-    if (!file) {
-        imageError.textContent = "Please upload a profile image.";
-        imageError.classList.remove('hidden');
-        valid = false;
-    } else {
-        const validTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
-        
-        // Check if the file type is one of the allowed types
-        if (!validTypes.includes(file.type)) {
-            imageError.textContent = "Invalid file type. Please upload an image (JPEG, JPG, PNG, or GIF).";
-            imageError.classList.remove('hidden');
-            valid = false;
-        } else if (file.size > 2 * 1024 * 1024) { // 2MB max size
-            imageError.textContent = "File size exceeds 2MB. Please upload a smaller image.";
-            imageError.classList.remove('hidden');
-            valid = false;
-        } else {
-            imageError.classList.add('hidden');
-        }
-    }
-
-    return valid;
-}
-
 // Validation for sign up form
 function validateSignUpForm() {
     const name = document.getElementById('name').value;
@@ -169,10 +138,6 @@ function validateSignUpForm() {
         valid = false;
     } else {
         confirmPasswordError.classList.add('hidden');
-    }
-
-    if (!validateImage()) {
-        valid = false;
     }
 
     if (!isValidAge(dob)) {
