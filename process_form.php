@@ -67,35 +67,21 @@ if (empty($_POST['gender'])) {
     $gender = test_input($_POST['gender']);
 }
 
-// Check for image upload errors
-if (isset($_FILES['profileImage']) && $_FILES['profileImage']['error'] == 0) {
-    $target_dir = "uploads/"; // Directory where images will be stored
-    $target_file = $target_dir . basename($_FILES['profileImage']['name']);
-    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
-    
-    // Check if the file is an actual image
-    $check = getimagesize($_FILES['profileImage']['tmp_name']);
-    if ($check === false) {
-        $errors['profileImage'] = "File is not an image.";
+// Validate Profile Image
+if (isset($_FILES['profileImage']) && $_FILES['profileImage']['error'] === UPLOAD_ERR_OK) {
+    $imageFileType = strtolower(pathinfo($_FILES['profileImage']['name'], PATHINFO_EXTENSION));
+    $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
+
+    // Check file type
+    if (!in_array($imageFileType, $allowedTypes)) {
+        $errors['profileImage'] = "Only JPG, JPEG, PNG, and GIF files are allowed.";
     }
 
-    // Check file size (limit to 2MB)
-    if ($_FILES['profileImage']['size'] > 2000000) {
-        $errors['profileImage'] = "Sorry, your file is too large.";
+    // Check file size (optional, 2MB limit here)
+    if ($_FILES['profileImage']['size'] > 2 * 1024 * 1024) {
+        $errors['profileImage'] = "Image size must be less than 2MB.";
     }
 
-    // Allow only certain file formats (jpg, png, jpeg, gif)
-    if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
-        $errors['profileImage'] = "Sorry, only JPG, JPEG & PNG files are allowed.";
-    }
-
-    // Check if no errors occurred
-    if (empty($errors)) {
-        // Move the uploaded file to the target directory
-        if (!move_uploaded_file($_FILES['profileImage']['tmp_name'], $target_file)) {
-            $errors['profileImage'] = "Sorry, there was an error uploading your file.";
-        }
-    }
 } else {
     $errors['profileImage'] = "Profile image is required.";
 }
@@ -118,22 +104,35 @@ if (empty($errors)) {
     // Encrypt the password
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    // Prepare and bind
-    $stmt = $conn->prepare("INSERT INTO users (name, email, password, dob, gender, profile_image) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssss", $name, $email, $hashed_password, $dob, $gender, $target_file);
+    // Handle file upload
+    $targetDir = "uploads";
+    $imageName = uniqid() . "." . $imageFileType; // Generate unique file name
+    $targetFilePath = $targetDir . $imageName;
 
-    // Execute the statement
-    if ($stmt->execute()) {
-        // Store the image path in the session
-        $_SESSION['user_image'] = $target_file;
-        echo "<script>alert('Form submitted successfully by $name!'); window.location.href='login.html';</script>";
-        exit();
+    if (move_uploaded_file($_FILES['profileImage']['tmp_name'], $targetFilePath)) {
+        // Image uploaded successfully, proceed with the database entry
+
+        // Prepare and bind
+        $stmt = $conn->prepare("INSERT INTO users (name, email, password, dob, gender, profile_image) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->bind_param("ssssss", $name, $email, $hashed_password, $dob, $gender, $imageName);
+
+        // Execute the statement
+        if ($stmt->execute()) {
+            // Redirect to login.html after successful insertion
+            echo "<script>alert('Form submitted successfully by $name!'); window.location.href='login.html';</script>";
+            exit();
+        } else {
+            // Display an error alert
+            echo "<script>alert('Unsuccessful submission, Please try again.');</script>";
+        }
+
+        $stmt->close();
+        $conn->close();
     } else {
-        echo "<script>alert('Unsuccessful submission, Please try again.');</script>";
+        // Error in file upload
+        echo "<script>alert('Sorry, there was an error uploading your profile image.');</script>";
     }
 
-    $stmt->close();
-    $conn->close();
 } else {
     // Output errors for debugging
     foreach ($errors as $error) {
