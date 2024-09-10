@@ -68,7 +68,7 @@ if (empty($_POST['gender'])) {
 }
 
 // Validate Image Upload
-if (!empty($_FILES['profileImage']['name'])) {
+if (isset($_FILES['profileImage'])) {
     $target_dir = "./uploads";
     $target_file = $target_dir . basename($_FILES["profileImage"]["name"]);
     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
