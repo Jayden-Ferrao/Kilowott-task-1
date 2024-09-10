@@ -67,25 +67,6 @@ if (empty($_POST['gender'])) {
     $gender = test_input($_POST['gender']);
 }
 
-// Validate Profile Image
-if (isset($_FILES['profileImage']) && $_FILES['profileImage']['error'] === UPLOAD_ERR_OK) {
-    $imageFileType = strtolower(pathinfo($_FILES['profileImage']['name'], PATHINFO_EXTENSION));
-    $allowedTypes = ['jpg', 'jpeg', 'png', 'gif'];
-
-    // Check file type
-    if (!in_array($imageFileType, $allowedTypes)) {
-        $errors['profileImage'] = "Only JPG, JPEG, PNG, and GIF files are allowed.";
-    }
-
-    // Check file size (optional, 2MB limit here)
-    if ($_FILES['profileImage']['size'] > 2 * 1024 * 1024) {
-        $errors['profileImage'] = "Image size must be less than 2MB.";
-    }
-
-} else {
-    $errors['profileImage'] = "Profile image is required.";
-}
-
 // If there are no validation errors, proceed with database insertion
 if (empty($errors)) {
     $servername = "localhost"; 
@@ -104,35 +85,22 @@ if (empty($errors)) {
     // Encrypt the password
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    // Handle file upload
-    $targetDir = "/Users/jaydenferrao/Documents/GitHub/Kilowott-task-1/uploads";
-    $imageName = uniqid() . "." . $imageFileType; // Generate unique file name
-    $targetFilePath = $targetDir . $imageName;
+    // Prepare and bind
+    $stmt = $conn->prepare("INSERT INTO users (name, email, password, dob, gender) VALUES (?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssss", $name, $email, $hashed_password, $dob, $gender);
 
-    if (move_uploaded_file($_FILES['profileImage']['tmp_name'], $targetFilePath)) {
-        // Image uploaded successfully, proceed with the database entry
-
-        // Prepare and bind
-        $stmt = $conn->prepare("INSERT INTO users (name, email, password, dob, gender, profile_image) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->bind_param("ssssss", $name, $email, $hashed_password, $dob, $gender, $imageName);
-
-        // Execute the statement
-        if ($stmt->execute()) {
-            // Redirect to login.html after successful insertion
-            echo "<script>alert('Form submitted successfully by $name!'); window.location.href='login.html';</script>";
-            exit();
-        } else {
-            // Display an error alert
-            echo "<script>alert('Unsuccessful submission, Please try again.');</script>";
-        }
-
-        $stmt->close();
-        $conn->close();
+    // Execute the statement
+    if ($stmt->execute()) {
+        // Redirect to login.html after successful insertion
+        echo "<script>alert('Form submitted successfully by $name!'); window.location.href='login.html';</script>";
+        exit();
     } else {
-        // Error in file upload
-        echo "<script>alert('Sorry, there was an error uploading your profile image.');</script>";
+    // Display an error alert
+    echo "<script>alert('Unsuccessfull submission, Please try again.');</script>";
     }
 
+    $stmt->close();
+    $conn->close();
 } else {
     // Output errors for debugging
     foreach ($errors as $error) {
