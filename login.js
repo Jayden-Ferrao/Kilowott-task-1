@@ -103,6 +103,9 @@ function validateSignUpForm() {
     const password = document.getElementById('password').value;
     const confirmPassword = document.getElementById('confirmPassword').value;
     const dob = document.getElementById('dob').value;
+    const profileImage = document.getElementById('profileImage').files[0];
+    const profileImageError = document.getElementById('profileImageError');
+    const validImageTypes = ['image/jpeg', 'image/png', 'image/gif'];
 
     const nameError = document.getElementById('nameError');
     const emailError = document.getElementById('emailError');
@@ -145,6 +148,13 @@ function validateSignUpForm() {
         valid = false;
     } else {
         dobError.classList.add('hidden');
+    }
+
+    if (!profileImage || !validImageTypes.includes(profileImage.type)) {
+        profileImageError.classList.remove('hidden');
+        valid = false;
+    } else {
+        profileImageError.classList.add('hidden');
     }
 
     if (valid) {
