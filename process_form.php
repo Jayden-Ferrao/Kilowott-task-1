@@ -69,7 +69,7 @@ if (empty($_POST['gender'])) {
 
 // Validate Image Upload
 if (!empty($_FILES['profileImage']['name'])) {
-    $target_dir = "./uploads/";
+    $target_dir = "./Kilowott-task-1/uploads";
     if (!file_exists($target_dir)) {
         mkdir($target_dir, 0777, true);
     }
