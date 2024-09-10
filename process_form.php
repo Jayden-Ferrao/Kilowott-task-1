@@ -68,9 +68,14 @@ if (empty($_POST['gender'])) {
 }
 
 // Validate Image Upload
-if (isset($_FILES['profileImage'])) {
-    $target_dir = "./uploads";
-    $target_file = $target_dir . basename($_FILES["profileImage"]["name"]);
+if (!empty($_FILES['profileImage']['name'])) {
+    $target_dir = "./uploads/";
+    if (!file_exists($target_dir)) {
+        mkdir($target_dir, 0777, true);
+    }
+    $fileName = basename($_FILES["profileImage"]["name"]);
+    $fileName = preg_replace("/[^a-zA-Z0-9.-_]/", "", $fileName);
+    $target_file = $target_dir . $fileName;
     $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
     $check = getimagesize($_FILES["profileImage"]["tmp_name"]);
     
@@ -85,13 +90,15 @@ if (isset($_FILES['profileImage'])) {
     }
 
     // Allow certain file formats
-    if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+    if (!in_array($imageFileType, ["jpg", "jpeg", "png"])) {
         $errors['profileImage'] = "Sorry, only JPG, JPEG, and PNG files are allowed.";
     }
 
     // Check if there were no errors and upload the file
     if (empty($errors['profileImage'])) {
-        if (!move_uploaded_file($_FILES["profileImage"]["tmp_name"], $target_file)) {
+        if (move_uploaded_file($_FILES["profileImage"]["tmp_name"], $target_file)) {
+            echo "File uploaded successfully: " . htmlspecialchars($target_file);
+        } else {
             $errors['profileImage'] = "Sorry, there was an error uploading your file.";
         }
     }
@@ -127,8 +134,8 @@ if (empty($errors)) {
         echo "<script>alert('Form submitted successfully by $name!'); window.location.href='login.html';</script>";
         exit();
     } else {
-    // Display an error alert
-    echo "<script>alert('Unsuccessfull submission, Please try again.');</script>";
+        // Display an error alert
+        echo "<script>alert('Unsuccessful submission, Please try again.');</script>";
     }
 
     $stmt->close();
