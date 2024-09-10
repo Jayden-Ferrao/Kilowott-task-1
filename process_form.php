@@ -67,6 +67,35 @@ if (empty($_POST['gender'])) {
     $gender = test_input($_POST['gender']);
 }
 
+// Validate Profile Image
+if (isset($_FILES['profileImage']) && $_FILES['profileImage']['error'] === 0) {
+    $allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+    $maxSize = 5 * 1024 * 1024; // 5 MB
+    $file = $_FILES['profileImage'];
+
+    // Check file size
+    if ($file['size'] > $maxSize) {
+        $errors['profileImage'] = "The image size must be less than 5 MB.";
+    }
+
+    // Check file type
+    $fileType = mime_content_type($file['tmp_name']);
+    if (!in_array($fileType, $allowedTypes)) {
+        $errors['profileImage'] = "Please upload a valid image (JPEG, JPG, PNG, or GIF).";
+    }
+
+    // Move the file if no errors
+    if (empty($errors['profileImage'])) {
+        $targetDir = "uploads/";
+        $targetFile = $targetDir . basename($file['name']);
+        if (!move_uploaded_file($file['tmp_name'], $targetFile)) {
+            $errors['profileImage'] = "There was an error uploading your profile image.";
+        }
+    }
+} else {
+    $errors['profileImage'] = "Please upload a profile image.";
+}
+
 // If there are no validation errors, proceed with database insertion
 if (empty($errors)) {
     $servername = "localhost"; 
@@ -86,8 +115,8 @@ if (empty($errors)) {
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     // Prepare and bind
-    $stmt = $conn->prepare("INSERT INTO users (name, email, password, dob, gender) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssss", $name, $email, $hashed_password, $dob, $gender);
+    $stmt = $conn->prepare("INSERT INTO users (name, email, password, dob, gender, profile_image) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssss", $name, $email, $hashed_password, $dob, $gender, $targetFile);
 
     // Execute the statement
     if ($stmt->execute()) {
