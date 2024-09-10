@@ -79,14 +79,17 @@ if (isset($_FILES['profileImage']) && $_FILES['profileImage']['error'] === 0) {
     }
 
     // Check file type
-    $fileType = mime_content_type($file['tmp_name']);
+    $fileType = $file['type'];
     if (!in_array($fileType, $allowedTypes)) {
         $errors['profileImage'] = "Please upload a valid image (JPEG, JPG, PNG, or GIF).";
     }
 
     // Move the file if no errors
     if (empty($errors['profileImage'])) {
-        $targetDir = "./uploads";
+        $targetDir = "uploads/";
+        if (!is_dir($targetDir)) {
+            mkdir($targetDir, 0755, true);
+        }
         $targetFile = $targetDir . basename($file['name']);
         if (!move_uploaded_file($file['tmp_name'], $targetFile)) {
             $errors['profileImage'] = "There was an error uploading your profile image.";
