@@ -67,6 +67,38 @@ if (empty($_POST['gender'])) {
     $gender = test_input($_POST['gender']);
 }
 
+// Validate Image Upload
+if (!empty($_FILES['profileImage']['name'])) {
+    $target_dir = "uploads/";
+    $target_file = $target_dir . basename($_FILES["profileImage"]["name"]);
+    $imageFileType = strtolower(pathinfo($target_file, PATHINFO_EXTENSION));
+    $check = getimagesize($_FILES["profileImage"]["tmp_name"]);
+    
+    // Check if the file is an actual image
+    if ($check === false) {
+        $errors['profileImage'] = "File is not an image.";
+    }
+
+    // Check file size (limit to 2MB)
+    if ($_FILES["profileImage"]["size"] > 2000000) {
+        $errors['profileImage'] = "Sorry, your file is too large. Maximum allowed size is 2MB.";
+    }
+
+    // Allow certain file formats
+    if ($imageFileType != "jpg" && $imageFileType != "png" && $imageFileType != "jpeg") {
+        $errors['profileImage'] = "Sorry, only JPG, JPEG, and PNG files are allowed.";
+    }
+
+    // Check if there were no errors and upload the file
+    if (empty($errors['profileImage'])) {
+        if (!move_uploaded_file($_FILES["profileImage"]["tmp_name"], $target_file)) {
+            $errors['profileImage'] = "Sorry, there was an error uploading your file.";
+        }
+    }
+} else {
+    $errors['profileImage'] = "Profile image is required.";
+}
+
 // If there are no validation errors, proceed with database insertion
 if (empty($errors)) {
     $servername = "localhost"; 
@@ -86,8 +118,8 @@ if (empty($errors)) {
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     // Prepare and bind
-    $stmt = $conn->prepare("INSERT INTO users (name, email, password, dob, gender) VALUES (?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssss", $name, $email, $hashed_password, $dob, $gender);
+    $stmt = $conn->prepare("INSERT INTO users (name, email, password, dob, gender, profile_image) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssss", $name, $email, $hashed_password, $dob, $gender, $target_file);
 
     // Execute the statement
     if ($stmt->execute()) {
