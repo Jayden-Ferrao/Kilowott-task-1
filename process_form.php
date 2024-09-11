@@ -84,37 +84,20 @@ if (isset($_FILES['profileImage']) && $_FILES['profileImage']['error'] === 0) {
         $errors['profileImage'] = "Please upload a valid image (JPEG, JPG, PNG, or GIF).";
     }
 
-    // Move the file if no errors
-    if (empty($errors['profileImage'])) {
-        $targetDir = __DIR__ . "/uploads/"; 
-    
-        // Check if the directory exists
-        if (!is_dir($targetDir)) {
-            // Try to create the directory
-            if (!mkdir($targetDir, 0755, true)) {
-                echo "<script>alert('Failed to create uploads directory: " . $targetDir . "');</script>"; // Debugging info
-                exit();
-            } else {
-                echo "<script>alert('Uploads directory created successfully.');</script>"; // Debugging info
-            }
+    if (empty($errors)) {
+        // Move the file to a designated directory
+        $uploadDir = 'uploads/';
+        $fileName = basename($file['name']);
+        $uploadFile = $uploadDir . $fileName;
+
+        if (move_uploaded_file($file['tmp_name'], $uploadFile)) {
+            $profileImagePath = $fileName; // Store the file name for database insertion
         } else {
-            echo "<script>alert('Uploads directory already exists.');</script>"; // Debugging info
-        }
-        
-        // Proceed with file upload
-        $uniqueFileName = uniqid() . "_" . basename($_FILES['profileImage']['name']);
-        $targetFile = $targetDir . $uniqueFileName;
-    
-        if (move_uploaded_file($_FILES['profileImage']['tmp_name'], $targetFile)) {
-            echo "<script>alert('Image uploaded successfully.');</script>"; // Debugging info
-            $profileImagePath = $uniqueFileName; // Store the file name, not full path
-        } else {
-            echo "<script>alert('Image upload failed.');</script>"; // Debugging info
-            exit();
+            $errors['profileImage'] = "Failed to upload the image.";
         }
     }
 } else {
-    $errors['profileImage'] = "Please upload a profile image.";
+    $errors['profileImage'] = "No image file uploaded.";
 }
 
 // If there are no validation errors, proceed with database insertion

@@ -111,29 +111,24 @@ function isValidAge(dob) {
     return age >= 18;
 }
 
-// Validation for Profile Image
+// Validation for profile image
 function validateProfileImage() {
-    const profileImage = document.getElementById('profileImage');
+    const fileInput = document.getElementById('profileImage');
+    const file = fileInput.files[0];
     const imageError = document.getElementById('imageError');
-    const validExtensions = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif']; // Allowed image formats
-    const maxSize = 5 * 1024 * 1024; // 5 MB file size limit
 
-    // Reset any previous error message
-    imageError.classList.add('hidden');
+    const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
+    const maxSize = 5 * 1024 * 1024; // 5 MB
 
-    if (profileImage.files.length > 0) {
-        const file = profileImage.files[0];
-
-        // Check file type
-        if (!validExtensions.includes(file.type)) {
-            imageError.textContent = 'Please upload a valid image (JPEG, JPG, PNG, or GIF) file.';
+    if (file) {
+        if (file.size > maxSize) {
+            imageError.textContent = 'The image size must be less than 5 MB.';
             imageError.classList.remove('hidden');
             return false;
         }
 
-        // Check file size
-        if (file.size > maxSize) {
-            imageError.textContent = 'The image size must be less than 5 MB.';
+        if (!allowedTypes.includes(file.type)) {
+            imageError.textContent = 'Please upload a valid image (JPEG, JPG, PNG, or GIF).';
             imageError.classList.remove('hidden');
             return false;
         }
@@ -143,6 +138,7 @@ function validateProfileImage() {
         return false;
     }
 
+    imageError.classList.add('hidden');
     return true;
 }
 
