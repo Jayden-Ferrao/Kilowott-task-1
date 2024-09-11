@@ -175,7 +175,7 @@ function validateSignUpForm() {
     }
 
     if (!validateProfileImage()) {
-        return false;
+        valid = false;
     }
 
     if (!isValidAge(dob)) {
