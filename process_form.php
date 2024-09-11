@@ -89,12 +89,13 @@ if (isset($_FILES['profileImage']) && $_FILES['profileImage']['error'] === 0) {
         $targetDir = __DIR__ . "/uploads/"; 
         if (!is_dir($targetDir)) {
             if (!mkdir($targetDir, 0755, true)) {
-                die('Failed to create uploads directory: ' . $targetDir); // Debugging info
+                echo "<script>alert('Failed to create uploads directory: " . $targetDir . "');</script>"; // Debugging info
+                exit();
             } else {
-                echo 'Uploads directory created successfully.<br>'; // Debugging info
+                echo "<script>alert('Uploads directory created successfully.');</script>"; // Debugging info
             }
         } else {
-            echo 'Uploads directory already exists.<br>'; // Debugging info
+            echo "<script>alert('Uploads directory already exists.');</script>"; // Debugging info
         }
         
         // Proceed with file upload if the directory is created successfully
@@ -102,20 +103,11 @@ if (isset($_FILES['profileImage']) && $_FILES['profileImage']['error'] === 0) {
         $targetFile = $targetDir . $uniqueFileName;
         
         if (move_uploaded_file($file['tmp_name'], $targetFile)) {
-            echo 'File uploaded successfully.<br>'; // Debugging info
+            echo "<script>alert('File uploaded successfully.');</script>"; // Debugging info
             $profileImagePath = $uniqueFileName; // Store the file name, not full path
         } else {
-            die('File upload failed.'); // Debugging info
-        }
-
-        $uniqueFileName = uniqid() . "_" . basename($file['name']); // Create a unique filename to avoid conflicts
-        $targetFile = $targetDir . $uniqueFileName;
-
-        if (move_uploaded_file($file['tmp_name'], $targetFile)) {
-            // Image successfully uploaded, store only the filename in the database
-            $profileImagePath = $uniqueFileName;
-        } else {
-            $errors['profileImage'] = "There was an error uploading your profile image.";
+            echo "<script>alert('File upload failed.');</script>"; // Debugging info
+            exit();
         }
     }
 } else {
@@ -134,7 +126,8 @@ if (empty($errors)) {
 
     // Check connection
     if ($conn->connect_error) {
-        die("Connection failed: " . $conn->connect_error);
+        echo "<script>alert('Connection failed: " . $conn->connect_error . "');</script>";
+        exit();
     }
 
     // Encrypt the password
@@ -147,7 +140,7 @@ if (empty($errors)) {
     // Execute the statement
     if ($stmt->execute()) {
         // Redirect to login.html after successful insertion
-        echo "<script>alert('Form submitted successfully by $name!'); window.location.href='login.html';</script>";
+        echo "<script>alert('Form submitted successfully by " . htmlspecialchars($name) . "!'); window.location.href='login.html';</script>";
         exit();
     } else {
         // Display an error alert
@@ -159,7 +152,7 @@ if (empty($errors)) {
 } else {
     // Output errors for debugging
     foreach ($errors as $error) {
-        echo $error . "<br>";
+        echo "<script>alert('" . htmlspecialchars($error) . "');</script>";
     }
 }
 ?>
