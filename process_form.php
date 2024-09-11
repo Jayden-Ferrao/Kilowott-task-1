@@ -85,16 +85,8 @@ if (isset($_FILES['profileImage']) && $_FILES['profileImage']['error'] === 0) {
     }
 
     if (empty($errors)) {
-        // Move the file to a designated directory
-        $uploadDir = 'uploads/';
-        $fileName = basename($file['name']);
-        $uploadFile = $uploadDir . $fileName;
-
-        if (move_uploaded_file($file['tmp_name'], $uploadFile)) {
-            $profileImagePath = $fileName; // Store the file name for database insertion
-        } else {
-            $errors['profileImage'] = "Failed to upload the image.";
-        }
+        // Read the file content
+        $fileContent = file_get_contents($file['tmp_name']);
     }
 } else {
     $errors['profileImage'] = "No image file uploaded.";
@@ -121,7 +113,7 @@ if (empty($errors)) {
 
     // Prepare and bind
     $stmt = $conn->prepare("INSERT INTO users (name, email, password, dob, gender, profile_image) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssss", $name, $email, $hashed_password, $dob, $gender, $profileImagePath);
+    $stmt->bind_param("sssssb", $name, $email, $hashed_password, $dob, $gender, $fileContent);
 
     // Execute the statement
     if ($stmt->execute()) {
