@@ -79,7 +79,7 @@ if (isset($_FILES['profileImage']) && $_FILES['profileImage']['error'] === 0) {
     }
 
     // Check file type
-    $fileType = $file['type'];
+    $fileType = mime_content_type($file['tmp_name']);
     if (!in_array($fileType, $allowedTypes)) {
         $errors['profileImage'] = "Please upload a valid image (JPEG, JPG, PNG, or GIF).";
     }
@@ -88,10 +88,16 @@ if (isset($_FILES['profileImage']) && $_FILES['profileImage']['error'] === 0) {
     if (empty($errors['profileImage'])) {
         $targetDir = "uploads/";
         if (!is_dir($targetDir)) {
-            mkdir($targetDir, 0755, true);
+            mkdir($targetDir, 0755, true); // Create the uploads directory if not exists
         }
-        $targetFile = $targetDir . basename($file['name']);
-        if (!move_uploaded_file($file['tmp_name'], $targetFile)) {
+
+        $uniqueFileName = uniqid() . "_" . basename($file['name']); // Create a unique filename to avoid conflicts
+        $targetFile = $targetDir . $uniqueFileName;
+
+        if (move_uploaded_file($file['tmp_name'], $targetFile)) {
+            // Image successfully uploaded, store only the filename in the database
+            $profileImagePath = $uniqueFileName;
+        } else {
             $errors['profileImage'] = "There was an error uploading your profile image.";
         }
     }
@@ -119,7 +125,7 @@ if (empty($errors)) {
 
     // Prepare and bind
     $stmt = $conn->prepare("INSERT INTO users (name, email, password, dob, gender, profile_image) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssss", $name, $email, $hashed_password, $dob, $gender, $targetFile);
+    $stmt->bind_param("ssssss", $name, $email, $hashed_password, $dob, $gender, $profileImagePath);
 
     // Execute the statement
     if ($stmt->execute()) {

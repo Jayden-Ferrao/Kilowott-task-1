@@ -96,6 +96,22 @@ function validatePassword(password) {
     return regex.test(password);
 }
 
+// Validation for age 18+
+function isValidAge(dob) {
+    var dobDate = new Date(dob);
+    var today = new Date();
+    var age = today.getFullYear() - dobDate.getFullYear();
+    var monthDifference = today.getMonth() - dobDate.getMonth();
+
+    // Adjust age if the birth month hasn't occurred yet this year
+    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < dobDate.getDate())) {
+        age--;
+    }
+
+    return age >= 18;
+}
+
+// Validation for Profile Image
 function validateProfileImage() {
     const profileImage = document.getElementById('profileImage');
     const imageError = document.getElementById('imageError');
@@ -192,21 +208,6 @@ function validateSignUpForm() {
     }
 
     return valid;
-}
-
-// Validation for age 18+
-function isValidAge(dob) {
-    var dobDate = new Date(dob);
-    var today = new Date();
-    var age = today.getFullYear() - dobDate.getFullYear();
-    var monthDifference = today.getMonth() - dobDate.getMonth();
-
-    // Adjust age if the birth month hasn't occurred yet this year
-    if (monthDifference < 0 || (monthDifference === 0 && today.getDate() < dobDate.getDate())) {
-        age--;
-    }
-
-    return age >= 18;
 }
 
 // Validation for login form
