@@ -88,7 +88,24 @@ if (isset($_FILES['profileImage']) && $_FILES['profileImage']['error'] === 0) {
     if (empty($errors['profileImage'])) {
         $targetDir = "uploads/";
         if (!is_dir($targetDir)) {
-            mkdir($targetDir, 0755, true); // Create the uploads directory if not exists
+            if (!mkdir($targetDir, 0755, true)) {
+                die('Failed to create uploads directory: ' . $targetDir); // Debugging info
+            } else {
+                echo 'Uploads directory created successfully.<br>'; // Debugging info
+            }
+        } else {
+            echo 'Uploads directory already exists.<br>'; // Debugging info
+        }
+        
+        // Proceed with file upload if the directory is created successfully
+        $uniqueFileName = uniqid() . "_" . basename($file['name']);
+        $targetFile = $targetDir . $uniqueFileName;
+        
+        if (move_uploaded_file($file['tmp_name'], $targetFile)) {
+            echo 'File uploaded successfully.<br>'; // Debugging info
+            $profileImagePath = $uniqueFileName; // Store the file name, not full path
+        } else {
+            die('File upload failed.'); // Debugging info
         }
 
         $uniqueFileName = uniqid() . "_" . basename($file['name']); // Create a unique filename to avoid conflicts
