@@ -86,7 +86,7 @@ if (isset($_FILES['profileImage']) && $_FILES['profileImage']['error'] === 0) {
 
     // Move the file if no errors
     if (empty($errors['profileImage'])) {
-        $targetDir = "uploads/";
+        $targetDir = __DIR__ . "/uploads/"; 
         if (!is_dir($targetDir)) {
             if (!mkdir($targetDir, 0755, true)) {
                 die('Failed to create uploads directory: ' . $targetDir); // Debugging info
