@@ -89,13 +89,13 @@ if (isset($_FILES['profileImage']) && $_FILES['profileImage']['error'] === 0) {
         $targetDir = __DIR__ . "/uploads/"; 
         if (!is_dir($targetDir)) {
             if (!mkdir($targetDir, 0755, true)) {
-                echo "<script>alert('Failed to create uploads directory: " . $targetDir . "');</script>"; // Debugging info
+                echo "<script>alert('Failed to create uploads file: " . $targetDir . "');</script>"; // Debugging info
                 exit();
             } else {
-                echo "<script>alert('Uploads directory created successfully.');</script>"; // Debugging info
+                echo "<script>alert('Uploads file created successfully.');</script>"; // Debugging info
             }
         } else {
-            echo "<script>alert('Uploads directory already exists.');</script>"; // Debugging info
+            echo "<script>alert('Uploads file already exists.');</script>"; // Debugging info
         }
         
         // Proceed with file upload if the directory is created successfully
@@ -103,10 +103,10 @@ if (isset($_FILES['profileImage']) && $_FILES['profileImage']['error'] === 0) {
         $targetFile = $targetDir . $uniqueFileName;
         
         if (move_uploaded_file($file['tmp_name'], $targetFile)) {
-            echo "<script>alert('File uploaded successfully.');</script>"; // Debugging info
+            echo "<script>alert('Image uploaded successfully.');</script>"; // Debugging info
             $profileImagePath = $uniqueFileName; // Store the file name, not full path
         } else {
-            echo "<script>alert('File upload failed.');</script>"; // Debugging info
+            echo "<script>alert('Image upload failed.');</script>"; // Debugging info
             exit();
         }
     }
