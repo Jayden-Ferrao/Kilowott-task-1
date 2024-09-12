@@ -100,8 +100,8 @@ if (empty($errors)) {
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     // Prepare and bind
-    $stmt = $conn->prepare("INSERT INTO users (name, email, password, dob, gender, profile_image) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssss", $name, $email, $hashed_password, $dob, $gender, $profileImage);
+    $stmt = $conn->prepare("INSERT INTO users (name, email, password, dob, gender, profile_image, image_type) VALUES (?, ?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("sssssss", $name, $email, $hashed_password, $dob, $gender, $profileImage, $fileType);
 
     // Execute the statement
     if ($stmt->execute()) {
@@ -127,13 +127,21 @@ if (empty($errors)) {
 if (isset($_SESSION['user_id'])) {
     $userId = $_SESSION['user_id'];
 
-    // Fetch the image from the database
+    // Create connection
     $conn = new mysqli($servername, $username, $db_password, $dbname);
-    $sql = "SELECT profile_image FROM users WHERE id = ?";
+    
+    // Check connection
+    if ($conn->connect_error) {
+        echo "<script>alert('Connection failed: " . $conn->connect_error . "');</script>";
+        exit();
+    }
+
+    // Fetch the MIME type and image from the database
+    $sql = "SELECT profile_image, image_type FROM users WHERE id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $userId);
     $stmt->execute();
-    $stmt->bind_result($profileImage);
+    $stmt->bind_result($profileImage, $imageType);
     $stmt->fetch();
     $stmt->close();
     $conn->close();
