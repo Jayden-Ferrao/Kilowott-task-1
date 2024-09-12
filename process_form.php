@@ -67,7 +67,7 @@ if (empty($_POST['gender'])) {
     $gender = test_input($_POST['gender']);
 }
 
-// Validate Profile Image
+// Handle Image Upload
 if (isset($_FILES['profileImage']) && $_FILES['profileImage']['error'] === 0) {
     $allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
     $maxSize = 5 * 1024 * 1024; // 5 MB
@@ -85,18 +85,23 @@ if (isset($_FILES['profileImage']) && $_FILES['profileImage']['error'] === 0) {
     }
 
     if (empty($errors)) {
-        // Read the file content
-        $fileContent = file_get_contents($file['tmp_name']);
+        // Generate a unique filename to avoid conflicts
+        $filename = uniqid() . "-" . basename($file['name']);
+        $uploadDir = 'uploads/';
+        $uploadFilePath = $uploadDir . $filename;
+
+        // Move the file to the uploads directory
+        if (!move_uploaded_file($file['tmp_name'], $uploadFilePath)) {
+            $errors['profileImage'] = "Failed to upload the image.";
+        }
     }
-} else {
-    $errors['profileImage'] = "No image file uploaded.";
 }
 
 // If there are no validation errors, proceed with database insertion
 if (empty($errors)) {
     $servername = "localhost"; 
     $username = "root"; 
-    $db_password = ""; // Renamed to avoid conflict with user password
+    $db_password = ""; 
     $dbname = "dashboard_form"; 
 
     // Create connection
@@ -111,17 +116,15 @@ if (empty($errors)) {
     // Encrypt the password
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    // Prepare and bind
+    // Insert into database, storing the filename instead of the binary data
     $stmt = $conn->prepare("INSERT INTO users (name, email, password, dob, gender, profile_image) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssssb", $name, $email, $hashed_password, $dob, $gender, $fileContent);
+    $stmt->bind_param("ssssss", $name, $email, $hashed_password, $dob, $gender, $filename);
 
     // Execute the statement
     if ($stmt->execute()) {
-        // Redirect to login.html after successful insertion
         echo "<script>alert('Form submitted successfully by " . htmlspecialchars($name) . "!'); window.location.href='login.html';</script>";
         exit();
     } else {
-        // Display an error alert
         echo "<script>alert('Unsuccessful submission, Please try again.');</script>";
     }
 
