@@ -68,6 +68,8 @@ if (empty($_POST['gender'])) {
 }
 
 // Handle Image Upload
+$profileImageData = null; // Default to null in case no image is uploaded
+
 if (isset($_FILES['profileImage']) && $_FILES['profileImage']['error'] === 0) {
     $allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
     $maxSize = 5 * 1024 * 1024; // 5 MB
@@ -85,15 +87,8 @@ if (isset($_FILES['profileImage']) && $_FILES['profileImage']['error'] === 0) {
     }
 
     if (empty($errors)) {
-        // Generate a unique filename to avoid conflicts
-        $filename = uniqid() . "-" . basename($file['name']);
-        $uploadDir = 'uploads/';
-        $uploadFilePath = $uploadDir . $filename;
-
-        // Move the file to the uploads directory
-        if (!move_uploaded_file($file['tmp_name'], $uploadFilePath)) {
-            $errors['profileImage'] = "Failed to upload the image.";
-        }
+        // Read the file content and store it as binary
+        $profileImageData = file_get_contents($file['tmp_name']);
     }
 }
 
@@ -116,9 +111,12 @@ if (empty($errors)) {
     // Encrypt the password
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    // Insert into database, storing the filename instead of the binary data
+    // Insert into database, storing the binary data for the image
     $stmt = $conn->prepare("INSERT INTO users (name, email, password, dob, gender, profile_image) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("ssssss", $name, $email, $hashed_password, $dob, $gender, $filename);
+    $stmt->bind_param("sssssb", $name, $email, $hashed_password, $dob, $gender, $null);
+
+    // Send binary data as longblob
+    $stmt->send_long_data(5, $profileImageData);
 
     // Execute the statement
     if ($stmt->execute()) {
