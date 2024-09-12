@@ -73,7 +73,6 @@ if (isset($_FILES['profileImage']) && $_FILES['profileImage']['error'] === 0) {
     $fileType = mime_content_type($_FILES['profileImage']['tmp_name']);
     if (in_array($fileType, $allowedTypes)) {
         $profileImage = file_get_contents($_FILES['profileImage']['tmp_name']); // Store the image as binary
-        $mimeType = $fileType; // Store the MIME type
     } else {
         $errors['profileImage'] = "Please upload a valid image (JPEG, JPG, PNG, or GIF).";
     }
@@ -101,8 +100,8 @@ if (empty($errors)) {
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     // Prepare and bind
-    $stmt = $conn->prepare("INSERT INTO users (name, email, password, dob, gender, profile_image, mime_type) VALUES (?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssssss", $name, $email, $hashed_password, $dob, $gender, $profileImage, $mimeType);
+    $stmt = $conn->prepare("INSERT INTO users (name, email, password, dob, gender, profile_image) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssss", $name, $email, $hashed_password, $dob, $gender, $profileImage);
 
     // Execute the statement
     if ($stmt->execute()) {
@@ -128,13 +127,13 @@ if (empty($errors)) {
 if (isset($_SESSION['user_id'])) {
     $userId = $_SESSION['user_id'];
 
-    // Fetch the image and MIME type from the database
+    // Fetch the image from the database
     $conn = new mysqli($servername, $username, $db_password, $dbname);
-    $sql = "SELECT profile_image, mime_type FROM users WHERE id = ?";
+    $sql = "SELECT profile_image FROM users WHERE id = ?";
     $stmt = $conn->prepare($sql);
     $stmt->bind_param("i", $userId);
     $stmt->execute();
-    $stmt->bind_result($profileImage, $mimeType);
+    $stmt->bind_result($profileImage);
     $stmt->fetch();
     $stmt->close();
     $conn->close();
