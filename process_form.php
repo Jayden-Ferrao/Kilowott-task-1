@@ -146,7 +146,12 @@ if (isset($_SESSION['user_id'])) {
     $stmt->close();
     $conn->close();
 
-    // Encode the image data for display
-    $profileImageData = base64_encode($profileImage);
+    // Check if profileImage and imageType are set
+    if ($profileImage && $imageType) {
+        $profileImageData = base64_encode($profileImage);
+        $imageSrc = "data:{$imageType};base64,{$profileImageData}";
+    } else {
+        $imageSrc = "data:image/jpeg;base64,"; // Default placeholder or fallback
+    }
 }
 ?>

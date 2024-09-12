@@ -92,8 +92,8 @@ if (!isset($_SESSION['user_name'])) {
                         <?php endif; ?>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
-                    <a class="dropdown-item" href="">
-                    <img src="data:<?php echo isset($imageType) ? htmlspecialchars($imageType) : 'image/jpeg'; ?>;base64,<?php echo isset($profileImageData) ? htmlspecialchars($profileImageData) : ''; ?>" alt="Profile Image" style="width: 30px; height: 30px; border-radius: 50%;">
+                    <a class="dropdown-item" href="#">
+                    <img src="<?php echo $imageSrc; ?>" alt="Profile Image" style="width: 30px; height: 30px; border-radius: 50%;">
                     Profile
                     </a>
                     <a class="dropdown-item" href=""><i class="fas fa-cog"></i> Settings</a>
