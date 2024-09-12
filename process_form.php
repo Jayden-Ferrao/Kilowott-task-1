@@ -67,36 +67,24 @@ if (empty($_POST['gender'])) {
     $gender = test_input($_POST['gender']);
 }
 
-// Handle Image Upload
-$profileImageData = null; // Default to null in case no image is uploaded
-
+// Image validation and encoding for database storage
 if (isset($_FILES['profileImage']) && $_FILES['profileImage']['error'] === 0) {
     $allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/gif'];
-    $maxSize = 5 * 1024 * 1024; // 5 MB
-    $file = $_FILES['profileImage'];
-
-    // Check file size
-    if ($file['size'] > $maxSize) {
-        $errors['profileImage'] = "The image size must be less than 5 MB.";
-    }
-
-    // Check file type
-    $fileType = mime_content_type($file['tmp_name']);
-    if (!in_array($fileType, $allowedTypes)) {
+    $fileType = mime_content_type($_FILES['profileImage']['tmp_name']);
+    if (in_array($fileType, $allowedTypes)) {
+        $profileImage = file_get_contents($_FILES['profileImage']['tmp_name']); // Store the image as binary
+    } else {
         $errors['profileImage'] = "Please upload a valid image (JPEG, JPG, PNG, or GIF).";
     }
-
-    if (empty($errors)) {
-        // Read the file content and store it as binary
-        $profileImageData = file_get_contents($file['tmp_name']);
-    }
+} else {
+    $errors['profileImage'] = "Profile Image is required.";
 }
 
 // If there are no validation errors, proceed with database insertion
 if (empty($errors)) {
     $servername = "localhost"; 
     $username = "root"; 
-    $db_password = ""; 
+    $db_password = ""; // Renamed to avoid conflict with user password
     $dbname = "dashboard_form"; 
 
     // Create connection
@@ -111,15 +99,16 @@ if (empty($errors)) {
     // Encrypt the password
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-    // Insert into database, storing the binary data for the image
+    // Prepare and bind
     $stmt = $conn->prepare("INSERT INTO users (name, email, password, dob, gender, profile_image) VALUES (?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssssb", $name, $email, $hashed_password, $dob, $gender, $null);
-
-    // Send binary data as longblob
-    $stmt->send_long_data(5, $profileImageData);
+    $stmt->bind_param("ssssss", $name, $email, $hashed_password, $dob, $gender, $profileImage);
 
     // Execute the statement
     if ($stmt->execute()) {
+        // Set session variables for logged in user
+        $_SESSION['user_id'] = $conn->insert_id;
+
+        // Redirect to login.html after successful insertion
         echo "<script>alert('Form submitted successfully by " . htmlspecialchars($name) . "!'); window.location.href='login.html';</script>";
         exit();
     } else {
@@ -129,9 +118,27 @@ if (empty($errors)) {
     $stmt->close();
     $conn->close();
 } else {
-    // Output errors for debugging
     foreach ($errors as $error) {
         echo "<script>alert('" . htmlspecialchars($error) . "');</script>";
     }
+}
+
+// Fetch the user profile image for display in the dropdown
+if (isset($_SESSION['user_id'])) {
+    $userId = $_SESSION['user_id'];
+
+    // Fetch the image from the database
+    $conn = new mysqli($servername, $username, $db_password, $dbname);
+    $sql = "SELECT profile_image FROM users WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+    $stmt->bind_result($profileImage);
+    $stmt->fetch();
+    $stmt->close();
+    $conn->close();
+
+    // Encode the image data for display
+    $profileImageData = base64_encode($profileImage);
 }
 ?>

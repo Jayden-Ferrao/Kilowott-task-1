@@ -92,9 +92,12 @@ if (!isset($_SESSION['user_name'])) {
                         <?php endif; ?>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
-                        <a class="dropdown-item" href=""><i class="fas fa-user"></i> Profile</a>
-                        <a class="dropdown-item" href=""><i class="fas fa-cog"></i> Settings</a>
-                        <a class="dropdown-item" href="logout.php" style="color: red;"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                    <a class="dropdown-item" href="">
+                    <img src="data:image/jpeg;base64,<?php echo isset($profileImageData) ? $profileImageData : ''; ?>" alt="Profile Image" style="width: 30px; height: 30px; border-radius: 50%;">
+                    Profile
+                    </a>
+                    <a class="dropdown-item" href=""><i class="fas fa-cog"></i> Settings</a>
+                    <a class="dropdown-item" href="logout.php" style="color: red;"><i class="fas fa-sign-out-alt"></i> Logout</a>
                     </div>
                 </li>
             </ul>
