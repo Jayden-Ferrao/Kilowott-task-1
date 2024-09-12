@@ -82,7 +82,7 @@ if (!isset($_SESSION['user_name'])) {
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link rounded-pill mr-3" href="#"><i class="fas fa-bell"></i> Notifications</a>
+                    <a class="nav-link rounded-pill mr-3" href=""><i class="fas fa-bell"></i> Notifications</a>
                 </li>
                 <li class="nav-item dropdown">
                     <a class="nav-link rounded-pill dropdown-toggle" href="#" id="profileDropdown" role="button"
@@ -92,7 +92,7 @@ if (!isset($_SESSION['user_name'])) {
                         <?php endif; ?>
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
-                    <a class="dropdown-item" href="#">
+                    <a class="dropdown-item" href="">
                     <img src="<?php echo $imageSrc; ?>" alt="Profile Image" style="width: 30px; height: 30px; border-radius: 50%;">
                     Profile
                     </a>

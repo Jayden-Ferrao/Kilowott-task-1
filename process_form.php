@@ -151,7 +151,7 @@ if (isset($_SESSION['user_id'])) {
         $profileImageData = base64_encode($profileImage);
         $imageSrc = "data:{$imageType};base64,{$profileImageData}";
     } else {
-        $imageSrc = "data:image/jpeg;base64,"; // Default placeholder or fallback
+        $imageSrc = "default-profile.png"; // Default placeholder or fallback
     }
 }
 ?>
