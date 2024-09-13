@@ -85,7 +85,7 @@ if (!isset($_SESSION['user_name'])) {
                     <a class="nav-link rounded-pill mr-3" href=""><i class="fas fa-bell"></i> Notifications</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link rounded-pill dropdown-toggle" href="#" id="profileDropdown" role="button"
+                    <a class="nav-link rounded-pill dropdown-toggle" href="" id="profileDropdown" role="button"
                         data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fas fa-user"></i>
                         <?php if (isset($_SESSION['user_name'])): ?>
                             <span class="ml-2"><?php echo htmlspecialchars($_SESSION['user_name']); ?></span>
@@ -93,15 +93,9 @@ if (!isset($_SESSION['user_name'])) {
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
                     <a class="dropdown-item" href="">
-                        <?php
-                        if (isset($_SESSION['profile_image'])) {
-                            echo '<img src="' . $_SESSION['profile_image'] . '" alt="Profile Image" style="width: 30px; height: 30px; border-radius: 50%; margin-right: 10px;">';
-                        } else {
-                            echo '<img src="default-image.png" alt="Default Image" style="width: 30px; height: 30px; border-radius: 50%; margin-right: 10px;">';
-                        }
-    ?>
-    Profile
-</a>
+                    <img src="data:<?php echo isset($imageType) ? htmlspecialchars($imageType) : 'image/jpeg'; ?>;base64,<?php echo isset($profileImageData) ? htmlspecialchars($profileImageData) : ''; ?>" alt="Profile Image" style="width: 30px; height: 30px; border-radius: 50%;">
+                    Profile
+                    </a>
                     <a class="dropdown-item" href=""><i class="fas fa-cog"></i> Settings</a>
                     <a class="dropdown-item" href="logout.php" style="color: red;"><i class="fas fa-sign-out-alt"></i> Logout</a>
                     </div>

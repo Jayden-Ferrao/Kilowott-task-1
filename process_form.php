@@ -84,7 +84,7 @@ if (isset($_FILES['profileImage']) && $_FILES['profileImage']['error'] === 0) {
 if (empty($errors)) {
     $servername = "localhost"; 
     $username = "root"; 
-    $db_password = ""; 
+    $db_password = ""; // Renamed to avoid conflict with user password
     $dbname = "dashboard_form"; 
 
     // Create connection
@@ -100,74 +100,19 @@ if (empty($errors)) {
     $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
     // Prepare and bind
-    $stmt = $conn->prepare("INSERT INTO users (name, email, password, dob, gender, profile_image, image_type) VALUES (?, ?, ?, ?, ?, ?, ?)");
-    $stmt->bind_param("sssssss", $name, $email, $hashed_password, $dob, $gender, $profileImage, $fileType);
+    $stmt = $conn->prepare("INSERT INTO users (name, email, password, dob, gender, profile_image) VALUES (?, ?, ?, ?, ?, ?)");
+    $stmt->bind_param("ssssss", $name, $email, $hashed_password, $dob, $gender, $profileImage);
 
     // Execute the statement
     if ($stmt->execute()) {
-        // Set session variables for logged-in user
+        // Set session variables for logged in user
         $_SESSION['user_id'] = $conn->insert_id;
 
-        // Retrieve and store profile image for session use
-        $user_id = $_SESSION['user_id'];
-
-        // Query to fetch the image and its type from the database
-        $sql = "SELECT profile_image, image_type FROM users WHERE id = ?";
-        $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i", $user_id);
-        $stmt->execute();
-        $stmt->bind_result($profileImage, $imageType);
-        $stmt->fetch();
-        $stmt->close();
-
-        // Check if image data exists
-        if ($profileImage) {
-            // Encode the binary image data to Base64 to display in HTML
-            $_SESSION['profile_image'] = "data:$imageType;base64," . base64_encode($profileImage);
-        } else {
-            // Provide a default image if no profile image is found
-            $_SESSION['profile_image'] = "default-image.png";  // Set a path to a default image
-        }
-
-        // Commented Email part
-        /*
-        // Send confirmation email
-        $to = $email; // The recipient's email address
-        $subject = "Registration Confirmation";
-        $message = "
-        <html>
-        <head>
-            <title>Registration Confirmation</title>
-        </head>
-        <body>
-            <p>Hi " . htmlspecialchars($name) . ",</p>
-            <p>Thank you for registering with us!</p>
-            <p>Your account has been successfully created.</p>
-            <p>Best regards,<br>The Team</p>
-        </body>
-        </html>
-        ";
-        $headers = "MIME-Version: 1.0" . "\r\n";
-        $headers .= "Content-type:text/html;charset=UTF-8" . "\r\n";
-        $headers .= 'From: Mistermcafee@outlook.com' . "\r\n";
-        $headers .= 'Reply-To: Mistermcafee@outlook.com' . "\r\n";
-
-        // Send the email and handle success or failure
-        if (mail($to, $subject, $message, $headers)) {
-            // Success - alert and redirect
-            echo "<script>alert('Form submitted successfully by " . htmlspecialchars($name) . "! A confirmation email has been sent.'); window.location.href='login.html';</script>";
-        } else {
-            // Email sending failed - inform the user
-            echo "<script>alert('Form submission unsuccessful.');</script>";
-        }
-        */
-
-        // Redirect to a success page or login
-        echo "<script>alert('Form submitted successfully.'); window.location.href='login.html';</script>";
-
+        // Redirect to login.html after successful insertion
+        echo "<script>alert('Form submitted successfully by " . htmlspecialchars($name) . "!'); window.location.href='login.html';</script>";
         exit();
     } else {
-        echo "<script>alert('Unsuccessful submission, please try again.');</script>";
+        echo "<script>alert('Unsuccessful submission, Please try again.');</script>";
     }
 
     $stmt->close();
@@ -176,5 +121,24 @@ if (empty($errors)) {
     foreach ($errors as $error) {
         echo "<script>alert('" . htmlspecialchars($error) . "');</script>";
     }
+}
+
+// Fetch the user profile image for display in the dropdown
+if (isset($_SESSION['user_id'])) {
+    $userId = $_SESSION['user_id'];
+
+    // Fetch the image from the database
+    $conn = new mysqli($servername, $username, $db_password, $dbname);
+    $sql = "SELECT profile_image FROM users WHERE id = ?";
+    $stmt = $conn->prepare($sql);
+    $stmt->bind_param("i", $userId);
+    $stmt->execute();
+    $stmt->bind_result($profileImage);
+    $stmt->fetch();
+    $stmt->close();
+    $conn->close();
+
+    // Encode the image data for display
+    $profileImageData = base64_encode($profileImage);
 }
 ?>
