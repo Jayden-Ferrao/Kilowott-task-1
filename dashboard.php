@@ -95,7 +95,7 @@ if (!isset($_SESSION['user_name'])) {
                     <a class="dropdown-item" href="">
     <?php
     if (isset($_SESSION['profile_image'])) {
-        echo '<img src="' . $_SESSION['profile_image'] . '" alt="Profile Image" style="width: 40px; height: 30px; border-radius: 50%; margin-right: 10px;">';
+        echo '<img src="' . $_SESSION['profile_image'] . '" alt="Profile Image" style="width: 30px; height: 30px; border-radius: 50%; margin-right: 10px;">';
     } else {
         echo '<img src="default-image.png" alt="Default Image" style="width: 30px; height: 30px; border-radius: 50%; margin-right: 10px;">';
     }
