@@ -108,6 +108,29 @@ if (empty($errors)) {
         // Set session variables for logged-in user
         $_SESSION['user_id'] = $conn->insert_id;
 
+        // Retrieve and store profile image for session use
+        $user_id = $_SESSION['user_id'];
+
+        // Query to fetch the image and its type from the database
+        $sql = "SELECT profile_image, image_type FROM users WHERE id = ?";
+        $stmt = $conn->prepare($sql);
+        $stmt->bind_param("i", $user_id);
+        $stmt->execute();
+        $stmt->bind_result($profileImage, $imageType);
+        $stmt->fetch();
+        $stmt->close();
+
+        // Check if image data exists
+        if ($profileImage) {
+            // Encode the binary image data to Base64 to display in HTML
+            $_SESSION['profile_image'] = "data:$imageType;base64," . base64_encode($profileImage);
+        } else {
+            // Provide a default image if no profile image is found
+            $_SESSION['profile_image'] = "default-image.png";  // Set a path to a default image
+        }
+
+        // Commented Email part
+        /*
         // Send confirmation email
         $to = $email; // The recipient's email address
         $subject = "Registration Confirmation";
@@ -135,8 +158,12 @@ if (empty($errors)) {
             echo "<script>alert('Form submitted successfully by " . htmlspecialchars($name) . "! A confirmation email has been sent.'); window.location.href='login.html';</script>";
         } else {
             // Email sending failed - inform the user
-            echo "<script>alert('Form submission unsuccessfull.'); window.location.href='login.html';</script>";
+            echo "<script>alert('Form submission unsuccessful.');</script>";
         }
+        */
+
+        // Redirect to a success page or login
+        echo "<script>alert('Form submitted successfully.'); window.location.href='login.html';</script>";
 
         exit();
     } else {
