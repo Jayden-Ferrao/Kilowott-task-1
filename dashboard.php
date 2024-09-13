@@ -93,7 +93,13 @@ if (!isset($_SESSION['user_name'])) {
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="profileDropdown">
                     <a class="dropdown-item" href="">
-    <img src="<?php echo $imageSrc; ?>" alt="Profile Image" style="width: 30px; height: 30px; border-radius: 50%; margin-right: 10px;">
+    <?php
+    if (isset($_SESSION['profile_image'])) {
+        echo '<img src="' . $_SESSION['profile_image'] . '" alt="Profile Image" style="width: 30px; height: 30px; border-radius: 50%; margin-right: 10px;">';
+    } else {
+        echo '<img src="default-image.png" alt="Default Image" style="width: 30px; height: 30px; border-radius: 50%; margin-right: 10px;">';
+    }
+    ?>
     Profile
 </a>
                     <a class="dropdown-item" href=""><i class="fas fa-cog"></i> Settings</a>
