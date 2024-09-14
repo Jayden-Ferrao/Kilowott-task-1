@@ -112,11 +112,11 @@ if (empty($errors)) {
         $user_id = $_SESSION['user_id'];
 
         // Query to fetch the image and its type from the database
-        $sql = "SELECT profile_image, image_type FROM users WHERE id = ?";
+        $sql = "SELECT id, password, profile_image, image_type FROM users WHERE email = ?";
         $stmt = $conn->prepare($sql);
-        $stmt->bind_param("i", $user_id);
+        $stmt->bind_param("s", $email);
         $stmt->execute();
-        $stmt->bind_result($profileImage, $imageType);
+        $stmt->bind_result($user_id, $hashed_password, $profileImage, $imageType);
         $stmt->fetch();
         $stmt->close();
 
