@@ -118,7 +118,6 @@ if (empty($errors)) {
         $stmt->execute();
         $stmt->bind_result($user_id, $hashed_password, $profileImage, $imageType);
         $stmt->fetch();
-        $stmt->close();
 
         // Check if image data exists
         if ($profileImage) {
