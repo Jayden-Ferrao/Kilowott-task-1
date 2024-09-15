@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-commerce Page</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- Custom CSS -->
+    <style>
+        /* Gradient Banner Styles */
+        .banner-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+            background: linear-gradient(45deg, #ff416c, #ff4b2b);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        /* Auto Slider Banners */
+        .carousel-inner img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        /* Product Card Styles */
+        .product-card {
+            height: 100%;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.3s;
+        }
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+        /* Set a fixed height and width for product images */
+        .product-card img {
+        width: 100%; /* Ensure the image takes the full width of the card */
+        height: 320px; /* Set a fixed height */
+        object-fit: cover; /* Ensures the image scales properly */
+        }
+
+        /* Set a fixed height for card body */
+        .product-card .card-body {
+            height: 150px; /* Adjust based on your content */
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Ensure all cards are of equal height */
+        .product-card .card-title, .product-card .card-text {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Loader Icon */
+        .loader {
+            display: none;
+            text-align: center;
+            margin: 20px 0;
+        }
+    </style>
+</head>
+<body>
+        <!-- Navbar (similar to the provided code) -->
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="index2.html">
+                <img src="bat_logo.png" class="logo" alt="Logo" style="height: 40px; border-radius: 10px;">
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index2.html"><i class="fas fa-home"></i> Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href=""><i class="fas fa-shopping-cart"></i> My Cart</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href=""><i class="fas fa-user"></i> Profile</a>
+                    </li>
+                </ul>
+            </div>
+        </nav>
+
+    <!-- Banner Slider -->
+    <div id="bannerCarousel" class="carousel slide mb-4" data-ride="carousel">
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <div class="banner-container" style="background: linear-gradient(45deg, #3cfff8, #fd73ef);">50% OFF on All Items!</div>
+            </div>
+            <div class="carousel-item">
+                <div class="banner-container" style="background: linear-gradient(45deg, #043389, #99c17a);">New Products Launched!</div>
+            </div>
+            <div class="carousel-item">
+                <div class="banner-container" style="background: linear-gradient(45deg, #6eeabe, #f88a36);">Sale 30% OFF!</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Product Grid -->
+    <div class="container">
+        <div class="row" id="product-grid">
+            <!-- Products will be loaded here dynamically -->
+        </div>
+        <!-- Loader Icon -->
+        <div class="loader" id="loader-icon">
+            <i class="fas fa-spinner fa-spin fa-2x"></i> Loading products...
+        </div>
+    </div>
+
+    <!-- Bootstrap JavaScript and dependencies -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Script JS -->
+    <script src="cart.js"></script>
+
+</body>
+</html>
