@@ -72,6 +72,13 @@
             text-align: center;
             margin: 20px 0;
         }
+        /* Filter Section Styles */
+        .filter-section {
+            margin-bottom: 20px;
+        }
+        .filter-item label {
+            margin-bottom: 0;
+        }
     </style>
 </head>
 <body>
@@ -86,9 +93,6 @@
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index2.html"><i class="fas fa-home"></i> Home</a>
-                    </li>
                     <li class="nav-item">
                         <a class="nav-link" href=""><i class="fas fa-shopping-cart"></i> My Cart</a>
                     </li>
@@ -114,6 +118,49 @@
         </div>
     </div>
 
+<!-- Filters -->
+<div class="container">
+    <div class="filter-section d-flex flex-nowrap mb-4">
+        <div class="col-md-3 filter-item">
+            <label for="price">Price</label>
+            <select id="price" class="form-control">
+                <option>Default</option>
+                <option>Low to High</option>
+                <option>High to Low</option>
+            </select>
+        </div>
+        <div class="col-md-3 filter-item">
+            <label for="color">Color</label>
+            <select id="color" class="form-control">
+                <option>Default</option>
+                <option>Red</option>
+                <option>Blue</option>
+                <option>Green</option>
+                <option>Black</option>
+                <option>White</option>
+            </select>
+        </div>
+        <div class="col-md-3 filter-item">
+            <label for="brand">Brand</label>
+            <select id="brand" class="form-control">
+                <option>Default</option>
+                <option>Brand A</option>
+                <option>Brand B</option>
+                <option>Brand C</option>
+            </select>
+        </div>
+        <div class="col-md-3 filter-item">
+            <label for="size">Size</label>
+            <select id="size" class="form-control">
+                <option>Default</option>
+                <option>Small</option>
+                <option>Medium</option>
+                <option>Large</option>
+                <option>Extra Large</option>
+            </select>
+        </div>
+    </div>
+</div>
     <!-- Product Grid -->
     <div class="container">
         <div class="row" id="product-grid">
